@@ -164,6 +164,15 @@ Windows 建软链接需要开发者模式，若嫌麻烦就复制一份并在 `.
 
 把 `SKILL.md` 的正文直接贴进对话即可，`references/` 下的文件作为可选补充材料——需要完整模板读 `标注范例.md`，需要自检段写法读 `成稿自检清单.md`，需要混合模式读 `自生成rubric元指令.md`，需要把新经验回灌进本 skill 读 `经验提炼与思维习惯.md`。
 
+不想自己剪 SKILL.md 的，有现成精简版可直接用：
+
+- **`prompts/for-deepseek.md`** —— 为 DeepSeek（A 类）调好的自包含提示词（约 2.5k 字，保留 A 类流程、检查项、四条标准、模板 A、关键硬约束）。复制整段作为 DeepSeek 新对话第一条消息，之后把不满意的答案加它的深度思考贴进去，它就会产出可粘回原对话的重拍单。
+- **`prompts/abc.md`** —— 通用版，覆盖 A（完整推理）/ B（只有摘要）/ C（无推理、提示词质检，如 Midjourney / 即梦 / 可灵）三类；复制整段作新对话首条消息，按提示先判类型再出重拍单。
+
+> ⚠️ 这两份都是**精简应急版**，约占完整 skill 的一小部分。复制能解决「这一次」；完整版（`npx skills add flashfrogluo/second-take`）额外含 11 个 references、43 条自查 rubric 与各平台一键安装，装上才能「每一次」都拿到带全量质检的重拍单。
+
+> **EN** — For prompt-only use without trimming SKILL.md yourself: **`prompts/for-deepseek.md`** is a self-contained ~2.5k-char prompt tuned for DeepSeek (Type A); **`prompts/abc.md`** is the generic version covering Type A (full CoT) / B (summary only) / C (no CoT, prompt-quality-check, e.g. Midjourney / Jimeng / Kling). Copy the whole block as the first message of a new chat. Both are **lite "starter" versions** — the full skill (`npx skills add flashfrogluo/second-take`) adds 11 references, a 43-item self-check rubric, and one-line install across platforms.
+
 ## 兼容性说明
 
 > **EN** — Compatibility: follows the open agentskills.io standard; pure Markdown, no scripts, no network calls.
@@ -257,6 +266,9 @@ second-take/
 │   ├── 四标准质检法.md         # 入口指针：已合并至 references/思维链四标准.md，勿在此写内容
 │   ├── 迭代工作流.md           # 维护者指南：改硬约束/加 reference/补语料/发布 checklist
 │   └── guide-en.md             # 完整英文使用说明书（English usage manual）
+├── prompts/
+│   ├── for-deepseek.md        # 【精简应急版】DeepSeek（A 类）现成提示词：复制整段作新对话首条消息
+│   └── abc.md                 # 【精简应急版】通用 A/B/C 三类提示词：覆盖完整推理/摘要/提示词质检
 ├── README.md
 ├── LICENSE
 └── .gitignore
