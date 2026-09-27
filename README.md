@@ -8,7 +8,7 @@
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
 [![skills.sh](https://img.shields.io/badge/skills.sh-indexed-brightgreen)](https://skills.sh)
 
-![Second Take 主视觉：坏 CoT → 重拍单 → 更好答案](docs/assets/hero.svg)
+[![Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出](docs/assets/hero.svg)](https://github.com/flashfrogluo/second-take)
 
 > AI 给的答案不满意？说一句"再来一条"——不过这次记得带上重拍单。
 
