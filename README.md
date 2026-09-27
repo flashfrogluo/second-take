@@ -1,5 +1,15 @@
 # Second Take · 再来一条
 
+🇨🇳 中文 ｜ 🇬🇧 [English](README_EN.md)
+
+[![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
+[![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.9-blue)](CHANGELOG.md)
+[![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
+[![skills.sh](https://img.shields.io/badge/skills.sh-indexed-brightgreen)](https://skills.sh)
+
+![Second Take 主视觉：坏 CoT → 重拍单 → 更好答案](docs/assets/hero.svg)
+
 > AI 给的答案不满意？说一句"再来一条"——不过这次记得带上重拍单。
 
 > **EN** — Second Take gives you a precise "retake note" to paste back into the original AI chat when its answer disappoints. Works with any AI and any output type.
@@ -9,6 +19,21 @@
 ```bash
 npx skills add flashfrogluo/second-take
 ```
+
+## 30 秒上手：一段最短演示（示意）
+
+> 完整格式与标注规范见 `references/标注范例.md`；下面是一段浓缩示意，便于一眼看懂产出形态（示意内容不指代任何真实案例）。
+
+**输入**：用户要一份「给新手的三条摄影构图建议」，某 AI 的深度思考里写了「根据牛顿光学定律，黄金分割源自……」，并且只给了两条建议。
+
+**诊断（节选）**
+- **无据引用**：把「牛顿光学定律」当依据，UP 与常识都无此关联，属臆造；
+- **覆盖不全**：UP 明确要求三条，只给了两条。
+
+**重拍单（整段复制，粘到原对话末尾）**
+> 忽略本对话中上一轮那段深度思考及其产物，其余指令继续有效。重写「给新手的三条摄影构图建议」：① 三分法……② 引导线……③ 留白……。禁止使用「牛顿光学定律」等无关论据；只输出正文，不输出分析过程。
+
+**结果**：原 AI 直接给出三条带可操作要点的建议，无臆造论据。
 
 **为什么叫 Second Take**：take 有两层意思——影视里指"一条拍摄"（再来一条），也指"看法、解读"（my take on this）。这个名字同时说明我们做的两件事：**给出第二种看法，然后让原 AI 重拍一次**。
 
@@ -24,7 +49,9 @@ npx skills add flashfrogluo/second-take
 | 前后矛盾检查 | Continuity / 穿帮 | 接戏不接戏 |
 | 覆盖不全 | Missing coverage / 漏镜 | 关键镜头没拍到 |
 | 产物（优化指令） | Retake note / 重拍单 | 交给原 AI 执行的那张单子 |
-| 多轮僵持后的裁决 | Final cut / 终剪 | 前后版本冲突时的取舍 |
+| 多轮僵持后的裁决 | Final cut / 定剪 | 前后版本冲突时的取舍 |
+| 主体完美后的润色 | Color grading / 调色 | 剪辑已定，只调光线色调强化情绪，不动结构 |
+| 成片交付前的呈现 | Packaging / 包装 | 思维导图 / 可视化，让成果讲得清、看得懂 |
 
 ## 交付内容
 
@@ -254,7 +281,7 @@ second-take/
 │   ├── 硬约束详解.md           # 28 条硬约束的完整解释、反例与正确写法
 │   ├── 多场景适配.md           # DeepSeek/ChatGPT/Gemini/生成类平台分别能拿到什么、怎么改
 │   ├── 判定细则.md             # 判定顺序、归属规则、豁免清单、子类边界
-│   ├── 思维链四标准.md         # 四标准唯一真源：定义+逐条判定+映射+怎么补+重拍单规则/三模式/两机理/边界
+│   ├── 思维链四标准.md         # 四标准唯一真源：定义+逐条判定+映射+怎么补+重拍单规则/五模式/两机理/边界
 │   ├── 标注范例.md             # 语言习惯、符号约定、模板 A/B/C、判定声明、末尾三段分工
 │   ├── 成稿自检清单.md         # 给目标 AI 用的自检段：写法规范与条目模板
 │   ├── 自生成rubric元指令.md   # 混合模式：让目标 AI 自己写领域标准的元指令
@@ -274,9 +301,9 @@ second-take/
 └── .gitignore
 ```
 
-## 三种模式：这轮该重拍还是补拍
+## 五种模式：从「对不对」到「讲得清」
 
-> **EN** — Three modes: Reshoot (full rewrite), Pick-up (fix only named spots), Final cut (arbitrate after many rounds).
+> **EN** — Five modes: Reshoot (full rewrite), Pick-up (fix only named spots), Final cut (arbitrate after deadlock), Color grading (polish style), Packaging (visualize & present).
 
 不是每轮都要推倒重来。先判断主体成不成立，再选模式：
 
@@ -284,7 +311,11 @@ second-take/
 |---|---|---|---|
 | **Reshoot** | 重拍 | 首轮，或上一版主体不成立（结构有误、目标判错、大面积漏项） | 全量重写 |
 | **Pick-up** | 补拍 | 迭代轮次，上一版主体已成立 | 仅修改被点名的数处，其余按原样沿用 |
-| **Final cut** | 终剪 | 已经迭代多轮还在出新错，或前后两版结论互相打架 | 不再重写，做取舍裁决 |
+| **Final cut** | 定剪 | 已经迭代多轮还在出新错，或前后两版结论互相打架 | 不再重写，做取舍裁决 |
+| **Color grading** | 调色 | 主体已完美（四标准达标、无检查项问题），只差质感 / 风格 | 不动结构与事实，只做轻微润色与风格强化（锤炼措辞、统一语气、强化节奏与画面感、点亮关键句） |
+| **Packaging** | 包装 | 整体已达输出标准，需结构化呈现、让人一眼看懂 | 做可视化分析：输出总结、思维导图、可视化图表（流程 / 对比 / 关系 / 时间线） |
+
+按生产流水线推进：**重拍 → 补拍 → 定剪 → 调色 → 包装**。前三种解决「对不对」，调色解决「够不够好」，包装解决「讲不讲得清」。**调色与包装都不重判结论**——调色只润色表达、不引入新观点、不改动事实与结构；包装只呈现已有结论、忠于原判断、不为美观扭曲关系。两者都建立在「主体已经达标」之上；四标准尚未全过，先走前三种，不要跳去调色或包装。
 
 默认走 Reshoot；**第二轮之后默认走 Pick-up**——重写最大的风险，是把上一版已经合格的内容一起丢掉（版本退步）。
 
@@ -376,7 +407,13 @@ second-take/
 能。它的审查逻辑跟"产物是什么"无关，文案、方案、代码、分析结论、评分标准都同样适用。
 
 **迭代到第三轮还在出错怎么办？**
-换 Final cut（终剪）模式：不再重写，做取舍裁决。已经迭代多轮还在出新错，说明问题不在"重写得不够好"，而在取舍本身。
+换 Final cut（定剪）模式：不再重写，做取舍裁决。已经迭代多轮还在出新错，说明问题不在"重写得不够好"，而在取舍本身。
+
+**内容都对、就是感觉差点意思，能再润色吗？**
+可以，这正是 **Color grading（调色）** 模式：主体已完美、四标准全过之后，不再动结构与事实，只做轻微润色与风格强化——锤炼措辞、统一语气、强化节奏与画面感、点亮关键句。它只润色表达，不引入新观点，也不改动事实。
+
+**成品达标了，但我还要拿去汇报 / 发给别人看，能给个一眼看懂的版本吗？**
+可以，这正是 **Packaging（包装）** 模式：整体已达输出标准后，做可视化分析——输出一页纸总结、思维导图、以及流程 / 对比 / 关系 / 时间线类的可视化图表。它只呈现已有结论、忠于原判断，不为美观扭曲关系。
 
 **我只有一段 CoT、没有链接，能用吗？**
 能。把用户指令和深度思考一起贴进来就行。
@@ -389,7 +426,7 @@ second-take/
 
 做这个 skill 的直接动机，来自两个身份的交叉：一边是做影像创作时，对"为什么这一镜不对"特别敏感；另一边是日常用各类 AI 时反复遇到同一个痛点——模型给出的「深度思考 / CoT」质量很不稳定，有时逻辑跳步，有时漏掉用户明确要求过的维度，有时为了迎合语气擅自改了指令；而把那段思考粘回原对话重答，又往往把错因一起带过去。Second Take 想把前者那种"逐镜挑错"的直觉，变成后者的可操作流程：做一次**第三方质检**，读另一段已经想完的推理，判断错在哪，产出一段能直接粘回原对话、让原 AI 给出更好最终答案的「重拍单」。
 
-**欢迎一切交流**：使用建议、测评反馈、能做语料的真实对话、合作想法，都欢迎提 issue / PR，或直接发邮件到 **flashfrogluo@gmail.com**。
+**欢迎一切交流**：使用建议、测评反馈、能做语料的真实对话、合作想法，都欢迎提 issue / PR，或直接发邮件到 **flashfrogluo@gmail.com**。微信交流群与 X（Twitter）动态也欢迎邮件索取入群 / 关注方式。
 
 最后，感谢您使用这个 skill。它由一个人独立维护，确实不易；但我们承诺，会一直跟着真实需求迭代——您遇到的问题，很可能就是下一版要补的硬约束。您的每一条反馈，都会直接落到下一版的改进里。
 
@@ -417,6 +454,6 @@ For the **complete, detailed English manual**, open:
 
 - **📘 Full English usage manual → [`docs/guide-en.md`](docs/guide-en.md)**
 
-It covers everything end-to-end: what Second Take is, when to use it, supported models and output types (text, image, video, and more), exactly what to provide for the most accurate diagnosis, privacy, contributing, installation, usage, the Four Standards, check items, the three modes (Reshoot / Pick-up / Final cut), the three trailing segments, common pitfalls, FAQ, and the author.
+It covers everything end-to-end: what Second Take is, when to use it, supported models and output types (text, image, video, and more), exactly what to provide for the most accurate diagnosis, privacy, contributing, installation, usage, the Four Standards, check items, the five modes (Reshoot / Pick-up / Final cut / Color grading / Packaging), the three trailing segments, common pitfalls, FAQ, and the author.
 
 > If the link above does not open in your viewer, the file is located at `docs/guide-en.md` inside the repository.
