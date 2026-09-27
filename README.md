@@ -50,7 +50,7 @@ npx skills add flashfrogluo/second-take
 | 覆盖不全 | Missing coverage / 漏镜 | 关键镜头没拍到 |
 | 产物（优化指令） | Retake note / 重拍单 | 交给原 AI 执行的那张单子 |
 | 多轮僵持后的裁决 | Final cut / 定剪 | 前后版本冲突时的取舍 |
-| 主体完美后的润色 | Color grading / 调色 | 剪辑已定，只调光线色调强化情绪，不动结构 |
+| 主体完美后的润色 | Color grading / 调色 | 推理已达标、事实结构都对，只差表达质感——精炼措辞、统一语气、点亮关键句，不改结构、不引新观点 |
 | 成片交付前的呈现 | Packaging / 包装 | 思维导图 / 可视化，让成果讲得清、看得懂 |
 
 ## 交付内容
