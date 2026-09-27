@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Second Take · 再来一条 — AI 深度思考质检与重拍单生成</title>
+<style>
+  :root{
+    --bg:#0b1016; --panel:#111b24; --ink:#e8eef2; --muted:#9fb0bd;
+    --teal:#2bb6a8; --amber:#e8c15a; --orange:#e8915a; --red:#c0392b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.7}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 24px 72px}
+  header{border-bottom:1px solid #1d2a35;padding-bottom:28px;margin-bottom:36px}
+  h1{font-size:34px;margin:0 0 8px;letter-spacing:.5px}
+  .tag{color:var(--muted);font-size:15px}
+  .hero{width:100%;border-radius:12px;overflow:hidden;margin:28px 0;
+    box-shadow:0 18px 60px rgba(0,0,0,.5)}
+  section{margin:40px 0}
+  h2{font-size:22px;border-left:4px solid var(--teal);padding-left:12px;margin:0 0 16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+  .card{background:var(--panel);border:1px solid #1d2a35;border-radius:10px;padding:18px}
+  .card h3{margin:0 0 6px;font-size:16px}
+  .card .zh{color:var(--amber);font-weight:700}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:14px}
+  code{background:#16222c;padding:2px 7px;border-radius:6px;color:var(--teal);font-size:14px}
+  pre{background:#0e161d;border:1px solid #1d2a35;border-radius:10px;padding:16px;overflow:auto}
+  pre code{background:none;color:var(--ink);padding:0}
+  .cta{display:inline-block;background:linear-gradient(90deg,var(--teal),var(--amber));
+    color:#0b1016;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin-top:8px}
+  a{color:var(--teal)}
+  footer{margin-top:56px;border-top:1px solid #1d2a35;padding-top:20px;
+    color:var(--muted);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Second Take · 再来一条</h1>
+    <div class="tag">AI 深度思考质检与重拍单生成 — 把一段不满意的思考，重拍成更好的答案</div>
+  </header>
+
+  <img class="hero" src="assets/hero.svg" alt="坏 CoT → 重拍单 → 更好答案"/>
+
+  <section>
+    <h2>一句话</h2>
+    <p>您在任意一个 AI（DeepSeek、ChatGPT、豆包、Gemini、即梦、Midjourney…）拿到一段不满意的结果，把那段推理（生成类就改读提示词）发给它，它会诊断错在哪，并产出一份<strong>可整段复制、粘回原对话</strong>的重拍单，让原 AI 直接给出更好的最终答案。</p>
+  </section>
+
+  <section>
+    <h2>五种模式</h2>
+    <div class="grid">
+      <div class="card"><h3><span class="zh">重拍</span> · Reshoot</h3><p>首轮或主体不成立，全量重写。</p></div>
+      <div class="card"><h3><span class="zh">补拍</span> · Pick-up</h3><p>迭代轮次，只改点名处，沿用其余。</p></div>
+      <div class="card"><h3><span class="zh">定剪</span> · Final cut</h3><p>多轮僵持或版本冲突，做取舍裁决。</p></div>
+      <div class="card"><h3><span class="zh">调色</span> · Color grading</h3><p>主体已完美，只做润色与风格强化。</p></div>
+      <div class="card"><h3><span class="zh">包装</span> · Packaging</h3><p>达标后做可视化分析：总结 / 思维导图 / 图表。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>安装</h2>
+    <pre><code>npx skills add flashfrogluo/second-take</code></pre>
+    <p>或本地安装：<code>bash install.sh</code>；更新：<code>bash update.sh</code>。</p>
+    <a class="cta" href="https://github.com/flashfrogluo/second-take">在 GitHub 查看</a>
+  </section>
+
+  <section>
+    <h2>了解更多</h2>
+    <p>完整中文说明见 <a href="../README.md">README.md</a>；英文手册见 <a href="guide-en.md">guide-en.md</a>；方法论真源见 <a href="../references/思维链四标准.md">references/思维链四标准.md</a>。</p>
+  </section>
+
+  <footer>© flashfrogluo · Second Take — AI 深度思考质检与重拍单生成 ｜ MIT License</footer>
+</div>
+</body>
+</html>
