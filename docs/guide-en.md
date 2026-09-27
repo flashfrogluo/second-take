@@ -32,7 +32,9 @@ This method borrows its vocabulary from filmmaking. The table maps each step to 
 | Contradiction check | Continuity / 穿帮 | Whether shots match across cuts |
 | Incomplete coverage | Missing coverage / 漏镜 | A key shot was never filmed |
 | Deliverable (optimization instruction) | Retake note / 重拍单 | The sheet handed to the original AI to execute |
-| Verdict after deadlock | Final cut / 终剪 | The call when versions conflict |
+| Verdict after deadlock | Final cut / 定剪 | The call when versions conflict |
+| Polish after the subject is locked | Color grading / 调色 | Edit is locked; only adjust light and color to strengthen mood, no structural change |
+| Presentation before delivery | Packaging / 包装 | Mind map / visualization so the result reads clearly |
 
 ---
 
@@ -246,7 +248,7 @@ second-take/
 │   ├── 硬约束详解.md           # Full explanation of the 28 hard constraints, with counter-examples and correct forms
 │   ├── 多场景适配.md           # What DeepSeek/ChatGPT/Gemini/generative platforms can each provide, and how to fix
 │   ├── 判定细则.md             # Judgment order, attribution rules, exemption list, sub-type boundaries
-│   ├── 思维链四标准.md         # Single source of truth for the Four Standards: definition + per-standard judgment + mapping + how to fix + retake-note rules / three modes / two mechanisms / boundaries
+│   ├── 思维链四标准.md         # Single source of truth for the Four Standards: definition + per-standard judgment + mapping + how to fix + retake-note rules / five modes / two mechanisms / boundaries
 │   ├── 标注范例.md             # Language habits, symbol conventions, templates A/B/C, judgment declaration, the three trailing paragraphs' division of labor
 │   ├── 成稿自检清单.md         # Self-check paragraph for the target AI: writing rules and item templates
 │   ├── 自生成rubric元指令.md   # Hybrid mode: meta-instruction letting the target AI write its own domain standard
@@ -265,7 +267,7 @@ second-take/
 
 ---
 
-## Three modes: reshoot or pick-up this round?
+## Five modes: from "is it right" to "does it read clearly"
 
 Not every round needs a full redo. Judge whether the subject holds first, then pick a mode:
 
@@ -273,7 +275,11 @@ Not every round needs a full redo. Judge whether the subject holds first, then p
 |---|---|---|---|
 | **Reshoot** | 重拍 | First round, or the previous version's subject doesn't hold (wrong structure, wrong target judgment, large missing items) | Full rewrite |
 | **Pick-up** | 补拍 | Later iteration rounds, where the previous version's subject already holds | Change only the named spots; keep the rest as-is |
-| **Final cut** | 终剪 | Many rounds in and still producing new errors, or two versions' conclusions contradict each other | Stop rewriting; make a trade-off verdict |
+| **Final cut** | 定剪 | Many rounds in and still producing new errors, or two versions' conclusions contradict each other | Stop rewriting; make a trade-off verdict |
+| **Color grading** | 调色 | The subject is already perfect (all Four Standards met, no check-item issues); only the feel / style falls short | Touch structure and facts not at all; only light polish and style strengthening (sharpen wording, unify tone, heighten rhythm and visual sense, spotlight key lines) |
+| **Packaging** | 包装 | The whole thing already meets the output standard, but needs structured presentation so others get it at a glance | Do visualization analysis: output summary, mind map, and visual charts (flow / comparison / relation / timeline) |
+
+Move along the production line: **Reshoot → Pick-up → Final cut → Color grading → Packaging**. The first three answer "is it right"; Color grading answers "is it good enough"; Packaging answers "does it read clearly." **Neither Color grading nor Packaging re-judges the conclusion**: Color grading only polishes expression — no new points, no factual or structural change; Packaging only presents the existing conclusion — faithful to the original judgment, never distorting relations for looks. Both assume the subject already passes; if the Four Standards aren't all met yet, do the first three first — don't jump to Color grading or Packaging.
 
 Default to Reshoot; **after the second round, default to Pick-up** — the biggest risk of a rewrite is throwing away qualified content from the previous version (version regression).
 
@@ -366,6 +372,12 @@ Yes. Its review logic has nothing to do with "what the product is" — copy, pla
 
 **What if it's still erroring in the third iteration?**
 Switch to Final cut mode: stop rewriting, make a trade-off verdict. If many rounds in still produce new errors, the problem isn't "not rewritten well enough" but the trade-off itself.
+
+**The content is all correct, but it just feels off — can you polish it?**
+Yes — that's exactly **Color grading** mode. Once the subject is perfect and all Four Standards pass, it stops touching structure and facts and only does light polish and style strengthening: sharpen wording, unify tone, heighten rhythm and visual sense, spotlight key lines. It polishes expression only — no new points, no factual or structural change.
+
+**It meets the standard, but I need to present or send it to others — can you give me a glance-readable version?**
+Yes — that's exactly **Packaging** mode. Once the whole thing meets the output standard, it does visualization analysis: a one-page summary, a mind map, and visual charts (flow / comparison / relation / timeline). It only presents the existing conclusion, faithful to the original judgment, never distorting relations for looks.
 
 **I only have a CoT, no link — can I use it?**
 Yes. Just paste the user instruction and the deep thinking together.
