@@ -24,17 +24,17 @@ npx skills add flashfrogluo/second-take
 
 This method borrows its vocabulary from filmmaking. The table maps each step to its film equivalent.
 
-| Our step | Film term | Meaning |
-|---|---|---|
-| Material under review (CoT + answer) | Dailies / 样片 | Footage shot that day; you watch it to decide what stays and what goes |
-| First full rewrite | Reshoot / 重拍 | The subject doesn't hold; redo the whole scene |
-| Targeted fix in later rounds | Pick-up / 补拍 | Shoot only the missing shots; leave the rest intact |
-| Contradiction check | Continuity / 穿帮 | Whether shots match across cuts |
-| Incomplete coverage | Missing coverage / 漏镜 | A key shot was never filmed |
-| Deliverable (optimization instruction) | Retake note / 重拍单 | The sheet handed to the original AI to execute |
-| Verdict after deadlock | Final cut / 定剪 | The call when versions conflict |
-| Polish after the subject is locked | Color grading / 调色 | Reasoning is sound and the facts hold; only the expression needs polish—sharpen wording, unify tone, spotlight key lines. No structural or factual changes, no new claims |
-| Presentation before delivery | Packaging / 包装 | Mind map / visualization so the result reads clearly |
+| Our step | Film term (name) | What we have the AI optimize | Purpose |
+|---|---|---|---|
+| Material under review (CoT + answer) | Dailies / 样片 | Hand over the original AI's reasoning chain and final answer for diagnosis | Locate "right or wrong" issues; decide what stays |
+| First full rewrite | Reshoot / 重拍 | When the subject doesn't hold, rewrite the entire reasoning chain | Rebuild the correct structure and judgment |
+| Targeted fix in later rounds | Pick-up / 补拍 | Subject already holds; change only the named spots | Keep qualified passages; fix precisely, avoid regression |
+| Contradiction check | Continuity / 穿帮 | Check whether earlier/later steps and conclusions stay consistent | Eliminate logic clashes |
+| Incomplete coverage | Missing coverage / 漏镜 | Check whether key branches or factors were missed | Close coverage gaps; avoid overgeneralizing |
+| Deliverable (optimization instruction) | Retake note / 重拍单 | Output a copy-ready sheet for the original AI to execute | Let the original AI re-shoot per the sheet |
+| Verdict after deadlock | Final cut / 定剪 | When versions conflict, make a trade-off call | Lock the cut; stop rewriting |
+| Polish after the subject is locked | Color grading / 调色 | All Four Standards met; only polish wording, tone, rhythm, key lines | Raise expressive quality; no structural/factual change, no new claims |
+| Presentation before delivery | Packaging / 包装 | Output a summary, mind map, and visualizations | Make the result read clearly and land |
 
 ---
 
