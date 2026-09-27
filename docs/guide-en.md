@@ -29,7 +29,7 @@ This method borrows its vocabulary from filmmaking. The table maps each step to 
 | Material under review (CoT + answer) | Dailies / 样片 | Hand over the original AI's reasoning chain and final answer for diagnosis | Locate "right or wrong" issues; decide what stays |
 | First full rewrite | Reshoot / 重拍 | When the subject doesn't hold, rewrite the entire reasoning chain | Rebuild the correct structure and judgment |
 | Targeted fix in later rounds | Pick-up / 补拍 | Subject already holds; change only the named spots | Keep qualified passages; fix precisely, avoid regression |
-| Contradiction check | Continuity / 穿帮 | Check whether earlier/later steps and conclusions stay consistent | Eliminate logic clashes |
+| Self-consistency check | Continuity / 穿帮 | Check whether each step internally, steps among themselves, and against the conclusion stay self-consistent | Eliminate logic clashes |
 | Incomplete coverage | Missing coverage / 漏镜 | Check whether key branches or factors were missed | Close coverage gaps; avoid overgeneralizing |
 | Deliverable (optimization instruction) | Retake note / 重拍单 | Output a copy-ready sheet for the original AI to execute | Let the original AI re-shoot per the sheet |
 | Verdict after deadlock | Final cut / 定剪 | When versions conflict, make a trade-off call | Lock the cut; stop rewriting |
