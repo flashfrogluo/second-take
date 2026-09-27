@@ -8,6 +8,28 @@
 
 ---
 
+## [1.0.9] - 2026-09-28
+
+- **Final cut 中文名由「终剪」改为「定剪」**：保持英文 `Final cut` 不变，全仓库统一（README 影视术语对照与模式表、英文说明书、`references/思维链四标准.md` 真源、目录树与英文摘要同步）。
+- **新增两种模式，与 重拍 / 补拍 / 定剪 同级（共五种）**：
+  - **Color grading（调色）**：主体已完美（四标准达标、无检查项问题）后，只做轻微润色与风格强化（锤炼措辞、统一语气、强化节奏与画面感、点亮关键句），不动结构与事实、不引入新观点。
+  - **Packaging（包装）**：整体达输出标准后，做可视化分析——输出总结、思维导图、可视化图表（流程 / 对比 / 关系 / 时间线），只呈现已有结论、忠于原判断、不为美观扭曲关系。
+  - 真源 `references/思维链四标准.md` 第七节的「三种模式」升级为「五种模式」，并新增生产流水线顺序（重拍→补拍→定剪→调色→包装）与「调色/包装不重判结论」护栏；README、英文说明书、影视术语对照表、FAQ 同步。
+- **P0 门面与信任信号（低成本、高杠杆）**：
+  - README 顶部加 shields.io 徽章：GitHub stars / License / version 1.0.9 / Agent-Skill(agentskills.io) / skills.sh 已收录。
+  - 新增电影感主视觉 `docs/assets/hero.svg`（信箱黑边 letterbox + 调色 grade + 颗粒 grain + 场记板母题 + 三卡 before/after 流程 + 下沿作者水印 `flashfrogluo`），嵌入 README 顶部。
+  - README 新增「30 秒上手：最短演示（示意）」段（坏 CoT 症状 → 重拍单关键行 → 好结果），show-don't-tell。
+- **P1 专业度拉升**：
+  - 新增 `README_EN.md`（英文说明书同级文件，GitHub 自动语言切换），README 顶部加中/英切换链接。
+  - 关于作者节加社区入口（邮件 + 微信/X 索取）。
+  - 新增治理文件：`CONTRIBUTING.md`、`SECURITY.md`、`ROADMAP.md`。
+  - 新增 `install.sh` / `update.sh`（本地克隆重装，含 git 失败回退 codeload tarball）。
+  - 新增 GitHub Pages 落地页 `docs/index.html`（一句话定位 + 安装 + 五种模式 + 主视觉 + 链接）。
+  - 扩充 GitHub repo topics（SEO）：新增 `ai-quality` / `cot` / `deepseek` / `gemini` / `prompt-optimization` / `reasoning-improvement` / `ai-agent` 等同义词与下游场景。
+- **版本号 1.0.8 → 1.0.9**。
+
+---
+
 ## [1.0.8] - 2026-09-28
 
 - **新增 `prompts/` 目录（两份精简应急版提示词，约占完整 skill 的一部分）**：
