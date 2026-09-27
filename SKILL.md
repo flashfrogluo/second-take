@@ -4,7 +4,7 @@ description: "Second take for AI reasoning（再来一条）。当用户在任�
 license: MIT
 compatibility: "无系统依赖，纯 Markdown，无脚本。适用于所有支持 agentskills.io SKILL.md 开放标准的 agent：Claude Code、Codex CLI、Cursor、Gemini CLI、GitHub Copilot、VS Code、OpenCode、WorkBuddy、Goose、Roo Code 等。"
 metadata:
-  version: "1.0.8"
+  version: "1.0.9"
   author: flashfrogluo
   spec: agentskills.io
 ---
@@ -266,7 +266,7 @@ C 类是**提示词质检**：UP 换成"你想要的效果"，CoT 换成提示�
 
 注意：指令里既然不内嵌 CoT 正文，声明中就不要用「下面【原始 CoT】」这种指代词——那段文字已经不在指令里了，指不到。直接说「本对话中上一轮那段深度思考」。
 
-模板见 `references/标注范例.md`，硬约束的完整解释、反例与正确写法见 `references/硬约束详解.md`，判定细则与边界案例见 `references/判定细则.md`，四条标准的判定方法与映射见 `references/思维链四标准.md`，评测侧术语（Rubric 五字段与四类硬伤、reward hacking、LLM-as-Judge 偏见）见 `references/术语表.md`，给目标 AI 用的成稿自检段写法见 `references/成稿自检清单.md`，让它自己写领域标准的元指令与模式选择规则见 `references/自生成rubric元指令.md`，交付前自查表见 `references/优化指令自查rubric.md`，案例抽象规范与思维习惯见 `references/经验提炼与思维习惯.md`。
+模板见 `references/标注范例.md`，硬约束的完整解释、反例与正确写法见 `references/硬约束详解.md`，判定细则与边界案例见 `references/判定细则.md`，四条标准的判定方法与映射、以及五种模式（Reshoot 重拍 / Pick-up 补拍 / Final cut 定剪 / Color grading 调色 / Packaging 包装）的选择见 `references/思维链四标准.md`，评测侧术语（Rubric 五字段与四类硬伤、reward hacking、LLM-as-Judge 偏见）见 `references/术语表.md`，给目标 AI 用的成稿自检段写法见 `references/成稿自检清单.md`，让它自己写领域标准的元指令与模式选择规则见 `references/自生成rubric元指令.md`，交付前自查表见 `references/优化指令自查rubric.md`，案例抽象规范与思维习惯见 `references/经验提炼与思维习惯.md`。
 
 **两套坐标系不要混用**：rubric 的**四类硬伤**（语义 / 结构 / 完备性 / 正确性）回答「这条能不能用」，**四条标准**（逻辑性 / 全面性 / 可行性 / 可验证性）回答「这版好不好」。诊断里用检查项找错误 → 归到四标准给总评；顺手可以拿四类硬伤复核一遍有没有漏类型。
 
