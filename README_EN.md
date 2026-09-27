@@ -34,7 +34,7 @@ This method borrows its vocabulary from filmmaking. The table maps each step to 
 | Deliverable (optimization instruction) | Retake note / 重拍单 | Output a copy-ready sheet for the original AI to execute | Let the original AI re-shoot per the sheet |
 | Verdict after deadlock | Final cut / 定剪 | When versions conflict, make a trade-off call | Lock the cut; stop rewriting |
 | Polish after the subject is locked | Color grading / 调色 | All Four Standards met; only polish wording, tone, rhythm, key lines | Raise expressive quality; no structural/factual change, no new claims |
-| Visualization before delivery | Packaging / 包装 | Output a summary, mind map, and visualizations | Make the result read clearly and land |
+| Presentation at delivery | Packaging / 包装 | Output a summary, mind map, and visualizations | Make the result read clearly and land |
 
 ---
 
