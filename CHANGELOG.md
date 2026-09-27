@@ -8,6 +8,15 @@
 
 ---
 
+## [1.1.0] - 2026-09-28
+
+- **新增 `tests/` 校验套件 + GitHub Actions CI（可验证信号）**：对标 guizang / claude-blog 的"可验证"维度。
+  - `tests/validate.py` 提供子命令：`skill`（校验 SKILL.md frontmatter 含 name/version/description）、`links`（检查 README 内链不失效）、`retake <file>`（校验重拍单产物含「诊断条目 + 可复制指令 + 约束」三要素）；`all` 为 CI 入口，并自测 `tests/samples/` 下 5 个样例的重拍单均达标。
+  - `.github/workflows/ci.yml` 在 push/PR 时跑 `python tests/validate.py all`，README 新增 CI 徽章。
+- **文档站点入口**：README 增加 Pages 站点链接（https://flashfrogluo.github.io/second-take/）。
+- **GitHub topics**：已整理 20 个 SEO 同义词清单，需去仓库 Settings → Topics 手动粘贴（REST API 写入被静默忽略，Web UI 可行）。
+- 版本 1.0.9 → 1.1.0（新增测试/CI 能力，属 MINOR）。
+
 ## [1.0.9] - 2026-09-28
 
 - **Final cut 中文名由「终剪」改为「定剪」**：保持英文 `Final cut` 不变，全仓库统一（README 影视术语对照与模式表、英文说明书、`references/思维链四标准.md` 真源、目录树与英文摘要同步）。
