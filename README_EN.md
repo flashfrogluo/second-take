@@ -33,7 +33,7 @@ This method borrows its vocabulary from filmmaking. The table maps each step to 
 | Incomplete coverage | Missing coverage / 漏镜 | A key shot was never filmed |
 | Deliverable (optimization instruction) | Retake note / 重拍单 | The sheet handed to the original AI to execute |
 | Verdict after deadlock | Final cut / 定剪 | The call when versions conflict |
-| Polish after the subject is locked | Color grading / 调色 | Edit is locked; only adjust light and color to strengthen mood, no structural change |
+| Polish after the subject is locked | Color grading / 调色 | Reasoning is sound and the facts hold; only the expression needs polish—sharpen wording, unify tone, spotlight key lines. No structural or factual changes, no new claims |
 | Presentation before delivery | Packaging / 包装 | Mind map / visualization so the result reads clearly |
 
 ---
