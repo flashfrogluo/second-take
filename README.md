@@ -2,6 +2,8 @@
 
 > AI 给的答案不满意？说一句"再来一条"——不过这次记得带上重拍单。
 
+> **EN** — Second Take gives you a precise "retake note" to paste back into the original AI chat when its answer disappoints. Works with any AI and any output type.
+
 您在任意一个 AI（DeepSeek、ChatGPT、豆包、Gemini、即梦、Midjourney…）那里拿到一段不满意的结果——**文字、图像、视频、提示词、代码……随便哪一种都行**。把需求或对话分享链接发给它，它会做两件事：读那段推理（生成类就改读提示词），判断哪里错了，然后**生成一份可以直接复制回那个 AI 的重拍单**——粘到原对话末尾，对方就能直接给出更好的最终答案。
 
 ```bash
@@ -11,6 +13,8 @@ npx skills add flashfrogluo/second-take
 **为什么叫 Second Take**：take 有两层意思——影视里指"一条拍摄"（再来一条），也指"看法、解读"（my take on this）。这个名字同时说明我们做的两件事：**给出第二种看法，然后让原 AI 重拍一次**。
 
 ## 影视术语对照（这套方法的词表）
+
+> **EN** — Film-set vocabulary used throughout this method (dailies, reshoot, pick-up, continuity, retake note, final cut).
 
 | 我们的环节 | 影视说法 | 含义 |
 |---|---|---|
@@ -23,6 +27,8 @@ npx skills add flashfrogluo/second-take
 | 多轮僵持后的裁决 | Final cut / 终剪 | 前后版本冲突时的取舍 |
 
 ## 交付内容
+
+> **EN** — Deliverables: a copy-ready optimization instruction plus a short diagnosis. We do not write the answer for you; you run it in the original chat.
 
 1. **一段可以复制的优化指令**（核心交付物）。粘回原对话末尾，对方 AI 会直接给出最终答案，不会再回你一份"分析"或"建议"。
 2. **十几行的诊断**，说明原推理错在哪、这版指令改了什么。
@@ -39,12 +45,16 @@ npx skills add flashfrogluo/second-take
 
 ## 适用场景
 
+> **EN** — When to use it: verify a model's reasoning follows your instructions; catch unsupported claims, forced logic, and factual errors; QA prompts before batch generation.
+
 - 检查模型输出的思维链是否忠实于用户指令
 - 找出推理中的无据引用、强行推理、常识性错误
 - 在做批量生成前，对提示词/推理过程做质检
 - 把"挑毛病"的经验固化成可复用的流程
 
 ## 适用模型与产物类型
+
+> **EN** — Supported across all major AIs (DeepSeek, ChatGPT, Gemini, Claude, Midjourney, Sora…) and all output types: text, image, video, and other artifacts.
 
 不管您用哪一款 AI——**DeepSeek、ChatGPT、豆包、通义千问、Gemini、Claude、即梦、可灵、Midjourney、Sora、Runway……**——只要它产出的结果您不满意，Second Take 都能接。覆盖的产物类型也不受限：
 
@@ -65,6 +75,8 @@ npx skills add flashfrogluo/second-take
 
 ## 不同产物类型，提供哪些信息最准
 
+> **EN** — What to provide for the most accurate diagnosis, by output type (text/code, summary-only, image/video, with reference, or any type).
+
 给的信息越准，诊断就越准。按产物类型提供以下内容；缺了也能先跑、再补：
 
 | 您要审的产物 | 尽量提供（越多越准） | 作用 |
@@ -77,11 +89,15 @@ npx skills add flashfrogluo/second-take
 
 ## 隐私保护
 
+> **EN** — Privacy: runs fully locally, never uploads your chats or materials; shared content is used only for this diagnosis.
+
 - 本 skill 在**本地**运行，不联网、不上传您的任何对话或素材；诊断用的内容只存在于您这次对话里。
 - 您贴进来的需求、对话、提示词、出图，**只用于这次诊断**，不会被收集、训练或外传。
 - 如果您自愿把脱敏后的案例贡献出来（见下节），那是您**主动**提供的，跟自动采集没关系。
 
 ## 共建此项目：欢迎贡献您的案例与语料
+
+> **EN** — Contributing: send us sanitized failure cases (instructions + reasoning/prompt + what went wrong) to help sharpen the rules.
 
 本 skill 的硬约束，是从真实案例里一条条磨出来的。**如果您愿意把遇见的"不满意结果"连同原始指令 / 提示词分享给我们，能帮我们把判定打磨得更准**——请发邮件到 **flashfrogluo@gmail.com**，或在仓库提交 issue / PR。
 
@@ -90,6 +106,8 @@ npx skills add flashfrogluo/second-take
 - 使用建议、测评反馈、合作意向，也都欢迎。
 
 ## 一次完整的往返
+
+> **EN** — One round-trip: you paste a bad output or share link → we return a diagnosis + retake note → you paste it back → the AI gives a better answer.
 
 ```
 您  →  贴一段不满意的 AI 输出，或它的对话分享链接
@@ -103,7 +121,11 @@ npx skills add flashfrogluo/second-take
 
 ## 安装
 
+> **EN** — Install: `npx skills add flashfrogluo/second-take`, or drop the folder into your agent's skills directory.
+
 ### 一句话装到任何 agent（推荐）
+
+> **EN** — One-line install works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and dozens of other agents.
 
 ```bash
 npx skills add flashfrogluo/second-take
@@ -112,6 +134,8 @@ npx skills add flashfrogluo/second-take
 skills CLI 支持 Claude Code、Codex、Cursor、GitHub Copilot、Windsurf、Gemini CLI、Cline、VS Code、Zed、Goose、OpenCode 等几十种 agent，装的时候选目标即可。
 
 ### 各平台的发现路径（手动装时用这张表）
+
+> **EN** — Manual install paths per agent (project-level and user-level). One master copy + symlinks is the recommended setup.
 
 | Agent | 项目级 | 用户级 |
 |---|---|---|
@@ -136,9 +160,13 @@ Windows 建软链接需要开发者模式，若嫌麻烦就复制一份并在 `.
 
 ### 仅作为提示词使用
 
+> **EN** — Prompt-only use: paste SKILL.md into any chat; the references/ files are optional supplements.
+
 把 `SKILL.md` 的正文直接贴进对话即可，`references/` 下的文件作为可选补充材料——需要完整模板读 `标注范例.md`，需要自检段写法读 `成稿自检清单.md`，需要混合模式读 `自生成rubric元指令.md`，需要把新经验回灌进本 skill 读 `经验提炼与思维习惯.md`。
 
 ## 兼容性说明
+
+> **EN** — Compatibility: follows the open agentskills.io standard; pure Markdown, no scripts, no network calls.
 
 - 遵循 **agentskills.io** 开放标准：规范共 6 个字段（`name` / `description` / `license` / `compatibility` / `metadata` / `allowed-tools`），本 skill 用到前 5 个，未用 `allowed-tools`，也没用任何平台私有字段（如 Cursor 的 `paths`、Codex 的 `agents/openai.yaml`），因此不会被其他运行时静默剥离
 - 目录名与 `name` 严格一致：`second-take`
@@ -146,6 +174,8 @@ Windows 建软链接需要开发者模式，若嫌麻烦就复制一份并在 `.
 - 纯 Markdown，无脚本、无网络请求、无系统依赖——安装即信任，不触发安全审计告警
 
 ## 用法
+
+> **EN** — Usage: paste a share link, or paste the UP + CoT directly. Optional inputs: caption, target, reference, follow-up instructions.
 
 以下两种方式均可：
 
@@ -167,6 +197,8 @@ CoT（深度思考）：……
 
 ## 评价标准：有效思维链的四条标准
 
+> **EN** — The Four Standards for an effective chain of thought: Logic, Completeness, Feasibility, Verifiability. Standards judge quality; check items list symptoms.
+
 一段思维链是否有效，按四条标准评价。**四条标准是评价标准，检查项是症状清单**——前者回答「它好不好」，后者回答「哪儿坏了」。
 
 | 标准 | 定义 | 一句话判据 |
@@ -181,6 +213,8 @@ CoT（深度思考）：……
 逐条的判定方法、与检查项的映射表见 `references/思维链四标准.md`。
 
 ## 检查项
+
+> **EN** — Check items: the symptom list (conflicts, coverage gaps, reasoning defects and their sub-types).
 
 | 检查项 | 一句话标准 |
 |---|---|
@@ -202,6 +236,8 @@ CoT（深度思考）：……
 
 ## 目录结构
 
+> **EN** — Repository layout: SKILL.md, references/ (11 deep-dive docs), and docs/ (pointers + maintainer guide + this manual's English counterpart).
+
 ```
 second-take/
 ├── SKILL.md                    # 主流程：输入、纪律、检查项、28 条硬约束要点、执行步骤
@@ -219,13 +255,16 @@ second-take/
 │   └── 术语表.md               # 评测侧术语：Rubric 五字段、四类硬伤、reward hacking
 ├── docs/
 │   ├── 四标准质检法.md         # 入口指针：已合并至 references/思维链四标准.md，勿在此写内容
-│   └── 迭代工作流.md           # 维护者指南：改硬约束/加 reference/补语料/发布 checklist
+│   ├── 迭代工作流.md           # 维护者指南：改硬约束/加 reference/补语料/发布 checklist
+│   └── guide-en.md             # 完整英文使用说明书（English usage manual）
 ├── README.md
 ├── LICENSE
 └── .gitignore
 ```
 
 ## 三种模式：这轮该重拍还是补拍
+
+> **EN** — Three modes: Reshoot (full rewrite), Pick-up (fix only named spots), Final cut (arbitrate after many rounds).
 
 不是每轮都要推倒重来。先判断主体成不成立，再选模式：
 
@@ -238,6 +277,8 @@ second-take/
 默认走 Reshoot；**第二轮之后默认走 Pick-up**——重写最大的风险，是把上一版已经合格的内容一起丢掉（版本退步）。
 
 ## 优化指令末尾的三段（混合模式）
+
+> **EN** — The retake note ends with three fixed segments: [Judging Criteria], [Known Defects], [Self-Check].
 
 优化指令不是写完要求就结束，末尾还有三段，顺序固定：
 
@@ -254,6 +295,8 @@ second-take/
 默认启用。四种情形退回只给【成稿自检】：目标模型能力明显薄弱 / UP 极简 / 缺陷已完全可枚举 / 用户所需为最短指令。
 
 ## 实践中踩过的坑（都已写进硬约束）
+
+> **EN** — Hard-won lessons now baked into the hard constraints (e.g. don't embed raw CoT; don't drop qualified content on rewrite).
 
 | 教训 | 症状 |
 |---|---|
@@ -272,6 +315,8 @@ second-take/
 
 ## 经验怎么沉淀进 skill：抽象，不搬运
 
+> **EN** — How experience is distilled: abstract from cases (symptom→root cause→mechanism→rule), never copy case details. Cross-domain test: swap nouns for placeholders.
+
 每用一次就多一条经验，但**对话案例是测试材料，不是知识**。沉淀顺序固定：**症状 → 根因 → 机理 → 规则**。跳过抽象、直接把案例写进语料，等于拿测试集当训练集，规则会带着那个领域的样子，换领域就被生硬套用。
 
 判断标准只有一条——**换域测试**：把规则里的专有名词全换成占位符再读一遍。
@@ -289,6 +334,8 @@ second-take/
 
 ## 与同类 skill 的区别
 
+> **EN** — How we differ: third-party QA of another AI's reasoning, producing a note you paste back — not more thinking, not self-editing.
+
 社区里已经有不少"让 AI 做得更好"的 skill，但我们做的不是同一件事：
 
 | 类别 | 代表 | 它们做什么 | 我们做什么 |
@@ -301,6 +348,8 @@ second-take/
 一句话：**别人做的事，是让 AI 多想一层，或者改它自己的文风；Second Take 做的是第三方质检——读另一段 AI 已经想完的推理，判断错在哪，产出一段能粘回原对话、让原 AI 直接给出最终答案的重拍单。**
 
 ## 常见问题
+
+> **EN** — FAQ: does it write the answer? (no); why no original CoT? (it's the problem); does it pollute context? (no); works on code? (yes).
 
 **它会不会直接把答案写出来？**
 不会。默认只给重拍单。您的上下文在那个 AI 的对话里，必须在那边拿结果。要它直接写，说一句"你直接写"就行。
@@ -322,6 +371,8 @@ second-take/
 
 ## 关于作者
 
+> **EN** — Author: flashfrogluo, a filmmaker turned AI creator; feedback and case contributions welcome at flashfrogluo@gmail.com.
+
 **flashfrogluo** —— 做电影创作出身（电影摄影 / 导演 / 编剧），现在转向 AI 创作、测评和开发，长期在「电影语言」和「AI 工程」两个领域之间来回。
 
 做这个 skill 的直接动机，来自两个身份的交叉：一边是做影像创作时，对"为什么这一镜不对"特别敏感；另一边是日常用各类 AI 时反复遇到同一个痛点——模型给出的「深度思考 / CoT」质量很不稳定，有时逻辑跳步，有时漏掉用户明确要求过的维度，有时为了迎合语气擅自改了指令；而把那段思考粘回原对话重答，又往往把错因一起带过去。Second Take 想把前者那种"逐镜挑错"的直觉，变成后者的可操作流程：做一次**第三方质检**，读另一段已经想完的推理，判断错在哪，产出一段能直接粘回原对话、让原 AI 给出更好最终答案的「重拍单」。
@@ -332,6 +383,8 @@ second-take/
 
 ## 术语
 
+> **EN** — Terms: UP = User Prompt, CoT = Chain of Thought, Caption = description of target/reference.
+
 | 缩写 | 含义 |
 |---|---|
 | UP（用户指令） | User Prompt，用户给出的需求与约束 |
@@ -341,3 +394,17 @@ second-take/
 ## License
 
 MIT。见 `LICENSE`。
+
+---
+
+## English / 英文说明
+
+This README is written in Chinese, but **every section above includes a one-line `EN` note** so English readers can grasp each part at a glance.
+
+For the **complete, detailed English manual**, open:
+
+- **📘 Full English usage manual → [`docs/guide-en.md`](docs/guide-en.md)**
+
+It covers everything end-to-end: what Second Take is, when to use it, supported models and output types (text, image, video, and more), exactly what to provide for the most accurate diagnosis, privacy, contributing, installation, usage, the Four Standards, check items, the three modes (Reshoot / Pick-up / Final cut), the three trailing segments, common pitfalls, FAQ, and the author.
+
+> If the link above does not open in your viewer, the file is located at `docs/guide-en.md` inside the repository.
