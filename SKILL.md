@@ -1,10 +1,10 @@
 ---
 name: second-take
-description: "Second take for AI reasoning（再来一条）。当用户在任意一个 AI 那里拿到不满意的结果时，诊断它那段深度思考（CoT / 推理链 / 思维链 / thinking）哪里出了问题，产出一段可整段复制、粘回原对话的重拍单，让原 AI 直接给出更好的最终答案。输入可以是一段用户指令加深度思考，也可以是分享链接（DeepSeek 等）。Use when 用户说「这个结果不对 / 很难用 / 漏了要点 / 字数不达标 / 输出不像人话 / AI 味太重 / 格式不对」，或贴来分享链接、一段深度思考、一份评分标准（rubric）要求质检，或要求挑错、复盘、复核、改写 CoT、优化提示语、让原来的 AI 重写一遍时使用。也适用于生成类平台（即梦、可灵、Midjourney 等）出图或出片不对、画面不是想要的样子时，改为质检提示词并产出可直接粘贴的提示词重拍单。"
+description: "Second take for AI reasoning（再来一条）。当用户在任意一个 AI 那里拿到不满意的结果时，诊断它那段深度思考（CoT / 推理链 / 思维链 / thinking）哪里出了问题，产出一段可整段复制、粘回原对话的重拍单，让原 AI 直接给出更好的最终答案。模型无关（model-agnostic），覆盖文本推理与图像 / 视频生成多类 AI（Claude、DeepSeek、Gemini、ChatGPT、即梦、Midjourney…），是一套从诊断到包装（重拍 → 补拍 → 定剪 → 调色 → 包装）的完整工作流。输入可以是一段用户指令加深度思考，也可以是分享链接（DeepSeek 等）。Use when 用户说「这个结果不对 / 很难用 / 漏了要点 / 字数不达标 / 输出不像人话 / AI 味太重 / 格式不对」，或贴来分享链接、一段深度思考、一份评分标准（rubric）要求质检，或要求挑错、复盘、复核、改写 CoT、优化提示语、让原来的 AI 重写一遍时使用。也适用于生成类平台（即梦、可灵、Midjourney 等）出图或出片不对、画面不是想要的样子时，改为质检提示词并产出可直接粘贴的提示词重拍单。"
 license: MIT
 compatibility: "无系统依赖，纯 Markdown，无脚本。适用于所有支持 agentskills.io SKILL.md 开放标准的 agent：Claude Code、Codex CLI、Cursor、Gemini CLI、GitHub Copilot、VS Code、OpenCode、WorkBuddy、Goose、Roo Code 等。"
 metadata:
-  version: "1.1.0"
+  version: "1.3.0"
   author: flashfrogluo
   spec: agentskills.io
 ---
@@ -74,7 +74,7 @@ curl -s -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 C
 
 | 类 | 特征 | 代表 | 拿什么当 CoT | 重拍单 |
 |---|---|---|---|---|
-| **A** | 有完整推理过程 | DeepSeek、通义千问（思考模式）、Gemini、豆包 | 思考过程本身 | 模板 A / B |
+| **A** | 有完整推理过程 | DeepSeek、Claude（extended thinking）、通义千问（思考模式）、Gemini、豆包 | 思考过程本身 | 模板 A / B |
 | **B** | 只有推理摘要 | ChatGPT（thinking summary） | 摘要 + 从产物反推，**并注明来源** | 模板 A |
 | **C** | 没有推理，只有提示词与产物 | 即梦、可灵、Midjourney、Sora、Runway | **提示词本身** | 模板 C（提示词重拍单） |
 
