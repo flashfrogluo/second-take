@@ -4,7 +4,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.3.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue)](CHANGELOG.md)
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
 [![skills.sh](https://img.shields.io/badge/skills.sh-indexed-brightgreen)](https://skills.sh)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
@@ -21,7 +21,7 @@
 npx skills add flashfrogluo/second-take
 ```
 
-📖 在线文档 / Docs site: https://flashfrogluo.github.io/second-take/
+📖 快速介绍手册 / Quick intro: https://flashfrogluo.github.io/second-take/
 
 ## 为什么叫 Second Take
 
@@ -45,9 +45,34 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 
 > ⚠️ **一个边界**：这些影视词是**你调用本工具的指令接口**，不是你交给 AI 的任务内容。如果你的需求本身就是"拍电影"、文案里出现了"重拍/调色"，那只是你的业务语言，不会触发本工具的环节——触发只发生在你主动使用本工具时。
 
+## 触发词清单（怎么唤起本工具 / 怎么点名模式）
+
+> 本工具靠两类词被唤起：**总触发词**让你进入流程；**模式触发词**让你点名要走哪一步（也可不说，由工具按上下文自动判断）。影视术语是"指令接口"，不是任务内容——见上方边界说明。
+
+### 总触发词（唤起本工具）
+
+| 意图 | 触发词 |
+|---|---|
+| 结果不满意（质检） | 结果不对 / 很难用 / 漏了要点 / 字数不达标 / 输出不像人话 / AI 味太重 / 格式不对 / 答非所问 / 逻辑有问题 / 前后矛盾 |
+| 给材料让我诊断 | 帮我看看这段思考 / 诊断这个推理 / 这段 CoT 哪儿错了 / 贴分享链接 / 这是我的提示词出图不对 |
+| 优化改写 | 优化提示语 / 让原 AI 重写一遍 / 挑错 / 复盘 / 复核 / 改写 CoT / 用这份 rubric 帮我质检 |
+| 生成类平台 | 即梦/可灵/Midjourney 出图不对 / 画面不是想要的 / 提示词重拍单 |
+
+### 五模式触发词（点名要走哪一步）
+
+| 模式 | 信号（什么时候用） | 触发词（影视术语 + 自然意图，含评估扩展词） |
+|---|---|---|
+| 重拍 Reshoot | 首轮 / 主体不成立 / 方向错 | `重拍` · 从头写 · 推倒重来 · 全量重写 · 这版完全不对 · 重写 · 重来 · 另起一版 |
+| 补拍 Pick-up | 第二轮以后 / 主体已成立 / 只改几处 | `补拍` · 在这版基础上改 · 只调这几处 · 补充一点 · 沿用这版 · 微调 · 迭代 · 改几处 |
+| 定剪 Final cut | 多轮僵持 / 前后版本冲突 / 需裁决 | `定剪` · 帮我取舍 · 选哪个 · 定稿 · 裁决一下 · 拍板 · 合并冲突 |
+| 调色 Color grading | 主体已完美（四标准过）/ 只差质感风格 | `调色` · 再润色 · 调语气 · 更有画面感 · 风格统一 · 打磨 · 提质感 · 美化 |
+| 包装 Packaging | 整体已达标 / 需结构化可视化 | `包装` · 做个图 · 可视化 · 思维导图 · 对比表 · 信息图 · 看板 · 脑图 |
+
+> 扩展词经评估加入：与既有模式无语义冲突，且不越过"指令接口 vs 任务内容"的边界。若你的业务语言本就含这些词（如真在做电影后期），不会误触发——只有你主动使用本工具时才算。
+
 ## 30 秒上手：一段最短演示（示意）
 
-> 完整格式与标注规范见 `references/标注范例.md`；下面是一段浓缩示意，便于一眼看懂产出形态（示意内容不指代任何真实案例）。
+> 可直接复制的优化指令模板见 `references/标注范例.md`；下面是一段浓缩示意，便于一眼看懂产出形态（示意内容不指代任何真实案例）。
 
 **输入**：用户要一份「给新手的三条摄影构图建议」，某 AI 的深度思考里写了「根据视觉暂留原理，三分法能让画面更顺眼」，并且只给了两条建议。
 
@@ -280,7 +305,7 @@ second-take/
 │   ├── 多场景适配.md           # DeepSeek/ChatGPT/Gemini/生成类平台分别能拿到什么、怎么改
 │   ├── 判定细则.md             # 判定顺序、归属规则、豁免清单、子类边界
 │   ├── 思维链四标准.md         # 四标准唯一真源：定义+逐条判定+映射+怎么补+重拍单规则/五模式/两机理/边界
-│   ├── 标注范例.md             # 语言习惯、符号约定、模板 A/B/C、判定声明、末尾三段分工
+│   ├── 标注范例.md             # 可直接复制的优化指令模板 A/B/C（占位符、无案例；完整标注范例为内部留存）
 │   ├── 成稿自检清单.md         # 给目标 AI 用的自检段：写法规范与条目模板
 │   ├── 自生成rubric元指令.md   # 混合模式：让目标 AI 自己写领域标准的元指令
 │   ├── 优化指令自查rubric.md   # 我们交付前用的五字段自查表（Must-have 18 条）
@@ -290,7 +315,8 @@ second-take/
 ├── docs/
 │   ├── 四标准质检法.md         # 入口指针：已合并至 references/思维链四标准.md，勿在此写内容
 │   ├── 迭代工作流.md           # 维护者指南：改硬约束/加 reference/补语料/发布 checklist
-│   └── guide-en.md             # 完整英文使用说明书（English usage manual）
+│   ├── guide-en.md             # 完整英文使用说明书（English usage manual）
+│   └── ROADMAP.md              # 路线图：已完成 / 进行中 / 设想中
 ├── prompts/
 │   ├── for-deepseek.md        # 【精简应急版】DeepSeek（A 类）现成提示词：复制整段作新对话首条消息
 │   └── abc.md                 # 【精简应急版】通用 A/B/C 三类提示词：覆盖完整推理/摘要/提示词质检

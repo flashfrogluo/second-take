@@ -42,6 +42,31 @@ The table below is your **control panel**: the film term on the left, what it ac
 
 ---
 
+## Trigger words (how to invoke, and how to name a mode)
+
+> The tool is invoked by two kinds of words: **general triggers** open the flow; **mode triggers** name which step to run (you can also omit them and let the tool decide from context). Film terms are the "command interface", not your task content — see the boundary note above.
+
+### General triggers (open the tool)
+
+| Intent | Trigger words |
+|---|---|
+| Unhappy result (QA) | the result is wrong / not usable / misses points / wrong length / sounds robotic / too much AI flavor / wrong format / off-topic / logic is flawed / self-contradictory |
+| Hand me material to diagnose | check this reasoning / diagnose this CoT / where did this thinking go wrong / here's a share link / my prompt produces a bad image |
+| Optimize / rewrite | improve the prompt / have the original AI redo it / spot errors / review / re-examine / rewrite the CoT / QA it with this rubric |
+| Generative platforms | JiMeng / Kling / Midjourney image is wrong / not the frame I wanted / prompt retake note |
+
+### Mode triggers (name the step)
+
+| Mode | Signal (when) | Trigger words (film term + natural intent, with evaluated extensions) |
+|---|---|---|
+| Reshoot | first pass / core invalid / wrong direction | `reshoot` · rewrite from scratch · start over · full rewrite · this version is completely wrong · redo · reroll |
+| Pick-up | after round 2 / core holds / change only a few spots | `pick-up` · revise on top of this version · adjust just these few · add a bit · keep this version · tweak · iterate · fix a few spots |
+| Final cut | stuck across rounds / versions conflict / need a ruling | `final cut` · help me choose · which one · lock the draft · make the call · decide · merge conflict |
+| Color grading | core perfect (four standards pass) / only lacks polish or style | `color grading` · polish · adjust tone · more visual feel · unify style · refine · improve quality · beautify |
+| Packaging | overall meets bar / needs structured visualization | `packaging` · make a diagram · visualize · mind map · comparison table · infographic · dashboard · concept map |
+
+> Extensions were added after evaluation: no semantic overlap with existing modes, and they stay on the "command interface vs task content" side of the boundary.
+
 ## Deliverables
 
 1. **A copy-ready optimization instruction** (the core deliverable). Paste it at the end of the original conversation; the other AI gives the final answer directly, without returning another "analysis" or "suggestion."
@@ -243,7 +268,7 @@ second-take/
 │   ├── 多场景适配.md           # What DeepSeek/ChatGPT/Gemini/generative platforms can each provide, and how to fix
 │   ├── 判定细则.md             # Judgment order, attribution rules, exemption list, sub-type boundaries
 │   ├── 思维链四标准.md         # Single source of truth for the Four Standards: definition + per-standard judgment + mapping + how to fix + retake-note rules / five modes / two mechanisms / boundaries
-│   ├── 标注范例.md             # Language habits, symbol conventions, templates A/B/C, judgment declaration, the three trailing paragraphs' division of labor
+│   ├── 标注范例.md             # Copy-ready optimization-instruction templates A/B/C (placeholders, no case; the full annotated example is kept internal)
 │   ├── 成稿自检清单.md         # Self-check paragraph for the target AI: writing rules and item templates
 │   ├── 自生成rubric元指令.md   # Hybrid mode: meta-instruction letting the target AI write its own domain standard
 │   ├── 优化指令自查rubric.md   # Our pre-delivery five-field self-check (Must-have 18 items)
@@ -253,7 +278,8 @@ second-take/
 ├── docs/
 │   ├── 四标准质检法.md         # Entry pointer: merged into references/思维链四标准.md; write no content here
 │   ├── 迭代工作流.md           # Maintainer guide: change hard constraints / add reference / add corpus / release checklist
-│   └── guide-en.md             # This file — the full English usage manual
+│   ├── guide-en.md             # This file — the full English usage manual
+│   └── ROADMAP.md              # Roadmap: done / in progress / envisioned
 ├── README.md
 ├── LICENSE
 └── .gitignore
