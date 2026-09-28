@@ -4,7 +4,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.1.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue)](CHANGELOG.md)
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
 [![skills.sh](https://img.shields.io/badge/skills.sh-indexed-brightgreen)](https://skills.sh)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
@@ -23,26 +23,13 @@ npx skills add flashfrogluo/second-take
 
 📖 在线文档 / Docs site: https://flashfrogluo.github.io/second-take/
 
-## 30 秒上手：一段最短演示（示意）
+## 为什么叫 Second Take
 
-> 完整格式与标注规范见 `references/标注范例.md`；下面是一段浓缩示意，便于一眼看懂产出形态（示意内容不指代任何真实案例）。
+take 有两层意思——影视里指"一条拍摄"（再来一条），也指"看法、解读"（my take on this）。这个名字同时说明我们做的两件事：**给出第二种看法，然后让原 AI 重拍一次**。
 
-**输入**：用户要一份「给新手的三条摄影构图建议」，某 AI 的深度思考里写了「根据牛顿光学定律，黄金分割源自……」，并且只给了两条建议。
+## 影视术语对照：把一次 AI 生成当作拍一部电影（操作面板）
 
-**诊断（节选）**
-- **无据引用**：把「牛顿光学定律」当依据，UP 与常识都无此关联，属臆造；
-- **覆盖不全**：UP 明确要求三条，只给了两条。
-
-**重拍单（整段复制，粘到原对话末尾）**
-> 忽略本对话中上一轮那段深度思考及其产物，其余指令继续有效。重写「给新手的三条摄影构图建议」：① 三分法……② 引导线……③ 留白……。禁止使用「牛顿光学定律」等无关论据；只输出正文，不输出分析过程。
-
-**结果**：原 AI 直接给出三条带可操作要点的建议，无臆造论据。
-
-**为什么叫 Second Take**：take 有两层意思——影视里指"一条拍摄"（再来一条），也指"看法、解读"（my take on this）。这个名字同时说明我们做的两件事：**给出第二种看法，然后让原 AI 重拍一次**。
-
-## 影视术语对照（这套方法的词表）
-
-> **EN** — Film-set vocabulary used throughout this method (dailies, reshoot, pick-up, continuity, retake note, final cut).
+> 这套方法把整套质检流程"封装"成了电影制作：你不必记 AI 专业的术语，只要认得下面的影视说法，就能点名要它做哪一步。
 
 | 我们的环节 | 影视说法（命名） | 我们让 AI 优化什么 | 达到什么目的 |
 |---|---|---|---|
@@ -53,8 +40,26 @@ npx skills add flashfrogluo/second-take
 | 覆盖不全 | Missing coverage / 漏镜 | 检查是否漏掉关键分支或影响因素 | 补全覆盖盲区，避免以偏概全 |
 | 产物（优化指令） | Retake note / 重拍单 | 输出一张可复制、交给原 AI 执行的单子 | 让原 AI 直接按单重拍 |
 | 多轮僵持后的裁决 | Final cut / 定剪 | 前后版本冲突时做取舍 | 定稿，不再重写 |
-| 主体完美后的润色 | Color grading / 调色 | 四标准已过，只润色措辞、语气、节奏、关键句 | 提升表达质感，不动结构事实、不引新观点 |
+| 主体完美后的润色 | Color grading / 调色 | 四标准已过，只润色（文本：措辞/语气/节奏/关键句；图/视频提示词：视觉描述词与美学方向） | 提升表达/视觉质感，不动结构事实、不引新观点 |
 | 成果交付时的呈现 | Packaging / 包装 | 输出总结、思维导图、可视化图表 | 让成果讲得清、看得懂 |
+
+> ⚠️ **一个边界**：这些影视词是**你调用本工具的指令接口**，不是你交给 AI 的任务内容。如果你的需求本身就是"拍电影"、文案里出现了"重拍/调色"，那只是你的业务语言，不会触发本工具的环节——触发只发生在你主动使用本工具时。
+
+## 30 秒上手：一段最短演示（示意）
+
+> 完整格式与标注规范见 `references/标注范例.md`；下面是一段浓缩示意，便于一眼看懂产出形态（示意内容不指代任何真实案例）。
+
+**输入**：用户要一份「给新手的三条摄影构图建议」，某 AI 的深度思考里写了「根据视觉暂留原理，三分法能让画面更顺眼」，并且只给了两条建议。
+
+**诊断（节选）**
+- **无据引用（跨领域生搬）**：把「视觉暂留」当依据，那是解释动态画面连续感的生理现象，与静态构图的三分法无关，属生搬硬套；
+- **覆盖不全**：UP 明确要求三条，只给了两条。
+
+**重拍单（整段复制，粘到原对话末尾）**
+> 忽略本对话中上一轮那段深度思考及其产物，其余指令继续有效。重写「给新手的三条摄影构图建议」：① 三分法……② 引导线……③ 留白……。禁止使用「视觉暂留」等跨领域无关论据；只输出正文，不输出分析过程。
+
+**结果**：原 AI 直接给出三条带可操作要点的建议，无生搬硬套的论据。
+
 
 ## 交付内容
 
@@ -84,9 +89,9 @@ npx skills add flashfrogluo/second-take
 
 ## 适用模型与产物类型
 
-> **EN** — Supported across all major AIs (DeepSeek, ChatGPT, Gemini, Claude, Midjourney, Sora…) and all output types: text, image, video, and other artifacts.
+> **EN** — Supported across all major AIs (DeepSeek, ChatGPT, Gemini, Claude, Midjourney, Sora…) and all output types: text, image, video, and other artifacts — a multi-model, multimodal workflow.
 
-不管您用哪一款 AI——**DeepSeek、ChatGPT、豆包、通义千问、Gemini、Claude、即梦、可灵、Midjourney、Sora、Runway……**——只要它产出的结果您不满意，Second Take 都能接。覆盖的产物类型也不受限：
+不管您用哪一款 AI——**DeepSeek、ChatGPT、豆包、通义千问、Gemini、Claude、即梦、可灵、Midjourney、Sora、Runway……**（多模型、多模态，覆盖文本推理与图 / 视频生成）——只要它产出的结果您不满意，Second Take 都能接。覆盖的产物类型也不受限：
 
 - **文字类**：文案、方案、代码、分析报告、评分标准（rubric）、论文 / 报告
 - **图像类**：生图、海报、分镜、封面
@@ -251,27 +256,17 @@ CoT（深度思考）：……
 
 逐条的判定方法、与检查项的映射表见 `references/思维链四标准.md`。
 
-## 检查项
+## 症状清单（检查项）
 
-> **EN** — Check items: the symptom list (conflicts, coverage gaps, reasoning defects and their sub-types).
+> **EN** — Symptom list (check items): the skill scans for three families of problems — conflicts, coverage gaps, reasoning defects. The full itemized list lives in `references/思维链四标准.md`.
 
-| 检查项 | 一句话标准 |
-|---|---|
-| 产物冲突（描述亦不符） | 与目标产物冲突，且素材描述也不支持 |
-| 产物/参考冲突（描述相符） | 与目标产物或参考素材冲突，但素材描述一致 |
-| 参考冲突（描述亦不符） | 与参考素材冲突，且素材描述也不支持 |
-| 指令冲突 | 推翻用户指令的显式约束 |
-| 覆盖不全 | 用户指令的重要内容被漏掉或弱化 |
-| 推理缺陷 | 推理自身问题：前后矛盾 / 常识性错误 / 表述模糊 / 强行推理 / 无据引用 / 倒置已知 / 自我放行 / 版本退步 / 节内重复 / 样例复述正文 / 体裁不符 / 语义窄化 / 怪圈（循环论证） |
+本工具会自动扫描三类问题，你不必记下这些术语：
 
-后四个子类的判定标准：
+- **冲突**：产物、参考素材、用户指令之间互相打架（产物冲突 / 参考冲突 / 指令冲突）；
+- **覆盖不全**：用户指令里的重要内容被漏掉或弱化；
+- **推理缺陷**：前后矛盾、常识性错误、表述模糊、强行推理、无据引用、自我放行、版本退步等。
 
-| 子类 | 一句话 |
-|---|---|
-| 自我放行 | 推理中自己发现不达标（「这算包含字段？不太直接。也许可接受」），靠一句自我说服就放行 |
-| 版本退步 | 迭代时把上一版已有的合格内容删掉或降级（改成表格后只剩干条，解释被丢） |
-| 节内重复 | 同一句判断在一节正文与它自己的样例里各出现一次 |
-| 样例复述正文 | 清单类样例只是把正文改写成条目，照抄它不会比读正文多做一件事 |
+完整条目与逐条判定方法，见 `references/思维链四标准.md`。
 
 ## 目录结构
 
@@ -304,7 +299,7 @@ second-take/
 └── .gitignore
 ```
 
-## 五种模式：从「对不对」到「讲得清」
+## 五种模式：一条完整工作流，从「对不对」到「讲得清」
 
 > **EN** — Five modes: Reshoot (full rewrite), Pick-up (fix only named spots), Final cut (arbitrate after deadlock), Color grading (polish style), Packaging (visualize & present).
 
@@ -315,10 +310,10 @@ second-take/
 | **Reshoot** | 重拍 | 首轮，或上一版主体不成立（结构有误、目标判错、大面积漏项） | 全量重写 |
 | **Pick-up** | 补拍 | 迭代轮次，上一版主体已成立 | 仅修改被点名的数处，其余按原样沿用 |
 | **Final cut** | 定剪 | 已经迭代多轮还在出新错，或前后两版结论互相打架 | 不再重写，做取舍裁决 |
-| **Color grading** | 调色 | 主体已完美（四标准达标、无检查项问题），只差质感 / 风格 | 不动结构与事实，只做轻微润色与风格强化（锤炼措辞、统一语气、强化节奏与画面感、点亮关键句） |
+| **Color grading** | 调色 | 主体已完美（四标准达标、无检查项问题），只差质感 / 风格 | 不动结构与事实，只做轻微润色与风格强化：文本类锤炼措辞、统一语气、强化节奏与画面感、点亮关键句；图像/视频提示词类收紧风格/光线/情绪等视觉描述词、强化美学方向，不变主体、不增删元素 |
 | **Packaging** | 包装 | 整体已达输出标准，需结构化呈现、让人一眼看懂 | 做可视化分析：输出总结、思维导图、可视化图表（流程 / 对比 / 关系 / 时间线） |
 
-按生产流水线推进：**重拍 → 补拍 → 定剪 → 调色 → 包装**。前三种解决「对不对」，调色解决「够不够好」，包装解决「讲不讲得清」。**调色与包装都不重判结论**——调色只润色表达、不引入新观点、不改动事实与结构；包装只呈现已有结论、忠于原判断、不为美观扭曲关系。两者都建立在「主体已经达标」之上；四标准尚未全过，先走前三种，不要跳去调色或包装。
+按生产流水线推进：**重拍 → 补拍 → 定剪 → 调色 → 包装**。前三种解决「对不对」，调色解决「够不够好」，包装解决「讲不讲得清」。**调色与包装都不重判结论**——调色只润色表达或视觉呈现、不引入新观点、不改动事实与结构（图像/视频提示词只调视觉描述词、不换主体、不增删元素）；包装只呈现已有结论、忠于原判断、不为美观扭曲关系。两者都建立在「主体已经达标」之上；四标准尚未全过，先走前三种，不要跳去调色或包装。
 
 默认走 Reshoot；**第二轮之后默认走 Pick-up**——重写最大的风险，是把上一版已经合格的内容一起丢掉（版本退步）。
 
@@ -413,7 +408,7 @@ second-take/
 换 Final cut（定剪）模式：不再重写，做取舍裁决。已经迭代多轮还在出新错，说明问题不在"重写得不够好"，而在取舍本身。
 
 **内容都对、就是感觉差点意思，能再润色吗？**
-可以，这正是 **Color grading（调色）** 模式：主体已完美、四标准全过之后，不再动结构与事实，只做轻微润色与风格强化——锤炼措辞、统一语气、强化节奏与画面感、点亮关键句。它只润色表达，不引入新观点，也不改动事实。
+可以，这正是 **Color grading（调色）** 模式：主体已完美、四标准全过之后，不再动结构与事实，只做轻微润色与风格强化。文本类——锤炼措辞、统一语气、强化节奏与画面感、点亮关键句；图像/视频提示词类——收紧风格/光线/情绪等视觉描述词、强化美学方向，但不变主体、不增删画面元素。它只润色表达或视觉呈现，不引入新观点，也不改动事实。
 
 **成品达标了，但我还要拿去汇报 / 发给别人看，能给个一眼看懂的版本吗？**
 可以，这正是 **Packaging（包装）** 模式：整体已达输出标准后，做可视化分析——输出一页纸总结、思维导图、以及流程 / 对比 / 关系 / 时间线类的可视化图表。它只呈现已有结论、忠于原判断，不为美观扭曲关系。

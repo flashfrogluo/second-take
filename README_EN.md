@@ -22,7 +22,11 @@ npx skills add flashfrogluo/second-take
 
 ## Film-set vocabulary
 
-This method borrows its vocabulary from filmmaking. The table maps each step to its film equivalent.
+Treat one AI generation like shooting a film. This method **packages** the whole review pipeline into film terms — dailies, reshoot, pick-up, continuity, retake note, final cut, color grading, packaging. You don't need to memorize AI jargon; just know these film terms and you can name which step you want.
+
+The table below is your **control panel**: the film term on the left, what it actually has the AI optimize and why on the right.
+
+> ⚠️ **One boundary**: these film terms are the **command interface for invoking this tool**, not the content of the task you hand the AI. If your own request is literally "make a film" and mentions "reshoot / color grading", that's just your domain language — it does not trigger any step here. Triggering happens only when you actively use this tool.
 
 | Our step | Film term (name) | What we have the AI optimize | Purpose |
 |---|---|---|---|
@@ -33,7 +37,7 @@ This method borrows its vocabulary from filmmaking. The table maps each step to 
 | Incomplete coverage | Missing coverage / 漏镜 | Check whether key branches or factors were missed | Close coverage gaps; avoid overgeneralizing |
 | Deliverable (optimization instruction) | Retake note / 重拍单 | Output a copy-ready sheet for the original AI to execute | Let the original AI re-shoot per the sheet |
 | Verdict after deadlock | Final cut / 定剪 | When versions conflict, make a trade-off call | Lock the cut; stop rewriting |
-| Polish after the subject is locked | Color grading / 调色 | All Four Standards met; only polish wording, tone, rhythm, key lines | Raise expressive quality; no structural/factual change, no new claims |
+| Polish after the subject is locked | Color grading / 调色 | All Four Standards met; polish only (text: wording/tone/rhythm/key lines; image & video prompts: visual descriptors & aesthetic direction) | Raise expressive / visual quality; no structural/factual change, no new claims |
 | Presentation at delivery | Packaging / 包装 | Output a summary, mind map, and visualizations | Make the result read clearly and land |
 
 ---
@@ -217,25 +221,15 @@ For per-standard judgment methods and the mapping to check items, see `reference
 
 ---
 
-## Check items
+## Symptom list (check items)
 
-| Check item | One-line standard |
-|---|---|
-| Product conflict (description also mismatches) | Conflicts with the target product, and material description doesn't support it |
-| Product / reference conflict (description matches) | Conflicts with the target product or reference, but material description agrees |
-| Reference conflict (description also mismatches) | Conflicts with reference material, and material description doesn't support it |
-| Instruction conflict | Overturns an explicit constraint in the user instruction |
-| Incomplete coverage | Important content of the user instruction was dropped or weakened |
-| Reasoning defect | Problems within the reasoning itself: contradiction / common-sense error / vague wording / forced reasoning / unsupported citation / inverted known facts / self-clearance / version regression / intra-section repetition / example restating body / wrong genre / semantic narrowing / loop (circular argument) |
+The skill automatically scans for three families of problems — you don't need to memorize these terms:
 
-Judgment standards for the last four sub-types:
+- **Conflicts**: the product, reference material, or user instruction contradicts one another (product / reference / instruction conflict);
+- **Incomplete coverage**: important content of the user instruction was dropped or weakened;
+- **Reasoning defects**: contradiction, common-sense error, vague wording, forced reasoning, unsupported citation, self-clearance, version regression, and so on.
 
-| Sub-type | One line |
-|---|---|
-| Self-clearance | The reasoning finds its own shortfall ("does this count as including the field? not directly. maybe acceptable") and clears it with one line of self-persuasion |
-| Version regression | On iteration, deletes or downgrades qualified content from the previous version (after tabling, only bare bullets remain, explanations dropped) |
-| Intra-section repetition | The same judgment appears once in a section's body and once in its own example |
-| Example restating body | A list-type example merely rewrites the body into bullets; copying it does nothing more than reading the body |
+The full itemized list and per-item judgment methods live in `references/思维链四标准.md`.
 
 ---
 
@@ -276,10 +270,10 @@ Not every round needs a full redo. Judge whether the subject holds first, then p
 | **Reshoot** | 重拍 | First round, or the previous version's subject doesn't hold (wrong structure, wrong target judgment, large missing items) | Full rewrite |
 | **Pick-up** | 补拍 | Later iteration rounds, where the previous version's subject already holds | Change only the named spots; keep the rest as-is |
 | **Final cut** | 定剪 | Many rounds in and still producing new errors, or two versions' conclusions contradict each other | Stop rewriting; make a trade-off verdict |
-| **Color grading** | 调色 | The subject is already perfect (all Four Standards met, no check-item issues); only the feel / style falls short | Touch structure and facts not at all; only light polish and style strengthening (sharpen wording, unify tone, heighten rhythm and visual sense, spotlight key lines) |
+| **Color grading** | 调色 | The subject is already perfect (all Four Standards met, no check-item issues); only the feel / style falls short | Touch structure and facts not at all; only light polish and style strengthening — text: sharpen wording, unify tone, heighten rhythm and visual sense, spotlight key lines; image & video prompts: tighten style / lighting / mood descriptors and strengthen aesthetic direction, but keep the subject unchanged and add or remove no elements |
 | **Packaging** | 包装 | The whole thing already meets the output standard, but needs structured presentation so others get it at a glance | Do visualization analysis: output summary, mind map, and visual charts (flow / comparison / relation / timeline) |
 
-Move along the production line: **Reshoot → Pick-up → Final cut → Color grading → Packaging**. The first three answer "is it right"; Color grading answers "is it good enough"; Packaging answers "does it read clearly." **Neither Color grading nor Packaging re-judges the conclusion**: Color grading only polishes expression — no new points, no factual or structural change; Packaging only presents the existing conclusion — faithful to the original judgment, never distorting relations for looks. Both assume the subject already passes; if the Four Standards aren't all met yet, do the first three first — don't jump to Color grading or Packaging.
+Move along the production line: **Reshoot → Pick-up → Final cut → Color grading → Packaging**. The first three answer "is it right"; Color grading answers "is it good enough"; Packaging answers "does it read clearly." **Neither Color grading nor Packaging re-judges the conclusion**: Color grading only polishes expression or visual presentation — no new points, no factual or structural change (for image & video prompts it tunes visual descriptors only, never swapping the subject or adding/removing elements); Packaging only presents the existing conclusion — faithful to the original judgment, never distorting relations for looks. Both assume the subject already passes; if the Four Standards aren't all met yet, do the first three first — don't jump to Color grading or Packaging.
 
 Default to Reshoot; **after the second round, default to Pick-up** — the biggest risk of a rewrite is throwing away qualified content from the previous version (version regression).
 
@@ -374,7 +368,7 @@ Yes. Its review logic has nothing to do with "what the product is" — copy, pla
 Switch to Final cut mode: stop rewriting, make a trade-off verdict. If many rounds in still produce new errors, the problem isn't "not rewritten well enough" but the trade-off itself.
 
 **The content is all correct, but it just feels off — can you polish it?**
-Yes — that's exactly **Color grading** mode. Once the subject is perfect and all Four Standards pass, it stops touching structure and facts and only does light polish and style strengthening: sharpen wording, unify tone, heighten rhythm and visual sense, spotlight key lines. It polishes expression only — no new points, no factual or structural change.
+Yes — that's exactly **Color grading** mode. Once the subject is perfect and all Four Standards pass, it stops touching structure and facts and only does light polish and style strengthening. Text: sharpen wording, unify tone, heighten rhythm and visual sense, spotlight key lines. Image & video prompts: tighten style / lighting / mood descriptors and strengthen aesthetic direction, but keep the subject unchanged and add or remove no elements. It polishes expression or visual presentation only — no new points, no factual or structural change.
 
 **It meets the standard, but I need to present or send it to others — can you give me a glance-readable version?**
 Yes — that's exactly **Packaging** mode. Once the whole thing meets the output standard, it does visualization analysis: a one-page summary, a mind map, and visual charts (flow / comparison / relation / timeline). It only presents the existing conclusion, faithful to the original judgment, never distorting relations for looks.
