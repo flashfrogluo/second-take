@@ -8,6 +8,17 @@
 
 ---
 
+## [1.4.0] - 2026-09-28
+
+> 累积自 1.3.0 的本地改动（根目录整理、在线文档改名、触发词清单、内容清理），统一发版。
+
+- **根目录整理（结构）**：治理/辅助文档移出根目录——`CONTRIBUTING.md`、`SECURITY.md` → `.github/`（GitHub 仍自动识别）；`ROADMAP.md` → `docs/`。根目录从 11 散件降到 6（CHANGELOG / LICENSE / README / README_EN / SKILL / install.sh / update.sh + 5 目录）。刻意保留根目录的文件：`SKILL.md`（入口）、`LICENSE`（GitHub 只在根识别）、`README.md`+`README_EN.md`（首页+多语言切换）、`CHANGELOG.md`（徽章链接）、`install.sh`/`update.sh`（install.sh 以自身目录为源，挪走会装错）。三处目录树（README / README_EN / guide-en）已同步。
+- **「在线文档」改名 + 去真源引用**：README 导航标签「在线文档 / Docs site」→「快速介绍手册 / Quick intro」；落地页 `docs/index.html`「了解更多」删除指向 `references/思维链四标准.md`（方法论真源）的链接，仅保留 README 与英文手册两个入口，更自包含。
+- **触发词清单写入 README 及 SKILL.md（功能）**：README（中文）新增「触发词清单」节（总触发词 4 类 + 五模式触发词，含评估扩展词）；英文两处（README_EN / guide-en）在 Film-set vocabulary 边界说明后同步英文版；`SKILL.md` 的 `description` 补模式点名触发词，并新增规则「用户显式点名模式时优先按指定模式走，不强行改判」。
+- **删除术语表一处说法**：`references/术语表.md` 删除「AI ⊃ LLM ⊃ Agent 层级写反」整段（用户判定不需保留）。
+- **标注范例对外精简、内部留存（语料纪律）**：公开 `references/标注范例.md` 重写为只含模板 A/B/C（占位符、无案例）；完整版（含语言习惯/符号约定/完整示例）逐字存入内部 `corpus/标注范例-内部留存.md`（永不进仓库）。4 处引用措辞同步修正，11 处文件名引用未断。
+- 版本 1.3.0 → 1.4.0（文档结构与定位改进 + 触发词功能，属 MINOR）。
+
 ## [1.3.0] - 2026-09-28
 
 - **词表重构为「封装 / 操作面板」（结构性）**：影视术语对照表从「30 秒上手」演示之后前置到之前，标题改为「影视术语对照：把一次 AI 生成当作拍一部电影（操作面板）」。核心定位——用户不必记 AI 专业术语，认得影视说法即可触发对应环节；并加 ⚠️ 触发边界警告：影视词是「调用本工具的指令接口」而非「交给 AI 的任务内容」，用户任务里出现重拍/调色等业务语言不触发本工具。中英文三处（README / README_EN / guide-en）同步。
