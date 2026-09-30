@@ -4,7 +4,7 @@ description: "Second take for AI reasoning（再来一条）。当用户在任�
 license: MIT
 compatibility: "无系统依赖，纯 Markdown，无脚本。适用于所有支持 agentskills.io SKILL.md 开放标准的 agent：Claude Code、Codex CLI、Cursor、Gemini CLI、GitHub Copilot、VS Code、OpenCode、WorkBuddy、Goose、Roo Code 等。"
 metadata:
-  version: "1.4.0"
+  version: "1.5.0"
   author: flashfrogluo
   spec: agentskills.io
 ---
