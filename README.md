@@ -4,7 +4,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.4.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.5.0-blue)](CHANGELOG.md)
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
 [![skills.sh](https://img.shields.io/badge/skills.sh-indexed-brightgreen)](https://skills.sh)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
