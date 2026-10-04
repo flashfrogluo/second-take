@@ -235,12 +235,12 @@ Windows 建软链接需要开发者模式，若嫌麻烦就复制一份并在 `.
 
 ## 兼容性说明
 
-> **EN** — Compatibility: follows the open agentskills.io standard; pure Markdown, no scripts, no network calls.
+> **EN** — Compatibility: follows the open agentskills.io standard; core quality-check flow is pure Markdown with no system deps; only optional share-link fetching needs curl.
 
 - 遵循 **agentskills.io** 开放标准：规范共 6 个字段（`name` / `description` / `license` / `compatibility` / `metadata` / `allowed-tools`），本 skill 用到前 5 个，未用 `allowed-tools`，也没用任何平台私有字段（如 Cursor 的 `paths`、Codex 的 `agents/openai.yaml`），因此不会被其他运行时静默剥离
 - 目录名与 `name` 严格一致：`second-take`
 - 引用 `references/` 一律用相对路径，不含任何本机绝对路径
-- 纯 Markdown，无脚本、无网络请求、无系统依赖——安装即信任，不触发安全审计告警
+- 核心质检流程纯 Markdown、无系统依赖；仅可选抓取分享链接需 curl，工程脚本（校验/安装）不参与质检运行——安装即信任
 
 ## 用法
 
@@ -320,6 +320,9 @@ second-take/
 ├── prompts/
 │   ├── for-deepseek.md        # 【精简应急版】DeepSeek（A 类）现成提示词：复制整段作新对话首条消息
 │   └── abc.md                 # 【精简应急版】通用 A/B/C 三类提示词：覆盖完整推理/摘要/提示词质检
+├── tests/
+│   ├── validate.py            # 结构校验：frontmatter / README 链接 / 样例三要素存在性（仅结构，非质量判定）
+│   └── samples/               # 7 个样例（覆盖 A/B/C 三类平台 + 文本/图像/视频），黄金输出示范
 ├── README.md
 ├── LICENSE
 └── .gitignore

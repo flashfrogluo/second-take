@@ -1,5 +1,12 @@
 name: CI
 
+# 能力边界（重要，勿删）：本 CI 只做「结构校验」——
+#   1. SKILL.md frontmatter 必填字段是否存在；
+#   2. README 内部链接是否指向真实文件；
+#   3. tests/samples 下每个样例的 expected_retake_note 是否含诊断 / 可复制指令 / 约束三要素。
+# 它通过 ≠ 重拍单质量合格：三要素是关键词存在性检查，不含负例，空壳也能通过。
+# 质量判定请用 references/优化指令自查rubric.md（赶时间只过「Must-have 精简版 18 条」）。
+
 on:
   push:
     branches: [main]

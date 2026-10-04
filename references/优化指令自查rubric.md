@@ -4,6 +4,8 @@
 
 **怎么用**：Must have 全部为 Yes，才允许交付；Nice to have 用于判断这版是"能用"还是"好用"。过完把 No 的条目直接改掉，不要带病交付。
 
+**Must have 的定级判据**（分档时一律先问这一句）：「只缺这一条，我能不能接受？」不接受即 Must have，缺了仍可交付、只是不够好的一律 Nice to have。按此判据，43 条完整版里 **Must have 34 条 / Nice to have 9 条**——Must have 分别对应 `SKILL.md` 的硬性约束（丢了会产出坏指令或错误内容），Nice to have 是语气与写作润色项。**赶时间时只过末尾「Must-have 精简版 18 条」**，那才是真正的最低交付门槛；完整版 43 条用于判断这版是"能用"还是"好用"。
+
 规则：每条均为 **Yes/No 二元判定句，Yes＝得分**；否定式约束统一写成"是否未……"形式。
 
 Dimension 沿用通用维度：指令遵循 / 过程合理性 / 结果正确性 / 写作质量 / 格式 / 语气 / 其他。
@@ -66,10 +68,10 @@ Dimension 沿用通用维度：指令遵循 / 过程合理性 / 结果正确性 
 | F5 | 是否未要求用户强制开新对话（默认支持粘回原对话）？ | Objective | Implicit | Must have | 指令遵循 |
 | F6 | 样例里的人名、地名、机构名、数值是否一律用占位符，未编造真实名称与精确数值？ | Objective | Explicit | Must have | 结果正确性 |
 | F7 | 正文末尾是否有独立成段的收尾询问，给出 2-3 个基于本次内容的具体方向？ | Objective | Explicit | Must have | 语气 |
-| F8 | 收尾询问是否用「您」、未出现 emoji、感叹号、套近乎与客套话？ | Subjective | Explicit | Must have | 语气 |
-| F9 | 收尾询问是否未出现元要求措辞（"本指令""本次任务""上述要求"）？ | Objective | Implicit | Must have | 写作质量 |
-| F10 | 是否点明"不得省略句子成分"，并给了反面例子（"也知道"不写"也知"、不得为压字数省成分）？ | Objective | Implicit | Must have | 写作质量 |
-| F11 | 论述/说明类产物是否给了第一人称密度配额，而非放任每句以"我"开头？ | Objective | Implicit | Must have | 语气 |
+| F8 | 收尾询问是否用「您」、未出现 emoji、感叹号、套近乎与客套话？ | Subjective | Explicit | Nice to have | 语气 |
+| F9 | 收尾询问是否未出现元要求措辞（"本指令""本次任务""上述要求"）？ | Objective | Implicit | Nice to have | 写作质量 |
+| F10 | 是否点明"不得省略句子成分"，并给了反面例子（"也知道"不写"也知"、不得为压字数省成分）？ | Objective | Implicit | Nice to have | 写作质量 |
+| F11 | 论述/说明类产物是否给了第一人称密度配额，而非放任每句以"我"开头？ | Objective | Implicit | Nice to have | 语气 |
 
 ## G. 定向忽略与上下文
 
