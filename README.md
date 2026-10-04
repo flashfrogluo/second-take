@@ -4,7 +4,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.6.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.6.1-blue)](CHANGELOG.md)
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
 [![skills.sh](https://img.shields.io/badge/skills.sh-indexed-brightgreen)](https://skills.sh)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
@@ -328,6 +328,17 @@ second-take/
 └── .gitignore
 ```
 
+## 默认给轻装版（交付形态 vs 模式）
+
+本工具默认交付**轻装版**：诊断照旧满配，交付默认精简——最常见的情形是**定点修复**（上一版主体已成立，沿用好的、只改几处）。完整版（全量重写、逐条诊断、成稿自检、18 条自查）按需才给：用户说「重要 / 详细点 / 往深了查」，或问题明显结构性（多处不对、方向错、已改好几轮还不行）。
+
+注意区分两层概念，不要混：
+
+- **交付形态**：轻装版 / 完整版——回答「这版写多长」，默认轻装版。
+- **模式（Reshoot / Pick-up / Final cut / Color grading / Packaging）**：只在走完整版路径时选择，回答「用哪套质检流程」。
+
+所以「默认走 Reshoot」的准确说法是：**完整版路径下默认走 Reshoot**；默认交付的是轻装版（多为定点修复，对应 Pick-up 思路）。两句不矛盾，只是说的不是同一层。
+
 ## 五种模式：一条完整工作流，从「对不对」到「讲得清」
 
 > **EN** — Five modes: Reshoot (full rewrite), Pick-up (fix only named spots), Final cut (arbitrate after deadlock), Color grading (polish style), Packaging (visualize & present).
@@ -344,7 +355,7 @@ second-take/
 
 按生产流水线推进：**重拍 → 补拍 → 定剪 → 调色 → 包装**。前三种解决「对不对」，调色解决「够不够好」，包装解决「讲不讲得清」。**调色与包装都不重判结论**——调色只润色表达或视觉呈现、不引入新观点、不改动事实与结构（图像/视频提示词只调视觉描述词、不换主体、不增删元素）；包装只呈现已有结论、忠于原判断、不为美观扭曲关系。两者都建立在「主体已经达标」之上；四标准尚未全过，先走前三种，不要跳去调色或包装。
 
-默认走 Reshoot；**第二轮之后默认走 Pick-up**——重写最大的风险，是把上一版已经合格的内容一起丢掉（版本退步）。
+**完整版路径下**默认走 Reshoot；**第二轮之后默认走 Pick-up**——重写最大的风险，是把上一版已经合格的内容一起丢掉（版本退步）。
 
 ## 优化指令末尾的三段（混合模式）
 

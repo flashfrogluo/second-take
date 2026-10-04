@@ -2,6 +2,13 @@
 
 > Got an AI answer you're not happy with? Just say "second take" — but this time, bring the retake note.
 
+[![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
+[![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.6.1-blue)](CHANGELOG.md)
+[![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
+[![skills.sh](https://img.shields.io/badge/skills.sh-indexed-brightgreen)](https://skills.sh)
+[![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
+
 This is the detailed English guide for **Second Take**, a skill that reviews another AI's reasoning and produces a precise instruction you can paste straight back into the original chat.
 
 If you came from the Chinese README, every section there carries a one-line **EN** note. This document is the complete, expanded English version.
@@ -287,6 +294,17 @@ second-take/
 
 ---
 
+## Default to the light version (delivery form vs mode)
+
+By default Second Take delivers the **light version**: the diagnosis is still full-strength, but the delivery is intentionally compact — most often a **pick-up** (the previous version's subject already holds, keep what's good and change only a few spots). The full version (full rewrite, item-by-item diagnosis, self-check, 18-point checklist) is on demand only: when the user says "important / go deeper / dig further", or the problem is clearly structural (many things wrong, wrong direction, several rounds in and still not working).
+
+Keep the two layers distinct, don't conflate them:
+
+- **Delivery form**: light / full — answers "how long is this delivery"; defaults to light.
+- **Mode (Reshoot / Pick-up / Final cut / Color grading / Packaging)**: chosen only on the full-version path, answers "which QA workflow".
+
+So "default to Reshoot" is precisely: **default to Reshoot under the full-version path**; by default we deliver the light version (mostly a pick-up in spirit). The two statements don't conflict — they describe different layers.
+
 ## Five modes: from "is it right" to "does it read clearly"
 
 Not every round needs a full redo. Judge whether the subject holds first, then pick a mode:
@@ -301,7 +319,7 @@ Not every round needs a full redo. Judge whether the subject holds first, then p
 
 Move along the production line: **Reshoot → Pick-up → Final cut → Color grading → Packaging**. The first three answer "is it right"; Color grading answers "is it good enough"; Packaging answers "does it read clearly." **Neither Color grading nor Packaging re-judges the conclusion**: Color grading only polishes expression or visual presentation — no new points, no factual or structural change (for image & video prompts it tunes visual descriptors only, never swapping the subject or adding/removing elements); Packaging only presents the existing conclusion — faithful to the original judgment, never distorting relations for looks. Both assume the subject already passes; if the Four Standards aren't all met yet, do the first three first — don't jump to Color grading or Packaging.
 
-Default to Reshoot; **after the second round, default to Pick-up** — the biggest risk of a rewrite is throwing away qualified content from the previous version (version regression).
+**Under the full-version path,** default to Reshoot; **after the second round, default to Pick-up** — the biggest risk of a rewrite is throwing away qualified content from the previous version (version regression).
 
 ---
 
