@@ -11,21 +11,38 @@
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
 
 [![Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出](docs/assets/hero.svg)](https://github.com/flashfrogluo/second-take)
+## 它解决什么问题
 
-> AI 给的答案不满意？说一句"再来一条"——不过这次记得带上重拍单。
+**AI 给的结果不满意，你只能反复说「再改改」，但说不清哪里不对。**
 
-> **EN** — Second Take gives you a precise "retake note" to paste back into the original AI chat when its answer disappoints. Works with any AI and any output type.
+Second Take 做一件事：**把「哪里不对」诊断出来，写成一段能直接粘回原对话的指令**，让那个 AI 重出一版。
 
-您在任意一个 AI（DeepSeek、ChatGPT、豆包、Gemini、即梦、Midjourney…）那里拿到一段不满意的结果——**文字、图像、视频、提示词、代码……随便哪一种都行**。把需求或对话分享链接发给它，它会做两件事：读那段推理（生成类就改读提示词），判断哪里错了，然后**生成一份可以直接复制回那个 AI 的重拍单**——粘到原对话末尾，对方就能直接给出更好的最终答案。
+| 没有它 | 有它 |
+|---|---|
+| 「不对，重写」 | 「第三段把用户的猜测写成了事实；删掉那两句，其余保留」 |
+| 改完又丢了好内容，越改越差 | 只动点名的地方，未点名的一律保留 |
+| 每次都要重述一遍需求 | 一段指令带完整需求，粘过去就行 |
+
+**它不替你写答案。** 你在原对话里有上下文、有历史、有要留存的东西，答案应该在那边产出——它只负责把「怎么让那边改对」讲清楚。
+
+---
+
+## 30 秒试一下（不用安装）
+
+把 [`prompts/for-deepseek.md`](prompts/for-deepseek.md) 整段复制，作为新对话的第一条消息发出去，然后把你不满意的结果和它背后的思考过程贴给它。
+
+想要完整版（11 份参考文档 + 43 条自查 rubric + 五种模式）再安装：
 
 ```bash
 npx skills add flashfrogluo/second-take
 ```
 
-> ⭐ **如果这个 skill 对你有用，点一下右上角的 Star** —— 它会进入你账号的 Stars 列表，方便随时找回；点 **Watch** 可以订阅版本更新与讨论。<br>
-> 安装量由 `npx skills add` 的 CLI 遥测统计（可用 `DISABLE_TELEMETRY=1` 关闭），每装一次记一次。你的一次安装就是最直接的反馈。
+支持 Claude Code、Codex、Cursor、Gemini CLI、GitHub Copilot、Windsurf、VS Code、Zed、Goose、OpenCode 等几十种 agent。
 
-📖 快速介绍手册 / Quick intro: https://flashfrogluo.github.io/second-take/
+> ⭐ **如果它帮到你了，点一下右上角的 Star** —— 会进入你账号的 Stars 列表，方便随时找回；点 **Watch** 可订阅更新。这是目前唯一能让我知道「有人在用」的信号。
+
+
+---
 
 ## 为什么叫 Second Take
 
