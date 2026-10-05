@@ -6,7 +6,8 @@
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.6.1-blue)](CHANGELOG.md)
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
-[![skills.sh](https://img.shields.io/badge/skills.sh-indexed-brightgreen)](https://skills.sh)
+[![Downloads](https://img.shields.io/github/downloads/flashfrogluo/second-take/total?style=flat&logo=github)](https://github.com/flashfrogluo/second-take/releases)
+[![Last commit](https://img.shields.io/github/last-commit/flashfrogluo/second-take?style=flat)](https://github.com/flashfrogluo/second-take/commits/main)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
 
 [![Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出](docs/assets/hero.svg)](https://github.com/flashfrogluo/second-take)
@@ -20,6 +21,9 @@
 ```bash
 npx skills add flashfrogluo/second-take
 ```
+
+> ⭐ **如果这个 skill 对你有用，点一下右上角的 Star** —— 它会进入你账号的 Stars 列表，方便随时找回；点 **Watch** 可以订阅版本更新与讨论。<br>
+> 安装量由 `npx skills add` 的 CLI 遥测统计（可用 `DISABLE_TELEMETRY=1` 关闭），每装一次记一次。你的一次安装就是最直接的反馈。
 
 📖 快速介绍手册 / Quick intro: https://flashfrogluo.github.io/second-take/
 
@@ -495,3 +499,15 @@ For the **complete, detailed English manual**, open:
 It covers everything end-to-end: what Second Take is, when to use it, supported models and output types (text, image, video, and more), exactly what to provide for the most accurate diagnosis, privacy, contributing, installation, usage, the Four Standards, check items, the five modes (Reshoot / Pick-up / Final cut / Color grading / Packaging), the three trailing segments, common pitfalls, FAQ, and the author.
 
 > If the link above does not open in your viewer, the file is located at `docs/guide-en.md` inside the repository.
+
+## 关于数据与统计
+
+这个项目关注三类数据，各自来源不同：
+
+| 数据 | 来源 | 说明 |
+|---|---|---|
+| 星标 / Fork / 关注 | GitHub 仓库页 | Star 即「收藏」，Watch 是订阅更新；Watch 数只有仓库所有者可见 |
+| 安装量 | skills.sh（`npx skills add` 的 CLI 遥测） | 反映**真实使用**，比 Star 更接近实际采用度 |
+| Release 下载量 | GitHub Releases 附件 | 源码包（Code → Download ZIP）不计入，只有 Release 附件计数 |
+
+维护者可运行 `scripts/stats.sh` 采集并留存历史（GitHub Traffic 只有 14 天窗口，不存即永久丢失），运行 `scripts/release.sh` 发版并查看下载量。
