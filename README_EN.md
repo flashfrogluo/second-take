@@ -6,7 +6,8 @@
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.6.1-blue)](CHANGELOG.md)
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
-[![skills.sh](https://img.shields.io/badge/skills.sh-indexed-brightgreen)](https://skills.sh)
+[![Downloads](https://img.shields.io/github/downloads/flashfrogluo/second-take/total?style=flat&logo=github)](https://github.com/flashfrogluo/second-take/releases)
+[![Last commit](https://img.shields.io/github/last-commit/flashfrogluo/second-take?style=flat)](https://github.com/flashfrogluo/second-take/commits/main)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
 
 This is the detailed English guide for **Second Take**, a skill that reviews another AI's reasoning and produces a precise instruction you can paste straight back into the original chat.
@@ -22,6 +23,9 @@ You got a disappointing result from any AI — **DeepSeek, ChatGPT, Doubao, Gemi
 ```bash
 npx skills add flashfrogluo/second-take
 ```
+
+> ⭐ **If this skill is useful to you, please hit Star** — it lands in your Stars list so you can find it again; hit **Watch** to subscribe to releases and discussions.<br>
+> Installs are counted via `npx skills add` CLI telemetry (opt out with `DISABLE_TELEMETRY=1`). Each install is recorded once — one install from you is the most direct feedback.
 
 **Why "Second Take":** the word *take* has two meanings — in film it means "one shot" (let's do another take), and it also means "an opinion or interpretation" (my take on this). The name captures both things we do: **offer a second opinion, then let the original AI reshoot once.**
 
@@ -447,3 +451,15 @@ Finally, thank you for using this skill. It's maintained by one person, which is
 ## License
 
 MIT. See `LICENSE`.
+
+## Data and metrics
+
+Three kinds of numbers matter here, each from a different source:
+
+| Metric | Source | Notes |
+|---|---|---|
+| Stars / forks / watchers | GitHub repository page | A star is the closest thing to a "favorite"; watcher count is visible only to the owner |
+| Installs | skills.sh (CLI telemetry from `npx skills add`) | Closest proxy for **real usage**, more honest than stars |
+| Release downloads | GitHub release assets | Source archives (Code → Download ZIP) are never counted; only release assets are |
+
+Maintainers can run `scripts/stats.sh` to collect and retain history (GitHub Traffic only covers 14 days — unrecorded means lost), and `scripts/release.sh` to publish a release and read download counts.
