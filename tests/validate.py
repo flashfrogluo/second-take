@@ -118,6 +118,21 @@ def run_self_tests():
     return problems
 
 
+def run_negative_tests():
+    """A clearly invalid note MUST be rejected — guards against empty-shell passes."""
+    problems = []
+    cases = (
+        ("空笔记", ""),
+        ("闲聊无三要素", "今天天气不错，谢谢你的帮助。"),
+        ("只有标题无内容", "# 重拍单\n\n"),
+    )
+    for label, bad in cases:
+        res = check_retake_note(bad)
+        if not res["problems"]:
+            problems.append(f"负例未拦截（{label}）：无效笔记竟通过校验")
+    return problems
+
+
 def _report(ok, label, detail):
     print(("✅" if ok else "❌") + f" {label}: " + (detail or "OK"))
 
@@ -150,6 +165,9 @@ def main():
         p = run_self_tests()
         _report(not p, "sample self-tests", ", ".join(p))
         all_problems += [f"sample: {x}" for x in p]
+        p = run_negative_tests()
+        _report(not p, "negative cases rejected", ", ".join(p))
+        all_problems += [f"negative: {x}" for x in p]
 
     if all_problems:
         print("\n❌ 校验未通过：")
