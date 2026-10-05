@@ -30,17 +30,29 @@ SRC=""
 BASE="${DOWNLOAD_BASE:-https://github.com/$REPO/releases}"
 if command -v curl >/dev/null 2>&1; then
   if [ -n "$VERSION" ]; then
-    URL="$BASE/download/v${VERSION#v}/second-take-${VERSION#v}.zip"
+    CANDIDATES=(
+      "$BASE/download/v${VERSION#v}/second-take-latest.zip"
+      "$BASE/download/v${VERSION#v}/second-take-${VERSION#v}.zip"
+    )
   else
-    URL="$BASE/latest/download/second-take-latest.zip"
+    CANDIDATES=(
+      "$BASE/latest/download/second-take-latest.zip"
+      "$BASE/latest/download/second-take.zip"
+    )
   fi
   echo "==> 尝试 Release 附件 ..."
-  if curl -fsSL -m 180 "$URL" -o "$TMP/pkg.zip" 2>/dev/null \
-     && unzip -q "$TMP/pkg.zip" -d "$TMP/src" 2>/dev/null; then
+  for cand in "${CANDIDATES[@]}"; do
+    rm -rf "$TMP/src"; rm -f "$TMP/pkg.zip"
+    curl -fsSL -m 180 --retry 5 --retry-all-errors "$cand" -o "$TMP/pkg.zip" 2>/dev/null || continue
+    unzip -q "$TMP/pkg.zip" -d "$TMP/src" 2>/dev/null || continue
     if [ -f "$TMP/src/SKILL.md" ]; then SRC="$TMP/src"
-    else SRC="$(find "$TMP/src" -maxdepth 2 -name SKILL.md -print -quit | xargs -r dirname)"; fi
-    [ -n "$SRC" ] && echo "    ✓ 已取得 release 附件"
-  fi
+    else SRC="$(find "$TMP/src" -maxdepth 2 -name SKILL.md -print -quit 2>/dev/null | xargs -r dirname)"; fi
+    if [ -n "$SRC" ] && [ -f "$SRC/SKILL.md" ]; then
+      echo "    ✓ 已取得 release 附件（$cand）"
+      break
+    fi
+    SRC=""
+  done
 fi
 
 if [ -z "$SRC" ]; then
