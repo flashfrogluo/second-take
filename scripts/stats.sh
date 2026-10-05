@@ -42,7 +42,27 @@ done
 [ "$missing" -eq 0 ] || { echo "请先安装上述命令后重试。" >&2; exit 1; }
 
 if [ "$ONLY_HISTORY" -eq 1 ]; then
-  [ -f "$HIST_JSONL" ] || { echo "尚无历史记录（$HIST_JSONL 不存在）"; exit 0; }
+  # 历史文件可能不在默认位置——定时任务用 OUT_DIR 写到了 ~/.local/share。
+  # 按序查找：显式 OUT_DIR > 默认位置 > 定时任务的数据目录。
+  if [ ! -f "$HIST_JSONL" ]; then
+    for cand in \
+      "$HOME/.local/share/second-take-metrics/history.jsonl" \
+      "$OUT_DIR/history.jsonl"
+    do
+      if [ -f "$cand" ]; then
+        HIST_JSONL="$cand"
+        echo "（历史文件: $cand）"
+        break
+      fi
+    done
+  fi
+  [ -f "$HIST_JSONL" ] || {
+    echo "尚无历史记录。已找过："
+    echo "  $OUT_DIR/history.jsonl"
+    echo "  $HOME/.local/share/second-take-metrics/history.jsonl"
+    echo "先跑一次 ./stats.sh，或安装定时任务（schedule/install-schedule.sh）。"
+    exit 0
+  }
   python3 - "$HIST_JSONL" <<'PY'
 import json, sys
 rows = [json.loads(l) for l in open(sys.argv[1], encoding='utf-8') if l.strip()]
