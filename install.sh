@@ -60,21 +60,43 @@ else
   # DOWNLOAD_BASE 可用于自建中转/镜像，也便于本地测试回退逻辑
   BASE="${DOWNLOAD_BASE:-https://github.com/$REPO/releases}"
   if command -v curl >/dev/null 2>&1; then
+    # 附件名有两种历史约定，按序尝试，避免「发版成功但装不上」：
+    #   固定名（便于 latest 通路）  second-take-latest.zip
+    #   版本名（release.sh 产出）   second-take-<版本>.zip
     if [ -n "$VERSION" ]; then
-      URL="$BASE/download/v${VERSION#v}/second-take-${VERSION#v}.zip"
+      CANDIDATES=(
+        "$BASE/download/v${VERSION#v}/second-take-latest.zip"
+        "$BASE/download/v${VERSION#v}/second-take-${VERSION#v}.zip"
+      )
     else
-      URL="$BASE/latest/download/second-take-latest.zip"
+      CANDIDATES=(
+        "$BASE/latest/download/second-take-latest.zip"
+        "$BASE/latest/download/second-take.zip"
+      )
     fi
-    echo "==> 尝试 Release 附件: $URL"
-    if curl -fsSL -m 180 "$URL" -o "$TMP/pkg.zip" 2>/dev/null \
-       && unzip -q "$TMP/pkg.zip" -d "$TMP/src" 2>/dev/null; then
+    # 判定成功必须同时满足：下载成功 + 解压成功 + 解压出有效的包根。
+    # 只看「文件存在」会把畸形 zip 当成成功，正是这个脚本最容易骗过自己的地方。
+    URL=""
+    for cand in "${CANDIDATES[@]}"; do
+      echo "==> 尝试 Release 附件: $cand"
+      rm -rf "$TMP/src"; rm -f "$TMP/pkg.zip"
+      curl -fsSL -m 180 --retry 5 --retry-all-errors "$cand" -o "$TMP/pkg.zip" 2>/dev/null || continue
+      unzip -q "$TMP/pkg.zip" -d "$TMP/src" 2>/dev/null || continue
       # 兼容压缩包内多一层目录
-      if [ -f "$TMP/src/SKILL.md" ]; then SRC="$TMP/src"
-      else SRC="$(find "$TMP/src" -maxdepth 2 -name SKILL.md -print -quit | xargs -r dirname)"; fi
-      [ -n "$SRC" ] && GOT=1 && echo "    ✓ 已取得 release 附件"
-    else
-      echo "    — Release 附件不可用，回退到源码包"
-    fi
+      if [ -f "$TMP/src/SKILL.md" ]; then
+        SRC="$TMP/src"
+      else
+        SRC="$(find "$TMP/src" -maxdepth 2 -name SKILL.md -print -quit 2>/dev/null | xargs -r dirname)"
+      fi
+      if [ -n "$SRC" ] && [ -f "$SRC/SKILL.md" ]; then
+        URL="$cand"; GOT=1
+        echo "    ✓ 已取得 release 附件"
+        break
+      fi
+      echo "    — 附件内未找到 SKILL.md，继续尝试下一个"
+      SRC=""
+    done
+    [ "$GOT" -eq 1 ] || echo "    — Release 附件不可用，回退到源码包"
   fi
 
   # 回退：codeload tarball（注意：这类下载 GitHub 不计数）
