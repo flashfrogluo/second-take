@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  second-take 影响力采集 · launchd 定时任务
+  每 6 小时跑一次 scripts/stats.sh，把快照追加到历史，用于观察增速。
+
+  为什么用 launchd 而不是 cron：
+    - macOS 10.15 起 cron 需要 Full Disk Access，容易静默失败
+    - 笔记本休眠时 cron 会跳过任务；launchd 会在唤醒后补跑（错过即补）
+
+  安装：见 install-schedule.sh（需写入 ~/Library/LaunchAgents，属工作区外）
+  卸载：见 uninstall-schedule.sh
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.flashfrogluo.second-take-stats</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/flashfrog/.agents/skills/second-take/scripts/stats.sh</string>
+    </array>
+
+    <!-- 历史数据不放进仓库，避免每次采集都产生 git 改动 -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>OUT_DIR</key>
+        <string>/Users/flashfrog/.local/share/second-take-metrics</string>
+        <key>PATH</key>
+        <string>/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin</string>
+    </dict>
+
+    <!-- 每 6 小时，在 0/6/12/18 点的第 17 分钟（避开整点高峰） -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict><key>Hour</key><integer>0</integer><key>Minute</key><integer>17</integer></dict>
+        <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>17</integer></dict>
+        <dict><key>Hour</key><integer>12</integer><key>Minute</key><integer>17</integer></dict>
+        <dict><key>Hour</key><integer>18</integer><key>Minute</key><integer>17</integer></dict>
+    </array>
+
+    <!-- 装载时立刻跑一次，验证配置生效 -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/flashfrog/.local/share/second-take-metrics/launchd.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/flashfrog/.local/share/second-take-metrics/launchd.err.log</string>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
