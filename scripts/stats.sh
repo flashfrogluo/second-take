@@ -43,7 +43,6 @@ done
 
 if [ "$ONLY_HISTORY" -eq 1 ]; then
   # 历史文件可能不在默认位置——定时任务用 OUT_DIR 写到了 ~/.local/share。
-  # 按序查找：显式 OUT_DIR > 默认位置 > 定时任务的数据目录。
   if [ ! -f "$HIST_JSONL" ]; then
     for cand in \
       "$HOME/.local/share/second-take-metrics/history.jsonl" \
@@ -60,43 +59,102 @@ if [ "$ONLY_HISTORY" -eq 1 ]; then
     echo "尚无历史记录。已找过："
     echo "  $OUT_DIR/history.jsonl"
     echo "  $HOME/.local/share/second-take-metrics/history.jsonl"
-    echo "先跑一次 ./stats.sh，或安装定时任务（schedule/install-schedule.sh）。"
+    echo "先跑一次 ./stats.sh，或安装定时任务。"
     exit 0
   }
-  python3 - "$HIST_JSONL" <<'PY'
+  python3 - "$HIST_JSONL" <<'PYEOF'
 import json, sys
-rows = [json.loads(l) for l in open(sys.argv[1], encoding='utf-8') if l.strip()]
+
+rows = []
+for line in open(sys.argv[1], encoding='utf-8').read().splitlines():
+    line = line.strip()
+    if not line:
+        continue
+    try:
+        rows.append(json.loads(line))
+    except Exception:
+        pass
 if not rows:
     print("历史为空"); sys.exit()
 
 def num(r, k):
-    """只把「确实没有这项数据」(None) 显示为 '-'；真实的 0 照实显示。"""
     v = r.get(k)
     return '-' if v is None else str(v)
 
-hdr = f"{'日期':<12}{'stars':>7}{'forks':>7}{'watch':>7}{'installs':>10}{'dl':>8}"
+hdr = f"{'日期':<12}{'stars':>7}{'forks':>7}{'watch':>7}{'installs':>10}{'dl':>7}{'浏览':>7}{'独立':>6}"
 print(hdr); print('-' * len(hdr))
 for r in rows:
     print(f"{num(r,'date'):<12}{num(r,'stars'):>7}{num(r,'forks'):>7}"
-          f"{num(r,'watchers'):>7}{num(r,'installs'):>10}{num(r,'downloads'):>8}")
+          f"{num(r,'watchers'):>7}{num(r,'installs'):>10}{num(r,'downloads'):>7}"
+          f"{num(r,'traffic_14d_views'):>7}{num(r,'traffic_14d_uniques'):>6}")
+
+# 增速：与前一个有记录的日期比。同一天只有一条（写入时已去重），
+# 所以这里不需要再按天聚合。
 if len(rows) >= 2:
-    a, b = rows[0], rows[-1]
-    print(f"\n窗口: {a.get('date')} → {b.get('date')}")
-    for k, label in (('stars','星标'), ('forks','Fork'), ('watchers','关注'), ('installs','安装量')):
+    a, b = rows[-2], rows[-1]
+    print(f"\n较上次（{a.get('date')} → {b.get('date')}）")
+    for k, label in (('stars','星标'), ('forks','Fork'), ('watchers','关注'),
+                     ('installs','安装量'), ('downloads','Release 下载')):
         av, bv = a.get(k), b.get(k)
         if bv is None:
-            print(f"  {label:<6} —（最新采样点没有这项数据）")
+            print(f"  {label:<10} —（本次没有这项数据）")
             continue
-        # 安装量特殊：窗口起点未收录时，以窗口内第一个已收录点为基准
         if av is None:
-            pts = [r.get('installs') for r in rows if r.get('installs') is not None]
+            pts = [r.get(k) for r in rows if r.get(k) is not None]
             if not pts:
-                print(f"  {label:<6} —（窗口内始终未收录）")
+                print(f"  {label:<10} —（历史里始终没有）")
                 continue
             av = pts[0]
         d = bv - av
-        print(f"  {label:<6} +{d}" if d >= 0 else f"  {label:<6} {d}")
-PY
+        sign = '+' if d >= 0 else ''
+        print(f"  {label:<10} {sign}{d}")
+
+# ── 转化率：这是判断「有没有人真的喜欢」的核心，单个数字说明不了问题 ──
+last = rows[-1]
+views = last.get('traffic_14d_views')
+uniques = last.get('traffic_14d_uniques')
+clones = last.get('traffic_14d_clones')
+stars = last.get('stars') or 0
+installs = last.get('installs')
+dl = last.get('downloads') or 0
+
+print("\n漏斗（原始数字，先看绝对值）")
+print(f"  独立访客（14 天窗口）   {uniques if uniques is not None else '—'}")
+print(f"  星标（历史累计）        {stars}")
+print(f"  安装量（历史累计）      {installs if installs is not None else '— 未收录，读不到'}")
+print(f"  附件下载（历史累计）    {dl}")
+
+# 只有「同源」的两个数才能相除。
+# 星标与访客都是历史累计/窗口内可比的存量指标，相除有意义；
+# 但安装量与下载量是历史累计，而访客只有 14 天窗口——
+# 两者分母不同源，相除会得出 >100% 的荒谬结果，所以只在合理时才给比例。
+print("\n转化（只给分子分母同源的比值）")
+if uniques:
+    rate = stars / uniques * 100
+    verdict = "   ← 低于 2%，落地页没能说服访客" if rate < 2 else ""
+    print(f"  访客 → 星标      {stars}/{uniques} = {rate:.1f}%{verdict}")
+    if dl and dl <= uniques:
+        print(f"  访客 → 附件下载  {dl}/{uniques} = {dl/uniques*100:.1f}%")
+    else:
+        print(f"  访客 → 附件下载  不给比值：下载是历史累计（{dl}），访客只有 14 天窗口，分母不同源")
+    if installs:
+        print(f"  访客 → 安装      不给比值：安装是历史累计（{installs}），访客只有 14 天窗口，分母不同源")
+else:
+    print("  —（访客数需要 token 才能读；设置 GITHUB_TOKEN 后重跑）")
+
+# 一句能直接照着行动的判断，而不是丢一堆数字给读者
+print("\n结论")
+if stars == 0 and uniques:
+    print(f"  有 {uniques} 个独立访客但 0 星标——问题在落地页的转化，不在流量。")
+elif stars == 0:
+    print("  还没有访客数据。先解决曝光，再谈转化。")
+elif uniques and stars / uniques * 100 >= 5:
+    print(f"  访客转星标 {stars/uniques*100:.1f}%，落地页是有效的。可以开始放量。")
+else:
+    print("  转化率中等偏低，优先优化首屏与安装入口。")
+if installs == 0 and stars == 0:
+    print("  安装量与星标都是 0：当前阶段的核心是「让第一个真实用户用起来」。")
+PYEOF
   exit 0
 fi
 
@@ -120,10 +178,13 @@ echo "==> 采集 releases 下载量"
 RELEASES_JSON="$(gh_api "https://api.github.com/repos/$REPO/releases?per_page=100" || echo '[]')"
 
 TRAFFIC_JSON='null'
+CLONES_JSON='null'
 if [ -n "${GITHUB_TOKEN:-}" ]; then
   echo "==> 采集 Traffic（14 天窗口，需 token）"
   TRAFFIC_JSON="$(gh_api "https://api.github.com/repos/$REPO/traffic/views" || echo 'null')"
+  CLONES_JSON="$(gh_api "https://api.github.com/repos/$REPO/traffic/clones" || echo 'null')"
 fi
+export CLONES_JSON
 
 echo "==> 采集 skills.sh 安装量"
 SKILLSH_JSON="$(curl -sS -m 30 \
@@ -161,6 +222,7 @@ releases = load('RELEASES_JSON', [])
 if not isinstance(releases, list):
     releases = []
 traffic = load('TRAFFIC_JSON', None)
+clones_traffic = load('CLONES_JSON', None)
 skillsh = load('SKILLSH_JSON', {})
 registry = load('REGISTRY_JSON', {})
 
@@ -217,6 +279,8 @@ out = {
     'index_download_http': os.environ.get('INDEX_HTTP', '000'),
     'index_listed': os.environ.get('INDEX_HTTP', '') == '200',
     'npm_skills_last_month': npm_dl,
+    'traffic_14d_clones': (clones_traffic or {}).get('count') if isinstance(clones_traffic, dict) else None,
+    'traffic_14d_clone_uniques': (clones_traffic or {}).get('uniques') if isinstance(clones_traffic, dict) else None,
     'traffic_14d_views': (traffic or {}).get('count') if isinstance(traffic, dict) else None,
     'traffic_14d_uniques': (traffic or {}).get('uniques') if isinstance(traffic, dict) else None,
 }
@@ -249,6 +313,8 @@ if d.get('npm_skills_last_month') is not None:
     print(f"  skills CLI 月下载 {d['npm_skills_last_month']:>7}")
 if d.get('traffic_14d_views') is not None:
     print(f"  14 天访客        {d['traffic_14d_uniques']:>8} 独立 / {d['traffic_14d_views']} 次浏览")
+if d.get('traffic_14d_clones') is not None:
+    print(f"  14 天克隆        {d['traffic_14d_clone_uniques']:>8} 独立 / {d['traffic_14d_clones']} 次（含机器人，不等于人）")
 elif d['traffic_14d_views'] is None:
     print(f"  14 天访客        {'—':>8}     （设置 GITHUB_TOKEN 可读）")
 print("=" * 56)
@@ -278,7 +344,45 @@ if [ "$NO_WRITE" -eq 1 ]; then
   exit 0
 fi
 
-printf '%s\n' "$SUMMARY" >> "$HIST_JSONL"
+# 同一天重复采集改为「覆盖」而不是「追加」：
+#   定时任务每天跑 4 次，无脑追加会让同一天堆出 4 条重复记录，
+#   而增速是拿首末两条相减——同一天内算出来的「增速」全是噪声。
+#   规则：同一天只保留最新一条；换天则新开一条。
+export SUMMARY HIST_JSONL
+python3 <<'PY'
+import json, os, pathlib
+
+hist_path = pathlib.Path(os.environ['HIST_JSONL'])
+summary = json.loads(os.environ['SUMMARY'])
+hist_path.parent.mkdir(parents=True, exist_ok=True)
+
+rows = []
+if hist_path.exists():
+    for line in hist_path.read_text(encoding='utf-8').splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            rows.append(json.loads(line))
+        except Exception:
+            pass  # 跳过被写坏的中间行，不让它毁掉整份历史
+
+today = summary['date']
+merged = []
+replaced = False
+for r in rows:
+    if r.get('date') == today:
+        merged.append(summary)   # 同一天：用最新数据覆盖
+        replaced = True
+    else:
+        merged.append(r)
+if not replaced:
+    merged.append(summary)
+
+with hist_path.open('w', encoding='utf-8') as f:
+    for r in merged:
+        f.write(json.dumps(r, ensure_ascii=False) + '\n')
+PY
 python3 - "$SUMMARY" > "$LATEST_MD" <<'PY'
 import json, sys
 d = json.loads(sys.argv[1])
