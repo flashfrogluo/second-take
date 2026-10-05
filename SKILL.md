@@ -1,6 +1,6 @@
 ---
 name: second-take
-description: "Second take for AI reasoning（再来一条）。当用户对某个 AI 的**已有结果**不满意、要你诊断那段深度思考（CoT / 推理链 / thinking）哪里出问题并产出一段可粘回原对话的重拍单时使用。**不适用**：从零创作新内容、纯信息查询（无需诊断已有推理）、闲聊。覆盖文本推理与图像 / 视频生成多类 AI（Claude、DeepSeek、Gemini、ChatGPT、即梦、可灵、Midjourney…）；也适用于生成平台出图出片不对时质检提示词。完整工作流：重拍 → 补拍 → 定剪 → 调色 → 包装。**默认给轻装版（多为定点修复：只改几处；要完整版说「详细点 / 往深了查」）。** Use when 用户说「这个结果不对 / 很难用 / 漏了要点 / 字数不达标 / 输出不像人话 / AI 味太重 / 格式不对」，或贴来分享链接、一段深度思考、一份 rubric 要求质检，或点名「重拍 / 补拍 / 定剪 / 调色 / 包装」「帮我取舍 / 润色 / 可视化 / 做个图」，或要求挑错、复盘、复核、改写 CoT、优化提示语、让原 AI 重写时使用。"
+description: "当 AI 给的结果不满意时使用：诊断那段深度思考（CoT / 推理链 / thinking）哪里出错，并产出一段可粘回原对话的重拍单。**不适用**：从零创作新内容、纯信息查询（无需诊断已有推理）、闲聊。覆盖文本推理与图像 / 视频生成多类 AI（Claude、DeepSeek、Gemini、ChatGPT、即梦、可灵、Midjourney…）；也适用于生成平台出图出片不对时质检提示词。完整工作流：重拍 → 补拍 → 定剪 → 调色 → 包装。**默认给轻装版（多为定点修复：只改几处；要完整版说「详细点 / 往深了查」）。** Use when 用户说「这个结果不对 / 很难用 / 漏了要点 / 字数不达标 / 输出不像人话 / AI 味太重 / 格式不对」，或贴来分享链接、一段深度思考、一份 rubric要求质检，或点名「重拍 / 补拍 / 定剪 / 调色 / 包装」「帮我取舍 / 润色 / 可视化 / 做个图」，或要求挑错、复盘、复核、改写 CoT、优化提示语、让原 AI 重写时使用。Second Take · 再来一条。"
 license: MIT
 compatibility: "核心质检流程纯 Markdown、无系统依赖；仅可选抓取分享链接需 curl，工程脚本（校验/安装）不参与质检运行。适用于所有支持 agentskills.io SKILL.md 开放标准的 agent：Claude Code、Codex CLI、Cursor、Gemini CLI、GitHub Copilot、VS Code、OpenCode、WorkBuddy、Goose、Roo Code 等。"
 metadata:
