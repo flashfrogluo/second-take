@@ -12,6 +12,7 @@
 #   ./release.sh 1.6.1 --dry-run             只打包，不碰 GitHub
 #   ./release.sh 1.6.1 --notes "自定义说明"   覆盖 CHANGELOG 里抓的说明
 #   ./release.sh 1.6.1 --repo owner/name     指定仓库（默认读 git remote）
+#   ./release.sh 1.6.1 --root /path/to/repo  指定仓库根（默认脚本父目录）
 #
 # 环境变量：
 #   GITHUB_TOKEN  必填（除非 --dry-run）。需要 repo 权限。
@@ -24,11 +25,15 @@ shift
 
 DRY_RUN=0
 NOTES=""
+ASSET_OVERRIDE=""
+ROOT_OVERRIDE=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --dry-run) DRY_RUN=1; shift ;;
     --notes)   NOTES="${2:-}"; shift 2 ;;
     --repo)    REPO="${2:-}"; shift 2 ;;
+    --asset)   ASSET_OVERRIDE="${2:-}"; shift 2 ;;
+    --root)    ROOT_OVERRIDE="${2:-}"; shift 2 ;;
     -h|--help) sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "未知参数: $1" >&2; exit 2 ;;
   esac
@@ -36,9 +41,26 @@ done
 
 # 归一化 tag：允许传 1.6.1 或 v1.6.1
 TAG="v${VERSION#v}"
-ASSET="second-take-${TAG#v}.zip"
+# 附件名用固定名 second-take-latest.zip：
+#   install.sh 有「无版本号」通路，走 releases/latest/download/<固定名>，
+#   版本化命名在那里匹配不上。固定名让带版本与不带版本两条通路都能命中。
+# 需要版本化命名时用 --asset 覆盖。
+ASSET="${ASSET_OVERRIDE:-second-take-latest.zip}"
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+# 仓库根：默认脚本的父目录。但必须真的是一份 skill 包（含 SKILL.md），
+# 否则会打出「不含 SKILL.md 的畸形包」——装不上，且白占一次 release。
+if [ -n "$ROOT_OVERRIDE" ]; then
+  ROOT="$(cd "$ROOT_OVERRIDE" && pwd)"
+else
+  ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+fi
+if [ ! -f "$ROOT/SKILL.md" ]; then
+  echo "✗ $ROOT 下没有 SKILL.md，不是一份 skill 包。" >&2
+  echo "  这里很可能是「工具包目录」而非仓库根。" >&2
+  echo "  用 --root /path/to/second-take 指定真正的仓库根，例如：" >&2
+  echo "    $0 $VERSION --root \"$HOME/.agents/skills/second-take\"" >&2
+  exit 1
+fi
 cd "$ROOT"
 
 if [ -z "${REPO:-}" ]; then
@@ -96,7 +118,7 @@ STAGE="$TMP/second-take"
 mkdir -p "$STAGE"
 
 echo "==> 打包（排除版本控制与临时文件）"
-EXCLUDES=(.git '.apply-backup-*' metrics node_modules __pycache__ '*.pyc' .DS_Store '*.log' 'second-take-*.zip')
+EXCLUDES=(.git '.apply-backup-*' '.sync-backup-*' metrics node_modules __pycache__ '*.pyc' .DS_Store '*.log' 'second-take-*.zip' MANIFEST.txt)
 for item in .[!.]* *; do
   [ -e "$item" ] || continue
   skip=0
@@ -176,9 +198,9 @@ curl -sS -m 30 -H "Authorization: Bearer $GITHUB_TOKEN" \
   | python3 -c '
 import json,sys
 for r in json.load(sys.stdin):
-    print(f"  {r[\"tag_name\"]:<10} {r[\"name\"]}")
+    print("  %-10s %s" % (r["tag_name"], r["name"]))
     for a in r.get("assets", []):
-        print(f"      {a[\"name\"]:<34} {a[\"download_count\"]:>6} 次")
+        print("      %-34s %6d 次" % (a["name"], a["download_count"]))
 '
 
 cat <<EOF
