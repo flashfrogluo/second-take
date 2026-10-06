@@ -4,14 +4,16 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.6.1-blue)](CHANGELOG.md)
-[![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
 [![Downloads](https://img.shields.io/github/downloads/flashfrogluo/second-take/total?style=flat&logo=github)](https://github.com/flashfrogluo/second-take/releases)
-[![Last commit](https://img.shields.io/github/last-commit/flashfrogluo/second-take?style=flat)](https://github.com/flashfrogluo/second-take/commits/main)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
 
 [![Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出](docs/assets/hero.svg)](https://github.com/flashfrogluo/second-take)
 ## 它解决什么问题
+
+📖 **上手手册**（含五种模式的完整走法）：[https://flashfrogluo.github.io/second-take/](https://flashfrogluo.github.io/second-take/?utm_source=github&utm_medium=readme&utm_campaign=intro)
+
+若在 DeepSeek 上用，可直接取用 [`prompts/for-deepseek.md`](prompts/for-deepseek.md)——为它的思考模式调过；其他平台用 [`prompts/abc.md`](prompts/abc.md)。
+
 
 **AI 给的结果不满意，你只能反复说「再改改」，但说不清哪里不对。**
 
