@@ -8,11 +8,9 @@
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
 
 [![Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出](docs/assets/hero.svg)](https://github.com/flashfrogluo/second-take)
+
 ## 它解决什么问题
 
-📖 **上手手册**（含五种模式的完整走法）：[https://flashfrogluo.github.io/second-take/](https://flashfrogluo.github.io/second-take/?utm_source=github&utm_medium=readme&utm_campaign=intro)
-
-若在 DeepSeek 上用，可直接取用 [`prompts/for-deepseek.md`](prompts/for-deepseek.md)——为它的思考模式调过；其他平台用 [`prompts/abc.md`](prompts/abc.md)。
 
 
 **AI 给的结果不满意，你只能反复说「再改改」，但说不清哪里不对。**
@@ -26,6 +24,10 @@ Second Take 做一件事：**把「哪里不对」诊断出来，写成一段能
 | 每次都要重述一遍需求 | 一段指令带完整需求，粘过去就行 |
 
 **它不替你写答案。** 你在原对话里有上下文、有历史、有要留存的东西，答案应该在那边产出——它只负责把「怎么让那边改对」讲清楚。
+
+📖 **上手手册**（含五种模式的完整走法）：[https://flashfrogluo.github.io/second-take/](https://flashfrogluo.github.io/second-take/?utm_source=github&utm_medium=readme&utm_campaign=intro)
+
+若在 DeepSeek 上用，可直接取用 [`prompts/for-deepseek.md`](prompts/for-deepseek.md)——为它的思考模式调过；其他平台用 [`prompts/abc.md`](prompts/abc.md)。
 
 ---
 
