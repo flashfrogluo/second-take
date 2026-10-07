@@ -17,6 +17,7 @@ set -euo pipefail
 REPO="${REPO:-flashfrogluo/second-take}"
 BRANCH="${BRANCH:-main}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
+ROOT="$(cd "$HERE/.." && pwd)"   # 仓库根：PLAN 里的源路径相对此目录
 API="https://api.github.com/repos/$REPO/contents"
 
 MODE=push
@@ -35,15 +36,27 @@ command -v curl    >/dev/null || { echo "需要 curl" >&2; exit 1; }
 # patch ：先取远端原文，再用补丁脚本就地改，然后提交（避免版本倒退）
 # 格式：仓库路径|方式|本地源或补丁脚本|提交信息
 PLAN=(
-  "SKILL.md|patch|patch_description.py|feat(skill): description 检索词前置，保留原触发集"
-  "install.sh|direct|scripts/install.sh|feat(install): Release 附件优先，回退 codeload"
-  "update.sh|direct|scripts/update.sh|feat(update): 同 install 的双通路改造"
-  "scripts/stats.sh|direct|scripts/stats.sh|feat(scripts): 影响力采集器 stats.sh"
-  "scripts/release.sh|direct|scripts/release.sh|feat(scripts): 发版脚本 release.sh"
-  "scripts/patch_readme.py|direct|scripts/patch_readme.py|feat(scripts): README 补丁脚本"
-  "scripts/patch_description.py|direct|scripts/patch_description.py|feat(scripts): description 补丁脚本"
-  "README.md|patch|patch_readme.py|docs: 真实计数徽章 + Star/Watch 引导 + 数据说明"
-  "README_EN.md|patch|patch_readme.py|docs: same as README.md (EN)"
+  "SKILL.md|direct|SKILL.md|feat(skill): 硬约束增至 34 条，版本 1.7.0"
+  "README.md|direct|README.md|docs(readme): 平台表按 CLI 真源重建 + 流程图 + 去缩写"
+  "README_EN.md|direct|README_EN.md|docs(readme-en): 与中文版逐节对齐 + 流程图"
+  "CHANGELOG.md|direct|CHANGELOG.md|docs(changelog): 1.7.0 发布说明"
+  "install.sh|direct|install.sh|chore: 版本示例同步 1.7.0"
+  "update.sh|direct|update.sh|chore: 版本示例同步 1.7.0"
+  "docs/guide-en.md|direct|docs/guide-en.md|docs(guide-en): 补 Starter prompts 一节"
+  "docs/ROADMAP.md|direct|docs/ROADMAP.md|docs(roadmap): 同步至 v1.7.0"
+  "docs/使用与迭代.md|direct|docs/使用与迭代.md|docs: 面向用户的使用与迭代说明"
+  "docs/迭代工作流.md|direct|docs/迭代工作流.md|docs: 铁律 3"
+  "docs/assets/workflow-zh.png|direct|docs/assets/workflow-zh.png|docs(assets): 五模式流程图（中文）"
+  "docs/assets/workflow-en.png|direct|docs/assets/workflow-en.png|docs(assets): 五模式流程图（英文）"
+  "references/硬约束详解.md|direct|references/硬约束详解.md|docs(refs): 硬约束 29-34 详解"
+  "references/优化指令自查rubric.md|direct|references/优化指令自查rubric.md|docs(refs): 条数与硬约束对齐"
+  "prompts/for-deepseek.md|direct|prompts/for-deepseek.md|feat(prompts): 免责句 + 硬约束 29/33 + v1.7.0"
+  "prompts/abc.md|direct|prompts/abc.md|feat(prompts): 同上（通用版）"
+  "prompts/for-deepseek-en.md|direct|prompts/for-deepseek-en.md|feat(prompts): 新增英文应急版（DeepSeek）"
+  "prompts/abc-en.md|direct|prompts/abc-en.md|feat(prompts): 新增英文应急版（通用）"
+  "scripts/release.sh|direct|scripts/release.sh|fix(scripts): 排除规则补 .write-backup-*"
+  "scripts/push-to-github.sh|direct|scripts/push-to-github.sh|fix(scripts): 修正源路径解析，清单按实改文件"
+  ".github/SECURITY.md|direct|.github/SECURITY.md|docs(security): 版本支持表 1.7.x"
 )
 
 if [ "$MODE" = "dry" ]; then
@@ -51,8 +64,8 @@ if [ "$MODE" = "dry" ]; then
   for row in "${PLAN[@]}"; do
     IFS='|' read -r path how src msg <<< "$row"
     if [ "$how" = "direct" ]; then
-      if [ -f "$HERE/$src" ]; then
-        printf "  %-30s direct  %-32s %6s 字节\n" "$path" "$src" "$(wc -c < "$HERE/$src" | tr -d ' ')"
+      if [ -f "$ROOT/$src" ]; then
+        printf "  %-30s direct  %-32s %6s 字节\n" "$path" "$src" "$(wc -c < "$ROOT/$src" | tr -d ' ')"
       else
         printf "  %-30s direct  %-32s 缺失！\n" "$path" "$src"
       fi
@@ -170,8 +183,8 @@ FAIL=0
 for row in "${PLAN[@]}"; do
   IFS='|' read -r path how src msg <<< "$row"
   if [ "$how" = "direct" ]; then
-    if [ -f "$HERE/$src" ]; then
-      put_file "$path" "$HERE/$src" "$msg" || FAIL=1
+    if [ -f "$ROOT/$src" ]; then
+      put_file "$path" "$ROOT/$src" "$msg" || FAIL=1
     else
       echo "  - 跳过 $path（本地缺失 $src）"
     fi
