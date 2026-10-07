@@ -4,7 +4,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.6.1-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.7.0-blue)](CHANGELOG.md)
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
 [![Downloads](https://img.shields.io/github/downloads/flashfrogluo/second-take/total?style=flat&logo=github)](https://github.com/flashfrogluo/second-take/releases)
 [![Last commit](https://img.shields.io/github/last-commit/flashfrogluo/second-take?style=flat)](https://github.com/flashfrogluo/second-take/commits/main)
@@ -29,19 +29,52 @@ npx skills add flashfrogluo/second-take
 
 **Why "Second Take":** the word *take* has two meanings — in film it means "one shot" (let's do another take), and it also means "an opinion or interpretation" (my take on this). The name captures both things we do: **offer a second opinion, then let the original AI reshoot once.**
 
+📖 **Handbook** (the full walkthrough of all five modes): [https://flashfrogluo.github.io/second-take/](https://flashfrogluo.github.io/second-take/)
+
+For DeepSeek, use [`prompts/for-deepseek-en.md`](prompts/for-deepseek-en.md) — tuned for its thinking mode; for other platforms use [`prompts/abc-en.md`](prompts/abc-en.md). Chinese readers: `prompts/for-deepseek.md` and `prompts/abc.md`.
+
 ---
+
+## Try it in 30 seconds (no install)
+
+Copy [`prompts/for-deepseek-en.md`](prompts/for-deepseek-en.md) in full and send it as the first message of a new chat, then paste the result you are unhappy with together with the thinking process behind it.
+
+Want the full version (11 reference documents + a 43-item self-check rubric + five modes)? Install it:
+
+```bash
+npx skills add flashfrogluo/second-take
+```
+
+> ⭐ **If it helped, hit Star** — it lands in your Stars list so you can find it again; hit **Watch** to follow updates. Right now that is the only signal telling me someone is using it.
+
+---
+
+## Why "Second Take"
+
+The word *take* has two meanings — in film it means "one shot" (let's do another take), and it also means "an opinion, a reading" (*my take on this*). The name covers both things this tool does: **offer a second reading, then have the original AI shoot it again**.
+
+## Workflow diagram: five modes, one pipeline
+
+![Second Take five-mode workflow: input → classify & diagnose → reshoot → paste back to the original AI → the original AI runs it → your call; if not satisfied, pick-up / final cut loop back; if satisfied, output, with color grading / packaging optional](docs/assets/workflow-en.png)
+
+> This is the **English version**; the Chinese version is at [`docs/assets/workflow-zh.png`](docs/assets/workflow-zh.png).
+> The sources (SVG / Mermaid) and the design spec live in the development workspace and are not published with this repository.
 
 ## Film-set vocabulary
 
 Treat one AI generation like shooting a film. This method **packages** the whole review pipeline into film terms — dailies, reshoot, pick-up, continuity, retake note, final cut, color grading, packaging. You don't need to memorize AI jargon; just know these film terms and you can name which step you want.
 
+
+> 📌 **Two names first**: the deliverable is formally called the **optimization instruction** (self-contained, copy the whole block, paste it back into the original chat);
+> in the film metaphor it is called the **retake note** (重拍单). They are the same thing — **this page uses "optimization instruction" throughout in the body text**,
+> and "retake note" appears only in sections about the film vocabulary.
 The table below is your **control panel**: the film term on the left, what it actually has the AI optimize and why on the right.
 
 > ⚠️ **One boundary**: these film terms are the **command interface for invoking this tool**, not the content of the task you hand the AI. If your own request is literally "make a film" and mentions "reshoot / color grading", that's just your domain language — it does not trigger any step here. Triggering happens only when you actively use this tool.
 
-| Our step | Film term (name) | What we have the AI optimize | Purpose |
+| Our step | Film term (name) | What this step does | Purpose |
 |---|---|---|---|
-| Material under review (CoT + answer) | Dailies / 样片 | Hand over the original AI's reasoning chain and final answer for diagnosis | Locate "right or wrong" issues; decide what stays |
+| Material under review (CoT + answer) | Dailies / 样片 | Take in the original AI's reasoning chain and final answer, then diagnose item by item | Locate "right or wrong" issues; decide what stays |
 | First full rewrite | Reshoot / 重拍 | When the subject doesn't hold, rewrite the entire reasoning chain | Rebuild the correct structure and judgment |
 | Targeted fix in later rounds | Pick-up / 补拍 | Subject already holds; change only the named spots | Keep qualified passages; fix precisely, avoid regression |
 | Self-consistency check | Continuity / 穿帮 | Check whether each step internally, steps among themselves, and against the conclusion stay self-consistent | Eliminate logic clashes |
@@ -77,6 +110,21 @@ The table below is your **control panel**: the film term on the left, what it ac
 | Packaging | overall meets bar / needs structured visualization | `packaging` · make a diagram · visualize · mind map · comparison table · infographic · dashboard · concept map |
 
 > Extensions were added after evaluation: no semantic overlap with existing modes, and they stay on the "command interface vs task content" side of the boundary.
+
+## A 30-second walkthrough: the shortest demo
+
+**Input**: a user asks for "three composition tips for beginners". An AI's thinking process says "according to the persistence-of-vision principle, the rule of thirds makes an image read better", and it gives only two tips.
+
+**Diagnosis (excerpt)**
+- **Unsupported citation (borrowed from another field)**: it uses "persistence of vision", a physiological phenomenon explaining why moving images look continuous, as the basis for a static-composition rule — an unrelated transplant.
+- **Incomplete coverage**: the request explicitly asked for three tips; only two were given.
+
+**Optimization instruction (copy the whole block, paste at the end of the original chat)**
+> Ignore the thinking process from the previous turn in this conversation and the answer it directly produced; all other instructions remain in force. Rewrite "three composition tips for beginners": 1) rule of thirds… 2) leading lines… 3) negative space…. Do not use unrelated cross-domain reasoning such as "persistence of vision"; output the body text only, with no analysis.
+
+**Result**: the original AI returns three tips with actionable points, and no transplanted reasoning.
+
+---
 
 ## Deliverables
 
@@ -179,19 +227,32 @@ The key is **you don't rewrite the question**: all context, history, and express
 npx skills add flashfrogluo/second-take
 ```
 
-The skills CLI supports dozens of agents — Claude Code, Codex, Cursor, GitHub Copilot, Windsurf, Gemini CLI, Cline, VS Code, Zed, Goose, OpenCode — and asks you to pick a target at install time.
+The skills CLI itself supports Claude Code, Codex, Cursor, GitHub Copilot, Windsurf, Gemini CLI, Cline, Zed, Goose, OpenCode and 48 more (58 in total) — pick your target when installing. **For runtimes it does not cover, dropping the folder into their skills directory works just the same** (see the last two rows of the table above).
+
+**Not on that list, yet still usable**: this skill is just Markdown — **any runtime that can read `SKILL.md` can use it**. WorkBuddy and DeepSeek Harness are exactly that case (they do not go through the skills CLI; they read their own skills directories — see the table above).
 
 ### Discovery paths per platform (for manual install)
 
 | Agent | Project-level | User-level |
 |---|---|---|
 | **Claude Code** | `.claude/skills/` | `~/.claude/skills/` |
-| **Codex CLI** | `.agents/skills/` (repo root found upward from cwd) | `~/.agents/skills/` |
-| **Cursor** | `.agents/skills/`, `.cursor/skills/` (also reads `.claude/skills/`) | Same paths under `~/` |
-| **Gemini CLI** | `.agents/skills/` or `.gemini/skills/` (former preferred) | `~/.agents/skills/`, `~/.gemini/skills/` |
-| **GitHub Copilot** | `.agents/skills/`, `.github/skills/`, `.claude/skills/` | `~/.agents/skills/`, `~/.copilot/skills/` |
-| **OpenCode** | `.agents/skills/`, `.opencode/skills/`, `.claude/skills/` | `~/.agents/skills/`, `~/.claude/skills/` |
+| **Codex CLI** | `.agents/skills/` | `~/.codex/skills/` |
+| **Cursor** | `.agents/skills/` | `~/.cursor/skills/` |
+| **Windsurf** | `.windsurf/skills/` | `~/.codeium/windsurf/skills/` |
+| **Cline** | `.agents/skills/` | `~/.agents/skills/` |
+| **Zed** | `.agents/skills/` | `~/.agents/skills/` |
+| **Gemini CLI** | `.agents/skills/` | `~/.gemini/skills/` |
+| **GitHub Copilot** | `.agents/skills/` | `~/.copilot/skills/` |
+| **OpenCode** | `.agents/skills/` | `~/.config/opencode/skills/` |
+| **Goose** | `.goose/skills/` | `~/.config/goose/skills/` |
 | **WorkBuddy** | — | `~/.workbuddy/skills/` |
+| **DeepSeek Harness** | `.agents/skills/` | `~/.agents/skills/` |
+
+> The first 10 paths come from the `skills` CLI's own agent definitions (v1.7.1); **WorkBuddy and DeepSeek Harness were added from measurement**
+> (WorkBuddy's `~/.workbuddy/skills/` actually holds this skill; DeepSeek Harness uses the `.agents/skills/` standard path and lists user skills
+> alongside the skills bundled with the app).
+>
+> **Most agents read `.agents/skills/`** — for a manual install, putting it there is usually enough. For agents not listed, see their own docs.
 
 **One master copy + symlinks** (the standard setup when sharing across agents, to avoid copies drifting apart):
 
@@ -204,6 +265,13 @@ ln -s ../.agents/skills .claude/skills     # Claude Code supports directory syml
 User-level is the same: put the real copy in `~/.agents/skills/`, and point `~/.claude/skills` and `~/.workbuddy/skills/second-take` at it. On Windows, symlinks need Developer Mode; if that's a hassle, copy a duplicate and exclude it in `.gitignore`.
 
 ### Prompt-only use
+
+**Starter prompts (copy-paste, no install).** Two self-contained prompts are included for when you would rather not trim `SKILL.md` yourself:
+
+- **`prompts/for-deepseek-en.md`** — tuned for DeepSeek (Type A). Copy the whole block as the first message of a new chat, then paste the unsatisfactory answer plus its thinking process.
+- **`prompts/abc-en.md`** — generic version covering Type A (full reasoning) / B (summary only) / C (no reasoning; prompt review for Midjourney, Jimeng, Kling and similar).
+
+Both are **starter versions**: they keep the flow, the check items, the Four Standards, Templates A and C, and **14 of the 34 hard constraints** (the most frequently used ones — a subset, not the whole set). Chinese counterparts live alongside them as `prompts/*.md`. The full skill (`npx skills add flashfrogluo/second-take`) adds all 11 references, the 43-item self-check rubric, and the complete 34 constraints with counter-examples.
 
 Paste the body of `SKILL.md` directly into a chat. The files under `references/` are optional supplements — read `标注范例.md` (Annotation Examples) for full templates, `成稿自检清单.md` (Self-Check List) for the self-check paragraph, `自生成rubric元指令.md` (Self-Generating Rubric Meta-Instruction) for the hybrid mode, and `经验提炼与思维习惯.md` (Experience Distillation & Thinking Habits) for feeding new experience back into this skill.
 
@@ -273,28 +341,46 @@ The full itemized list and per-item judgment methods live in `references/思维�
 
 ```
 second-take/
-├── SKILL.md                    # Main flow: input, discipline, check items, 28 hard-constraint points, execution steps
-├── references/
-│   ├── 硬约束详解.md           # Full explanation of the 28 hard constraints, with counter-examples and correct forms
-│   ├── 多场景适配.md           # What DeepSeek/ChatGPT/Gemini/generative platforms can each provide, and how to fix
-│   ├── 判定细则.md             # Judgment order, attribution rules, exemption list, sub-type boundaries
-│   ├── 思维链四标准.md         # Single source of truth for the Four Standards: definition + per-standard judgment + mapping + how to fix + retake-note rules / five modes / two mechanisms / boundaries
-│   ├── 标注范例.md             # Copy-ready optimization-instruction templates A/B/C (placeholders, no case; the full annotated example is kept internal)
-│   ├── 成稿自检清单.md         # Self-check paragraph for the target AI: writing rules and item templates
-│   ├── 自生成rubric元指令.md   # Hybrid mode: meta-instruction letting the target AI write its own domain standard
-│   ├── 优化指令自查rubric.md   # Our pre-delivery five-field self-check (Must-have 18 items)
-│   ├── 经验提炼与思维习惯.md   # How cases are abstracted into rules, anti-pollution discipline, fixed mental actions
-│   ├── 画面描述规范.md         # Caption writing principles and eight judgments (sanitized from a general spec)
-│   └── 术语表.md               # Evaluation-side terms: Rubric's five fields, four hard-injury types, reward hacking
-├── docs/
-│   ├── 四标准质检法.md         # Entry pointer: merged into references/思维链四标准.md; write no content here
-│   ├── 迭代工作流.md           # Maintainer guide: change hard constraints / add reference / add corpus / release checklist
-│   ├── guide-en.md             # This file — the full English usage manual
-│   └── ROADMAP.md              # Roadmap: done / in progress / envisioned
-├── README.md
-├── LICENSE
-└── .gitignore
+├── SKILL.md              # Main flow: input, discipline, check items, the 34 hard-constraint points, steps
+├── README.md / README_EN.md / CHANGELOG.md / LICENSE
+├── references/           # 11 reference documents — table below
+├── docs/                 # Manuals and maintainer docs — table below
+├── prompts/              # 4 "starter" prompts (Chinese / English) — table below
+├── tests/                # validate.py (structural checks) + samples/ (7 JSON samples)
+├── scripts/              # Maintenance scripts: release / push / sync / stats / patch_*
+└── metrics/              # Historical install-count records (GitHub Traffic only keeps 14 days)
 ```
+
+**references/ (11 documents, all read on demand)**
+
+| File | Contents |
+|---|---|
+| `硬约束详解.md` | Full explanations, counter-examples and correct phrasings for all 34 hard constraints |
+| `多场景适配.md` | What DeepSeek / ChatGPT / Gemini / generative platforms each expose, and how to adapt |
+| `判定细则.md` | Judgment order, attribution rules, exemption list, sub-type boundaries |
+| `思维链四标准.md` | Single source of truth for the Four Standards: definitions + per-item judgment + mapping + five modes / two mechanisms / boundaries |
+| `标注范例.md` | Copy-ready optimization-instruction templates A/B/C (placeholders, no cases) |
+| `成稿自检清单.md` | The self-check paragraph for the target AI: writing rules and item templates |
+| `自生成rubric元指令.md` | Hybrid mode: the meta-instruction that lets the target AI write its own domain criteria |
+| `优化指令自查rubric.md` | Our pre-delivery five-field self-check (Must-have 18 items) |
+| `经验提炼与思维习惯.md` | How cases are abstracted into rules, anti-pollution discipline, fixed mental moves |
+| `画面描述规范.md` | Caption writing principles and eight judgments (sanitized from a general spec) |
+| `术语表.md` | Evaluation-side terms: the Rubric's five fields, four hard-injury types, reward hacking |
+
+**docs/ and prompts/**
+
+| Path | Contents |
+|---|---|
+| `docs/使用与迭代.md` | For users: how to use it, how feedback reaches the next version |
+| `docs/迭代工作流.md` | Maintainer guide: changing hard constraints / adding references / corpus / release checklist |
+| `docs/guide-en.md` | The full English usage manual |
+| `docs/ROADMAP.md` | Roadmap: done / in progress / envisioned |
+| `docs/四标准质检法.md` | Entry pointer: merged into `references/思维链四标准.md`; do not write content here |
+| `docs/index.html` + `docs/assets/` | GitHub Pages landing page; key visual `hero.svg`; **workflow diagram** `workflow-zh.png` / `workflow-en.png` |
+| `prompts/for-deepseek.md` / `-en.md` | Starter prompt for DeepSeek (Type A), Chinese / English |
+| `prompts/abc.md` / `-en.md` | Starter prompt for Types A/B/C, Chinese / English |
+
+> Also present: `install.sh` / `update.sh` (install and upgrade), `scripts/` (release, push, sync, stats), `metrics/` (historical records), `.github/` (CI and governance files).
 
 ---
 
@@ -341,6 +427,9 @@ Why not just write it all ourselves: our items are **after-the-fact** (written a
 
 Why not hand it all to it: it will inflate its self-score, and will **infer the standard backward from the previous bad product** (treating "last version had six sections" as the standard), writing unjudgeable items like "is the content reasonable." So the meta-instruction must have guardrails — **every item must state "on what basis," and missing basis counts as "no"**; **standards may come only from the UP and common sense, never from the look of any previous answer**; bare adjectives are forbidden.
 
+
+> ⚠️ **Only [Judging criteria] and [Known defects] can be dropped. [Draft self-check] is mandatory under every template (A / B / C) and in every case** —
+> it guards against "writing without reviewing", which has nothing to do with output length.
 Enabled by default. Four cases fall back to giving only **[Self-Check]**: the target model is clearly weak / the UP is minimal / defects are fully enumerable / the user needs the shortest instruction.
 
 ---
@@ -451,15 +540,3 @@ Finally, thank you for using this skill. It's maintained by one person, which is
 ## License
 
 MIT. See `LICENSE`.
-
-## Data and metrics
-
-Three kinds of numbers matter here, each from a different source:
-
-| Metric | Source | Notes |
-|---|---|---|
-| Stars / forks / watchers | GitHub repository page | A star is the closest thing to a "favorite"; watcher count is visible only to the owner |
-| Installs | skills.sh (CLI telemetry from `npx skills add`) | Closest proxy for **real usage**, more honest than stars |
-| Release downloads | GitHub release assets | Source archives (Code → Download ZIP) are never counted; only release assets are |
-
-Maintainers can run `scripts/stats.sh` to collect and retain history (GitHub Traffic only covers 14 days — unrecorded means lost), and `scripts/release.sh` to publish a release and read download counts.
