@@ -5,7 +5,7 @@
 # 用法：
 #   ./update.sh                        更新到默认目录
 #   ./update.sh /path/to/skills/second-take
-#   ./update.sh --version 1.6.1        固定到某版本
+#   ./update.sh --version 1.7.0        固定到某版本
 set -euo pipefail
 
 REPO="${REPO:-flashfrogluo/second-take}"
