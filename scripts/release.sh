@@ -8,11 +8,11 @@
 # 所以本脚本禁止同名覆盖——每次发版必须用新 tag。
 #
 # 用法：
-#   ./release.sh 1.6.1                       正式发布
-#   ./release.sh 1.6.1 --dry-run             只打包，不碰 GitHub
-#   ./release.sh 1.6.1 --notes "自定义说明"   覆盖 CHANGELOG 里抓的说明
-#   ./release.sh 1.6.1 --repo owner/name     指定仓库（默认读 git remote）
-#   ./release.sh 1.6.1 --root /path/to/repo  指定仓库根（默认脚本父目录）
+#   ./release.sh 1.7.0                       正式发布
+#   ./release.sh 1.7.0 --dry-run             只打包，不碰 GitHub
+#   ./release.sh 1.7.0 --notes "自定义说明"   覆盖 CHANGELOG 里抓的说明
+#   ./release.sh 1.7.0 --repo owner/name     指定仓库（默认读 git remote）
+#   ./release.sh 1.7.0 --root /path/to/repo  指定仓库根（默认脚本父目录）
 #
 # 环境变量：
 #   GITHUB_TOKEN  必填（除非 --dry-run）。需要 repo 权限。
@@ -39,7 +39,7 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-# 归一化 tag：允许传 1.6.1 或 v1.6.1
+# 归一化 tag：允许传 1.7.0 或 v1.7.0
 TAG="v${VERSION#v}"
 # 附件名用固定名 second-take-latest.zip：
 #   install.sh 有「无版本号」通路，走 releases/latest/download/<固定名>，
@@ -118,7 +118,7 @@ STAGE="$TMP/second-take"
 mkdir -p "$STAGE"
 
 echo "==> 打包（排除版本控制与临时文件）"
-EXCLUDES=(.git '.apply-backup-*' '.sync-backup-*' metrics node_modules __pycache__ '*.pyc' .DS_Store '*.log' 'second-take-*.zip' MANIFEST.txt)
+EXCLUDES=(.git '.apply-backup-*' '.sync-backup-*' '.write-backup-*' metrics node_modules __pycache__ '*.pyc' .DS_Store '*.log' 'second-take-*.zip' MANIFEST.txt)
 for item in .[!.]* *; do
   [ -e "$item" ] || continue
   skip=0
