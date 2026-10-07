@@ -4,13 +4,14 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.7.0-blue)](CHANGELOG.md)
+[![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
 [![Downloads](https://img.shields.io/github/downloads/flashfrogluo/second-take/total?style=flat&logo=github)](https://github.com/flashfrogluo/second-take/releases)
+[![Last commit](https://img.shields.io/github/last-commit/flashfrogluo/second-take?style=flat)](https://github.com/flashfrogluo/second-take/commits/main)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
 
 [![Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出](docs/assets/hero.svg)](https://github.com/flashfrogluo/second-take)
-
 ## 它解决什么问题
-
 
 **AI 给的结果不满意，你只能反复说「再改改」，但说不清哪里不对。**
 
@@ -24,9 +25,9 @@ Second Take 做一件事：**把「哪里不对」诊断出来，写成一段能
 
 **它不替你写答案。** 你在原对话里有上下文、有历史、有要留存的东西，答案应该在那边产出——它只负责把「怎么让那边改对」讲清楚。
 
-📖 **上手手册**（含五种模式的完整走法）：[https://flashfrogluo.github.io/second-take/](https://flashfrogluo.github.io/second-take/?utm_source=github&utm_medium=readme&utm_campaign=intro)
+📖 **上手手册**（含五种模式的完整走法）：[https://flashfrogluo.github.io/second-take/](https://flashfrogluo.github.io/second-take/)
 
-若在 DeepSeek 上用，可直接取用 [`prompts/for-deepseek.md`](prompts/for-deepseek.md)——为它的思考模式调过；其他平台用 [`prompts/abc.md`](prompts/abc.md)。
+若在 DeepSeek 上用，可直接取用 [`prompts/for-deepseek.md`](prompts/for-deepseek.md)——为它的思考模式调过；其他平台用 [`prompts/abc.md`](prompts/abc.md)。英文读者用对应的 `prompts/for-deepseek-en.md` 与 `prompts/abc-en.md`。
 
 ---
 
@@ -40,12 +41,21 @@ Second Take 做一件事：**把「哪里不对」诊断出来，写成一段能
 npx skills add flashfrogluo/second-take
 ```
 
-支持 Claude Code、Codex、Cursor、Gemini CLI、GitHub Copilot、Windsurf、VS Code、Zed、Goose、OpenCode 等几十种 agent。
+支持 Claude Code、Codex、Cursor、Gemini CLI、GitHub Copilot、Windsurf、Cline、Zed、Goose、OpenCode 等几十种 agent。
+
+**不在这份清单里、照样能用的**：本 skill 本体只是一份 Markdown，**任何能读 `SKILL.md` 的运行时都能用**——WorkBuddy、DeepSeek Harness 就属这一类（它们不走 skills CLI，直接读自己的 skills 目录，路径见下表）。
 
 > ⭐ **如果它帮到你了，点一下右上角的 Star** —— 会进入你账号的 Stars 列表，方便随时找回；点 **Watch** 可订阅更新。这是目前唯一能让我知道「有人在用」的信号。
 
 
 ---
+
+## 流程图：五种模式一条工作流
+
+![Second Take 五模式流程图：输入 → 分类诊断 → 重拍 → 贴回原 AI → 原 AI 执行 → 用户判断，不满意走补拍 / 定剪再回流；满意则输出，可选调色 / 包装](docs/assets/workflow-zh.png)
+
+> 上方是**中文版**；英文版见 [`docs/assets/workflow-en.png`](docs/assets/workflow-en.png)。
+> 源文件（SVG / Mermaid）与设计规范在开发工作区，不随本仓库发布。
 
 ## 为什么叫 Second Take
 
@@ -55,17 +65,20 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 
 > 这套方法把整套质检流程"封装"成了电影制作：你不必记 AI 专业的术语，只要认得下面的影视说法，就能点名要它做哪一步。
 
-| 我们的环节 | 影视说法（命名） | 我们让 AI 优化什么 | 达到什么目的 |
+| 我们的环节 | 影视说法（命名） | 这一步做什么 | 达到什么目的 |
 |---|---|---|---|
-| 待审素材（CoT + 答案） | Dailies / 样片 | 把原 AI 的推理链与最终答案交来诊断 | 定位「对不对」的问题，决定去留 |
+| 待审素材（深度思考 + 答案） | Dailies / 样片 | 收下原 AI 的推理链与最终答案，逐条诊断 | 定位「对不对」的问题，决定去留 |
 | 首轮全量重写 | Reshoot / 重拍 | 主体不成立时，整条推理链重写 | 重建正确的结构与判断 |
 | 迭代轮定点修复 | Pick-up / 补拍 | 主体已成立，只改被点名的几处 | 保留合格段落，精准修错、避免回退 |
 | 自洽性检查 | Continuity / 穿帮 | 检查各步骤内部、步骤之间、以及步骤与结论是否自洽 | 消除逻辑打架 |
 | 覆盖不全 | Missing coverage / 漏镜 | 检查是否漏掉关键分支或影响因素 | 补全覆盖盲区，避免以偏概全 |
-| 产物（优化指令） | Retake note / 重拍单 | 输出一张可复制、交给原 AI 执行的单子 | 让原 AI 直接按单重拍 |
+| 优化指令（重拍单 / Retake note） | Retake note / 重拍单 | 输出一张可复制、交给原 AI 执行的单子 | 让原 AI 直接按单重拍 |
 | 多轮僵持后的裁决 | Final cut / 定剪 | 前后版本冲突时做取舍 | 定稿，不再重写 |
 | 主体完美后的润色 | Color grading / 调色 | 四标准已过，只润色（文本：措辞/语气/节奏/关键句；图/视频提示词：视觉描述词与美学方向） | 提升表达/视觉质感，不动结构事实、不引新观点 |
 | 成果交付时的呈现 | Packaging / 包装 | 输出总结、思维导图、可视化图表 | 让成果讲得清、看得懂 |
+
+> 📌 **先说两个名字**：本工具的交付物在正式表述里叫**优化指令**（自包含、可整段复制、粘回原对话）；
+> 在影视比喻里叫**重拍单**（Retake note）。两者指同一样东西——**本页正文统一用「优化指令」**，「重拍单」只出现在影视术语相关的章节里。
 
 > ⚠️ **一个边界**：这些影视词是**你调用本工具的指令接口**，不是你交给 AI 的任务内容。如果你的需求本身就是"拍电影"、文案里出现了"重拍/调色"，那只是你的业务语言，不会触发本工具的环节——触发只发生在你主动使用本工具时。
 
@@ -78,8 +91,8 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 | 意图 | 触发词 |
 |---|---|
 | 结果不满意（质检） | 结果不对 / 很难用 / 漏了要点 / 字数不达标 / 输出不像人话 / AI 味太重 / 格式不对 / 答非所问 / 逻辑有问题 / 前后矛盾 |
-| 给材料让我诊断 | 帮我看看这段思考 / 诊断这个推理 / 这段 CoT 哪儿错了 / 贴分享链接 / 这是我的提示词出图不对 |
-| 优化改写 | 优化提示语 / 让原 AI 重写一遍 / 挑错 / 复盘 / 复核 / 改写 CoT / 用这份 rubric 帮我质检 |
+| 给材料让我诊断 | 帮我看看这段思考 / 诊断这个推理 / 这段深度思考哪儿错了 / 贴分享链接 / 这是我的提示词出图不对 |
+| 优化改写 | 优化提示语 / 让原 AI 重写一遍 / 挑错 / 复盘 / 复核 / 改写深度思考 / 用这份 rubric 帮我质检 |
 | 生成类平台 | 即梦/可灵/Midjourney 出图不对 / 画面不是想要的 / 提示词重拍单 |
 
 ### 五模式触发词（点名要走哪一步）
@@ -87,7 +100,7 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 | 模式 | 信号（什么时候用） | 触发词（影视术语 + 自然意图，含评估扩展词） |
 |---|---|---|
 | 重拍 Reshoot | 首轮 / 主体不成立 / 方向错 | `重拍` · 从头写 · 推倒重来 · 全量重写 · 这版完全不对 · 重写 · 重来 · 另起一版 |
-| 补拍 Pick-up | 第二轮以后 / 主体已成立 / 只改几处 | `补拍` · 在这版基础上改 · 只调这几处 · 补充一点 · 沿用这版 · 微调 · 迭代 · 改几处 |
+| 补拍 Pick-up | 迭代轮次（第二轮及以后）/ 主体已成立 / 只改几处 | `补拍` · 在这版基础上改 · 只调这几处 · 补充一点 · 沿用这版 · 微调 · 迭代 · 改几处 |
 | 定剪 Final cut | 多轮僵持 / 前后版本冲突 / 需裁决 | `定剪` · 帮我取舍 · 选哪个 · 定稿 · 裁决一下 · 拍板 · 合并冲突 |
 | 调色 Color grading | 主体已完美（四标准过）/ 只差质感风格 | `调色` · 再润色 · 调语气 · 更有画面感 · 风格统一 · 打磨 · 提质感 · 美化 |
 | 包装 Packaging | 整体已达标 / 需结构化可视化 | `包装` · 做个图 · 可视化 · 思维导图 · 对比表 · 信息图 · 看板 · 脑图 |
@@ -102,9 +115,9 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 
 **诊断（节选）**
 - **无据引用（跨领域生搬）**：把「视觉暂留」当依据，那是解释动态画面连续感的生理现象，与静态构图的三分法无关，属生搬硬套；
-- **覆盖不全**：UP 明确要求三条，只给了两条。
+- **覆盖不全**：原始指令明确要求三条，只给了两条。
 
-**重拍单（整段复制，粘到原对话末尾）**
+**优化指令（整段复制，粘到原对话末尾）**
 > 忽略本对话中上一轮那段深度思考及其产物，其余指令继续有效。重写「给新手的三条摄影构图建议」：① 三分法……② 引导线……③ 留白……。禁止使用「视觉暂留」等跨领域无关论据；只输出正文，不输出分析过程。
 
 **结果**：原 AI 直接给出三条带可操作要点的建议，无生搬硬套的论据。
@@ -119,9 +132,9 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 
 本 skill **不会**替您把答案写出来。您的上下文在那个 AI 的对话里，必须在那边拿结果。要它直接写，说一句"你直接写"就行。
 
-优化指令是自包含的：UP 全文嵌在里面，整段复制走也不依赖任何上下文。它**不嵌入原始 CoT**——CoT 里的臆测和"思考腔"正是问题根源，贴进去模型就会照着重演一遍思考过程。我们只给：UP + 有效结论清单（从 CoT 里提炼出的成立判断）+ 修改要点 + 输出结构骨架（分几节、每节写什么、多长，结论放前面、关键处加粗）+ 输出要求（含禁用思考腔）。
+优化指令是自包含的：你当初给的指令全文嵌在里面，整段复制走也不依赖任何上下文。它**不嵌入原始那段深度思考**——里面的臆测和"思考腔"正是问题根源，贴进去模型就会照着重演一遍思考过程。我们只给：你当初给的指令 + 有效结论清单（从那段深度思考里提炼出的成立判断）+ 修改要点 + 输出结构骨架（分几节、每节写什么、多长，结论放前面、关键处加粗）+ 输出要求（含禁用思考腔）。
 
-产出什么要按 UP 判断，别猜：如果 UP 是提问或要一份内容，就产**最终回答**；如果 UP 的交付物本身就是推理过程（提示词工程里 CoT 即产物），就产**改写后的 CoT**。两个模板都在 `references/标注范例.md`。
+产出什么要按你给的指令判断，别猜：如果那个要求是提问或要一份内容，就产**最终回答**；如果它要的交付物本身就是推理过程（提示词工程里思考过程即产物），就产**改写后的思考过程**。两个模板都在 `references/标注范例.md`。
 
 直接粘在**原始对话末尾**就行，不用开新对话。优化指令开头自带**定向忽略声明**：只切掉那段不合格的深度思考，以及由它直接产出的一版回答；您之前提出的指令、追加要求、表达习惯和思维方式全部继续有效。
 
@@ -155,7 +168,7 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 | **B 仅推理摘要** | ChatGPT（thinking summary）、部分豆包 / 千问分享快照 | 摘要 + 从产物反推（注明来源） | 优化指令 | 文字 / 其他 |
 | **C 无推理（生成类）** | 即梦、可灵、Midjourney、Sora、Runway | **提示词本身** | 提示词重拍单（可直接粘贴） | 图像 / 视频 |
 
-> C 类是本 skill 特意做的适配：生成类模型不给你看推理，但**提示词就是它收到的全部指令**——把它当 CoT 审查，出图 / 出片不对的根因同样查得到（漏要素、内部冲突、形容词没操作化、用了平台不认的词）。三条规矩：不编造平台参数、保留 seed 与参考图、只改出问题的要素、不推翻整张图。
+> C 类是本 skill 特意做的适配：生成类模型不给你看推理，但**提示词就是它收到的全部指令**——把它当深度思考来审，出图 / 出片不对的根因同样查得到（漏要素、内部冲突、形容词没操作化、用了平台不认的词）。三条规矩：不编造平台参数、保留 seed 与参考图、只改出问题的要素、不推翻整张图。
 
 ## 不同产物类型，提供哪些信息最准
 
@@ -163,13 +176,13 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 
 给的信息越准，诊断就越准。按产物类型提供以下内容；缺了也能先跑、再补：
 
-| 您要审的产物 | 尽量提供（越多越准） | 作用 |
+| 要审的内容 | 尽量提供（越多越准） | 作用 |
 |---|---|---|
-| **文字 / 代码 / 方案** | ① 用户原始指令（UP）② 那段深度思考（CoT）③ 它最终给出的回答 | CoT 是主证据；UP 用来核对"漏了哪条要求"；回答用来确认"错有没有带进结果" |
-| **只有摘要（ChatGPT 等）** | ① UP ② 思考摘要 ③ 最终产物 | 主证据换成产物，结论注明"由产物反推"，并写明"没见到完整推理，覆盖度可能偏低" |
-| **图像 / 视频（生成类）** | ① 您期望的效果（UP）② 用的提示词（含参数 / seed / 参考图）③ 本版出图 | 提示词即推理；seed / 参考图决定能不能"只改出错的要素" |
+| **文字 / 代码 / 方案** | ① 你当初给的指令 ② 那段深度思考 ③ 它最终给出的回答 | 深度思考是主证据；原始指令用来核对"漏了哪条要求"；最终回答用来确认"错有没有带进结果" |
+| **只有摘要（ChatGPT 等）** | ① 你当初给的指令 ② 思考摘要 ③ 最终产物 | 主证据换成产物，结论注明"由产物反推"，并写明"没见到完整推理，覆盖度可能偏低" |
+| **图像 / 视频（生成类）** | ① 你期望的效果 ② 用的提示词（含参数 / seed / 参考图）③ 本版出图 | 提示词即推理；seed / 参考图决定能不能"只改出错的要素" |
 | **带参考 / 目标素材** | ① 目标（您期望的样貌）② 参考（取被点名的那一维）③ 待改的 AI 产物 | 三者要分清，防止"怪圈"：如果把 AI 产物当标准，就会越改越像原错 |
-| **任意类型** | 一句"哪里不满意" | 帮我们先做完判定、少绕路；没说我们也能从 UP 和产物反推 |
+| **任意类型** | 一句"哪里不满意" | 帮我们先做完判定、少绕路；没说我们也能从原始指令和产物反推 |
 
 ## 隐私保护
 
@@ -196,8 +209,8 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 ```
 您  →  贴一段不满意的 AI 输出，或它的对话分享链接
 它  →  ① 十几行诊断：错在哪条、归哪一类、按四标准给总评
-       ② 一张重拍单（代码块，整段可复制）
-您  →  将重拍单粘贴回原 AI 的对话末尾
+       ② 一张优化指令（代码块，整段可复制）
+您  →  将优化指令粘贴回原 AI 的对话末尾
 该 AI → 直接给出更好的最终答案
 ```
 
@@ -215,7 +228,7 @@ take 有两层意思——影视里指"一条拍摄"（再来一条），也指"
 npx skills add flashfrogluo/second-take
 ```
 
-skills CLI 支持 Claude Code、Codex、Cursor、GitHub Copilot、Windsurf、Gemini CLI、Cline、VS Code、Zed、Goose、OpenCode 等几十种 agent，装的时候选目标即可。
+skills CLI 自身支持 Claude Code、Codex、Cursor、GitHub Copilot、Windsurf、Gemini CLI、Cline、Zed、Goose、OpenCode 等 58 个 agent，装的时候选目标即可。**它不覆盖的运行时，把文件夹放进对方的 skills 目录一样能用**（见下表末两行）。
 
 ### 各平台的发现路径（手动装时用这张表）
 
@@ -224,12 +237,23 @@ skills CLI 支持 Claude Code、Codex、Cursor、GitHub Copilot、Windsurf、Gem
 | Agent | 项目级 | 用户级 |
 |---|---|---|
 | **Claude Code** | `.claude/skills/` | `~/.claude/skills/` |
-| **Codex CLI** | `.agents/skills/`（从当前目录向上找到仓库根） | `~/.agents/skills/` |
-| **Cursor** | `.agents/skills/`、`.cursor/skills/`（也读 `.claude/skills/`） | 同组路径放 `~/` 下 |
-| **Gemini CLI** | `.agents/skills/` 或 `.gemini/skills/`（前者优先） | `~/.agents/skills/`、`~/.gemini/skills/` |
-| **GitHub Copilot** | `.agents/skills/`、`.github/skills/`、`.claude/skills/` | `~/.agents/skills/`、`~/.copilot/skills/` |
-| **OpenCode** | `.agents/skills/`、`.opencode/skills/`、`.claude/skills/` | `~/.agents/skills/`、`~/.claude/skills/` |
+| **Codex CLI** | `.agents/skills/` | `~/.codex/skills/` |
+| **Cursor** | `.agents/skills/` | `~/.cursor/skills/` |
+| **Windsurf** | `.windsurf/skills/` | `~/.codeium/windsurf/skills/` |
+| **Cline** | `.agents/skills/` | `~/.agents/skills/` |
+| **Zed** | `.agents/skills/` | `~/.agents/skills/` |
+| **Gemini CLI** | `.agents/skills/` | `~/.gemini/skills/` |
+| **GitHub Copilot** | `.agents/skills/` | `~/.copilot/skills/` |
+| **OpenCode** | `.agents/skills/` | `~/.config/opencode/skills/` |
+| **Goose** | `.goose/skills/` | `~/.config/goose/skills/` |
 | **WorkBuddy** | — | `~/.workbuddy/skills/` |
+| **DeepSeek Harness** | `.agents/skills/` | `~/.agents/skills/` |
+
+> 前 10 行路径取自 `skills` CLI 自身的 agent 定义（v1.7.1）；**WorkBuddy 与 DeepSeek Harness 为实测补充**
+> （前者：`~/.workbuddy/skills/` 下已实际装有本 skill；后者：用户 skill 走 `.agents/skills/` 标准路径，
+> 与应用内置的 skill 并列出现在同一份清单里）。
+>
+> **多数 agent 都会读 `.agents/skills/`**——手动装时放这一处通常就够了。没列到的 agent 见各自官方文档。
 
 **一份主副本 + 软链接**（多个 agent 共用时的标准做法，避免多份副本各自漂移）：
 
@@ -250,12 +274,13 @@ Windows 建软链接需要开发者模式，若嫌麻烦就复制一份并在 `.
 
 不想自己剪 SKILL.md 的，有现成**精简应急版**可直接用：
 
-- **`prompts/for-deepseek.md`【应急版】** —— 为 DeepSeek（A 类）调好的自包含提示词（约 2.5k 字，保留 A 类流程、检查项、四条标准、模板 A、关键硬约束）。复制整段作为 DeepSeek 新对话第一条消息，之后把不满意的答案加它的深度思考贴进去，它就会产出可粘回原对话的重拍单。
-- **`prompts/abc.md`【应急版】** —— 通用版，覆盖 A（完整推理）/ B（只有摘要）/ C（无推理、提示词质检，如 Midjourney / 即梦 / 可灵）三类；复制整段作新对话首条消息，按提示先判类型再出重拍单。
+- **`prompts/for-deepseek.md`【应急版】**｜**`for-deepseek-en.md`**（英）—— 为 DeepSeek（A 类）调好的自包含提示词，保留 A 类流程、检查项、四条标准、模板 A 与 **14 条高频硬约束**（完整版为 34 条）。复制整段作为 DeepSeek 新对话第一条消息，之后把不满意的答案加它的深度思考贴进去，它就会产出可粘回原对话的优化指令。
+- **`prompts/abc.md`【应急版】**｜**`abc-en.md`**（英）—— 通用版，覆盖 A（完整推理）/ B（只有摘要）/ C（无推理、提示词质检，如 Midjourney / 即梦 / 可灵）三类；复制整段作新对话首条消息，按提示先判类型再出优化指令。
 
-> ⚠️ 这两份都是**精简应急版**，约占完整 skill 的一小部分。复制能解决「这一次」；完整版（`npx skills add flashfrogluo/second-take`）额外含 11 个 references、43 条自查 rubric 与各平台一键安装，装上才能「每一次」都拿到带全量质检的重拍单。
+> ⚠️ 这四份都是**精简应急版**，约占完整 skill 的一小部分。复制能解决「这一次」；完整版（`npx skills add flashfrogluo/second-take`）额外含 11 个 references、43 条自查 rubric 与各平台一键安装，装上才能「每一次」都拿到带全量质检的优化指令。
+> 中英两版的规则内容一致（同为 14 条高频硬约束子集），只是语言不同。
 
-> **EN** — For prompt-only use without trimming SKILL.md yourself: **`prompts/for-deepseek.md`** is a self-contained ~2.5k-char prompt tuned for DeepSeek (Type A); **`prompts/abc.md`** is the generic version covering Type A (full CoT) / B (summary only) / C (no CoT, prompt-quality-check, e.g. Midjourney / Jimeng / Kling). Copy the whole block as the first message of a new chat. Both are **lite "starter" versions** — the full skill (`npx skills add flashfrogluo/second-take`) adds 11 references, a 43-item self-check rubric, and one-line install across platforms.
+> **EN** — For prompt-only use without trimming SKILL.md yourself: **`prompts/for-deepseek.md`** / **`for-deepseek-en.md`** is a self-contained prompt tuned for DeepSeek (Type A); **`prompts/abc.md`** is the generic version covering Type A (full thinking process) / B (summary only) / C (no thinking process, prompt-quality-check, e.g. Midjourney / Jimeng / Kling). Copy the whole block as the first message of a new chat. Both are **lite "starter" versions** — the full skill (`npx skills add flashfrogluo/second-take`) adds 11 references, a 43-item self-check rubric, and one-line install across platforms.
 
 ## 兼容性说明
 
@@ -268,7 +293,7 @@ Windows 建软链接需要开发者模式，若嫌麻烦就复制一份并在 `.
 
 ## 用法
 
-> **EN** — Usage: paste a share link, or paste the UP + CoT directly. Optional inputs: caption, target, reference, follow-up instructions.
+> **EN** — Usage: paste a share link, or paste the user instruction + thinking process directly. Optional inputs: caption, target, reference, follow-up instructions.
 
 以下两种方式均可：
 
@@ -277,16 +302,16 @@ Windows 建软链接需要开发者模式，若嫌麻烦就复制一份并在 `.
 帮我生成优化指令：https://chat.deepseek.com/share/xxxxx
 
 # 直接粘贴内容
-帮我检查这一段 CoT 是否正确，若不正确或尚可优化，请帮我生成优化指令。
-UP（用户指令）：……
-CoT（深度思考）：……
+帮我检查这一段深度思考是否正确，若不正确或尚可优化，请帮我生成优化指令。
+用户指令：……
+深度思考：……
 ```
 
 给链接后，它会自动调接口拿原始指令、深度思考和那版产物，不用您手动输入。拿到后会先跟您确认主指令、追加指令、产出物分别是哪条。
 
 可选输入包括：素材描述（Caption）、目标产物、参考素材，以及您在后续轮次追加的指令（比如"不要分点，输出一长条"）。缺哪一项，依赖它的检查项就直接判"无"。
 
-只有 UP 和 CoT、没有产物和素材的纯文本问答场景也适用，这时检查重点落在指令冲突、覆盖不全、推理缺陷三项。
+只有用户指令和深度思考、没有产物和素材的纯文本问答场景也适用，这时检查重点落在指令冲突、覆盖不全、推理缺陷三项。
 
 ## 评价标准：有效思维链的四条标准
 
@@ -297,7 +322,7 @@ CoT（深度思考）：……
 | 标准 | 定义 | 一句话判据 |
 |---|---|---|
 | **逻辑性** | 每个思考步骤之间有逻辑关系，互相连接，形成完整的思考过程 | 后一步能不能从前一步推出来 |
-| **全面性** | 尽可能全面、细致地考虑问题，不忽略可能的因素和影响 | UP 和素材里提到的重要维度，是不是都想到了 |
+| **全面性** | 尽可能全面、细致地考虑问题，不忽略可能的因素和影响 | 用户指令和素材里提到的重要维度，是不是都想到了 |
 | **可行性** | 每个思考步骤都能被实际操作和实施 | 读完知不知道下一步具体做什么 |
 | **可验证性** | 每个思考步骤都能通过实际的数据和事实验证其正确性和有效性 | 每条结论能不能指出「凭什么这么说」 |
 
@@ -323,34 +348,46 @@ CoT（深度思考）：……
 
 ```
 second-take/
-├── SKILL.md                    # 主流程：输入、纪律、检查项、28 条硬约束要点、执行步骤
-├── references/
-│   ├── 硬约束详解.md           # 28 条硬约束的完整解释、反例与正确写法
-│   ├── 多场景适配.md           # DeepSeek/ChatGPT/Gemini/生成类平台分别能拿到什么、怎么改
-│   ├── 判定细则.md             # 判定顺序、归属规则、豁免清单、子类边界
-│   ├── 思维链四标准.md         # 四标准唯一真源：定义+逐条判定+映射+怎么补+重拍单规则/五模式/两机理/边界
-│   ├── 标注范例.md             # 可直接复制的优化指令模板 A/B/C（占位符、无案例；完整标注范例为内部留存）
-│   ├── 成稿自检清单.md         # 给目标 AI 用的自检段：写法规范与条目模板
-│   ├── 自生成rubric元指令.md   # 混合模式：让目标 AI 自己写领域标准的元指令
-│   ├── 优化指令自查rubric.md   # 我们交付前用的五字段自查表（Must-have 18 条）
-│   ├── 经验提炼与思维习惯.md   # 案例如何抽象成规则、防污染纪律、固定心智动作
-│   ├── 画面描述规范.md         # caption 写作原则与八条判定（脱敏自通用规范）
-│   └── 术语表.md               # 评测侧术语：Rubric 五字段、四类硬伤、reward hacking
-├── docs/
-│   ├── 四标准质检法.md         # 入口指针：已合并至 references/思维链四标准.md，勿在此写内容
-│   ├── 迭代工作流.md           # 维护者指南：改硬约束/加 reference/补语料/发布 checklist
-│   ├── guide-en.md             # 完整英文使用说明书（English usage manual）
-│   └── ROADMAP.md              # 路线图：已完成 / 进行中 / 设想中
-├── prompts/
-│   ├── for-deepseek.md        # 【精简应急版】DeepSeek（A 类）现成提示词：复制整段作新对话首条消息
-│   └── abc.md                 # 【精简应急版】通用 A/B/C 三类提示词：覆盖完整推理/摘要/提示词质检
-├── tests/
-│   ├── validate.py            # 结构校验：frontmatter / README 链接 / 样例三要素存在性（仅结构，非质量判定）
-│   └── samples/               # 7 个样例（覆盖 A/B/C 三类平台 + 文本/图像/视频），黄金输出示范
-├── README.md
-├── LICENSE
-└── .gitignore
+├── SKILL.md              # 主流程：输入、纪律、检查项、34 条硬约束要点、执行步骤
+├── README.md / README_EN.md / CHANGELOG.md / LICENSE
+├── references/           # 11 份参考文档 —— 见下表
+├── docs/                 # 说明书与维护文档 —— 见下表
+├── prompts/              # 四份「精简应急版」提示词（中/英）—— 见下表
+├── tests/                # validate.py（结构校验）+ samples/（7 个样例 JSON）
+├── scripts/              # 维护脚本：release / push / sync / stats / patch_*
+└── metrics/              # 历史统计留档（GitHub Traffic 只有 14 天窗口）
 ```
+
+**references/（11 份，全部按需读取）**
+
+| 文件 | 内容 |
+|---|---|
+| `硬约束详解.md` | 34 条硬约束的完整解释、反例与正确写法 |
+| `多场景适配.md` | DeepSeek / ChatGPT / Gemini / 生成类平台各能拿到什么、怎么改 |
+| `判定细则.md` | 判定顺序、归属规则、豁免清单、子类边界 |
+| `思维链四标准.md` | 四标准唯一真源：定义 + 逐条判定 + 映射 + 五模式 / 两机理 / 边界 |
+| `标注范例.md` | 可直接复制的优化指令模板 A/B/C（占位符、无案例） |
+| `成稿自检清单.md` | 给目标 AI 用的自检段：写法规范与条目模板 |
+| `自生成rubric元指令.md` | 混合模式：让目标 AI 自己写领域标准的元指令 |
+| `优化指令自查rubric.md` | 我们交付前用的五字段自查表（Must-have 18 条） |
+| `经验提炼与思维习惯.md` | 案例如何抽象成规则、防污染纪律、固定心智动作 |
+| `画面描述规范.md` | caption 写作原则与八条判定（脱敏自通用规范） |
+| `术语表.md` | 评测侧术语：Rubric 五字段、四类硬伤、reward hacking |
+
+**docs/ 与 prompts/**
+
+| 路径 | 内容 |
+|---|---|
+| `docs/使用与迭代.md` | 面向用户：怎么用、反馈怎么进下一版 |
+| `docs/迭代工作流.md` | 维护者指南：改硬约束 / 加 reference / 补语料 / 发布 checklist |
+| `docs/guide-en.md` | 完整英文使用说明书 |
+| `docs/ROADMAP.md` | 路线图：已完成 / 进行中 / 设想中 |
+| `docs/四标准质检法.md` | 入口指针：已合并至 `references/思维链四标准.md`，勿在此写内容 |
+| `docs/index.html` + `docs/assets/` | GitHub Pages 落地页；主视觉 `hero.svg`；**流程图** `workflow-zh.png` / `workflow-en.png` |
+| `prompts/for-deepseek.md` / `-en.md` | 【精简应急版】DeepSeek（A 类）现成提示词（中 / 英） |
+| `prompts/abc.md` / `-en.md` | 【精简应急版】通用 A/B/C 三类提示词（中 / 英） |
+
+> 另有 `install.sh` / `update.sh`（安装与升级）、`scripts/`（发版、推送、同步、统计）、`metrics/`（历史统计）、`.github/`（CI 与治理文件）。
 
 ## 默认给轻装版（交付形态 vs 模式）
 
@@ -393,19 +430,23 @@ second-take/
 | **【已知缺陷】** | 我们（种子条目） | 锚住上一版实际犯过的错——它不知道自己删了哪一条 |
 | **【成稿自检】** | 我们（10–12 条 Yes/No） | 写完统一过一遍，答"否"的当场改，自检过程不进正文 |
 
-为什么不干脆全由我们写：我们的条目是**事后视角**（看了坏产物才写出来），只能防住见过的错；它自写的是**事前视角**（拿到 UP 先定义标准），能防住没见过的错。**两者覆盖的是不同的错误集合。**
+为什么不干脆全由我们写：我们的条目是**事后视角**（看了坏产物才写出来），只能防住见过的错；它自写的是**事前视角**（拿到指令先定义标准），能防住没见过的错。**两者覆盖的是不同的错误集合。**
 
-为什么不能全交给它：它会自我评分膨胀，还会**从上一版的坏产物反推标准**（把"上版分六节"当成标准），写出"内容是否合理"这种判不了的条目。所以元指令必须带护栏——**每条都要写明"凭什么判"，没写依据就算"否"**；**标准只能来自 UP 和常识，不能来自之前任何一版回答的样子**；禁用裸形容词。
+为什么不能全交给它：它会自我评分膨胀，还会**从上一版的坏产物反推标准**（把"上版分六节"当成标准），写出"内容是否合理"这种判不了的条目。所以元指令必须带护栏——**每条都要写明"凭什么判"，没写依据就算"否"**；**标准只能来自你给的指令和常识，不能来自之前任何一版回答的样子**；禁用裸形容词。
 
-默认启用。四种情形退回只给【成稿自检】：目标模型能力明显薄弱 / UP 极简 / 缺陷已完全可枚举 / 用户所需为最短指令。
+**「混合模式」**指这一节：领域标准由目标 AI 自写（事前视角），已知缺陷由我们给种子条目（事后视角），两份合并。
+
+默认启用三段。四种情形退回只给【成稿自检】：目标模型能力明显薄弱 / 用户指令极简 / 缺陷已完全可枚举 / 用户所需为最短指令。
+
+> ⚠️ **可退的只有【判定标准】与【已知缺陷】。【成稿自检】在任何模板（A / B / C）与任何情形下都必带**——它防的是"写完不看一遍"，与产物长短无关。
 
 ## 实践中踩过的坑（都已写进硬约束）
 
-> **EN** — Hard-won lessons now baked into the hard constraints (e.g. don't embed raw CoT; don't drop qualified content on rewrite).
+> **EN** — Hard-won lessons now baked into the hard constraints (e.g. never embed the raw thinking process; never drop qualified content on a rewrite).
 
 | 教训 | 症状 |
 |---|---|
-| 内嵌 CoT 全文 | 输出变成"嗯，用户问的是……"式的思考过程，而不是答案 |
+| 内嵌深度思考全文 | 输出变成"嗯，用户问的是……"式的思考过程，而不是答案 |
 | 骨架只写"可分节" | 产出没有层级、没有重点的平铺文字 |
 | 元要求进正文 | 正文出现"本回答的工作定义""判断标准是…"，读者分不清在跟谁说话 |
 | 为"可检验"编数字 | 编出精确的轮询间隔、验收岗位名，一眼假，整篇可信度跟着塌 |
@@ -448,22 +489,22 @@ second-take/
 | 生成侧：让 AI 多想 | `adhd`（tree-of-thought + 剪枝）、`Reasoning-Skill-Claude`、`auto-reasoning` | 在**生成时**帮 AI 想得更广、更深 | 在**生成之后**审查它已经想完的那一段 |
 | 自我反思侧 | `self-refine-skill`（GENERATE→CRITIQUE→REFINE→CHECK）、`claude-sanity-check` | 让 AI **改它自己**当次的输出 | 第三方审查**另一个 AI** 的推理，且产物要能粘回原对话 |
 | 文风侧 | `avoid-ai-writing`（21 类 AI 写作模式）、`humanizer` | 去 AI 味、改措辞 | 判定推理错在哪（漏项、矛盾、无据引用、约束冲突），文风只是其中一维 |
-| 提示词侧 | `prompt-architect`、`prompt-engineering-expert` | 改进**提示词本身** | 改进"拿着原始 UP 重答一遍"的指令，且保留原对话上下文 |
+| 提示词侧 | `prompt-architect`、`prompt-engineering-expert` | 改进**提示词本身** | 改进"拿着原始指令重答一遍"的指令，且保留原对话上下文 |
 
-一句话：**别人做的事，是让 AI 多想一层，或者改它自己的文风；Second Take 做的是第三方质检——读另一段 AI 已经想完的推理，判断错在哪，产出一段能粘回原对话、让原 AI 直接给出最终答案的重拍单。**
+一句话：**别人做的事，是让 AI 多想一层，或者改它自己的文风；Second Take 做的是第三方质检——读另一段 AI 已经想完的推理，判断错在哪，产出一段能粘回原对话、让原 AI 直接给出最终答案的优化指令。**
 
 ## 常见问题
 
-> **EN** — FAQ: does it write the answer? (no); why no original CoT? (it's the problem); does it pollute context? (no); works on code? (yes).
+> **EN** — FAQ: does it write the answer? (no); why no original thinking process? (it is the problem); does it pollute context? (no); works on code? (yes).
 
 **它会不会直接把答案写出来？**
-不会。默认只给重拍单。您的上下文在那个 AI 的对话里，必须在那边拿结果。要它直接写，说一句"你直接写"就行。
+不会。默认只给优化指令。您的上下文在那个 AI 的对话里，必须在那边拿结果。要它直接写，说一句"你直接写"就行。
 
-**为什么重拍单里没有原来的那段思考？**
-因为 CoT 本身就是问题根源。一旦贴进去，目标模型就会照着重演一遍思考过程，输出变成"嗯，用户问的是……"。我们只给 UP 全文 + 从 CoT 里提炼的**有效结论清单**。
+**为什么优化指令里没有原来的那段思考？**
+因为那段深度思考本身就是问题根源。一旦贴进去，目标模型就会照着重演一遍思考过程，输出变成"嗯，用户问的是……"。我们只给你当初给的指令全文 + 从那段深度思考里提炼的**有效结论清单**。
 
 **粘回原对话会不会污染上下文？**
-重拍单自带**定向忽略声明**：只忽略上一轮那段深度思考，以及由它直接产出的那一版回答；您之前提到的指令、追加要求、表达习惯一律继续有效。
+优化指令自带**定向忽略声明**：只忽略上一轮那段深度思考，以及由它直接产出的那一版回答；您之前提到的指令、追加要求、表达习惯一律继续有效。
 
 **能用在代码上吗？**
 能。它的审查逻辑跟"产物是什么"无关，文案、方案、代码、分析结论、评分标准都同样适用。
@@ -477,7 +518,7 @@ second-take/
 **成品达标了，但我还要拿去汇报 / 发给别人看，能给个一眼看懂的版本吗？**
 可以，这正是 **Packaging（包装）** 模式：整体已达输出标准后，做可视化分析——输出一页纸总结、思维导图、以及流程 / 对比 / 关系 / 时间线类的可视化图表。它只呈现已有结论、忠于原判断，不为美观扭曲关系。
 
-**我只有一段 CoT、没有链接，能用吗？**
+**我只有一段深度思考、没有链接，能用吗？**
 能。把用户指令和深度思考一起贴进来就行。
 
 ## 关于作者
@@ -486,21 +527,19 @@ second-take/
 
 **flashfrogluo** —— 做电影创作出身（电影摄影 / 导演 / 编剧），现在转向 AI 创作、测评和开发，长期在「电影语言」和「AI 工程」两个领域之间来回。
 
-做这个 skill 的直接动机，来自两个身份的交叉：一边是做影像创作时，对"为什么这一镜不对"特别敏感；另一边是日常用各类 AI 时反复遇到同一个痛点——模型给出的「深度思考 / CoT」质量很不稳定，有时逻辑跳步，有时漏掉用户明确要求过的维度，有时为了迎合语气擅自改了指令；而把那段思考粘回原对话重答，又往往把错因一起带过去。Second Take 想把前者那种"逐镜挑错"的直觉，变成后者的可操作流程：做一次**第三方质检**，读另一段已经想完的推理，判断错在哪，产出一段能直接粘回原对话、让原 AI 给出更好最终答案的「重拍单」。
+做这个 skill 的直接动机，来自两个身份的交叉：一边是做影像创作时，对"为什么这一镜不对"特别敏感；另一边是日常用各类 AI 时反复遇到同一个痛点——模型给出的「深度思考」质量很不稳定，有时逻辑跳步，有时漏掉用户明确要求过的维度，有时为了迎合语气擅自改了指令；而把那段思考粘回原对话重答，又往往把错因一起带过去。Second Take 想把前者那种"逐镜挑错"的直觉，变成后者的可操作流程：做一次**第三方质检**，读另一段已经想完的推理，判断错在哪，产出一段能直接粘回原对话、让原 AI 给出更好最终答案的「优化指令」。
 
 **欢迎一切交流**：使用建议、测评反馈、能做语料的真实对话、合作想法，都欢迎提 issue / PR，或直接发邮件到 **flashfrogluo@gmail.com**。微信交流群与 X（Twitter）动态也欢迎邮件索取入群 / 关注方式。
 
 最后，感谢您使用这个 skill。它由一个人独立维护，确实不易；但我们承诺，会一直跟着真实需求迭代——您遇到的问题，很可能就是下一版要补的硬约束。您的每一条反馈，都会直接落到下一版的改进里。
 
-## 术语
+## 术语说明
 
-> **EN** — Terms: UP = User Prompt, CoT = Chain of Thought, Caption = description of target/reference.
+> **EN** — Terms: Caption = a description of the target artifact or the reference material.
 
-| 缩写 | 含义 |
+| 术语 | 含义 |
 |---|---|
-| UP（用户指令） | User Prompt，用户给出的需求与约束 |
-| CoT（深度思考） | Chain of Thought，被审查的推理过程 |
-| Caption（素材描述） | 对目标产物或参考素材的文字描述 |
+| Caption（素材描述） | 对目标产物或参考素材的文字描述；生成类场景里描述你想要或参考的画面 |
 
 ## License
 
@@ -519,15 +558,3 @@ For the **complete, detailed English manual**, open:
 It covers everything end-to-end: what Second Take is, when to use it, supported models and output types (text, image, video, and more), exactly what to provide for the most accurate diagnosis, privacy, contributing, installation, usage, the Four Standards, check items, the five modes (Reshoot / Pick-up / Final cut / Color grading / Packaging), the three trailing segments, common pitfalls, FAQ, and the author.
 
 > If the link above does not open in your viewer, the file is located at `docs/guide-en.md` inside the repository.
-
-## 关于数据与统计
-
-这个项目关注三类数据，各自来源不同：
-
-| 数据 | 来源 | 说明 |
-|---|---|---|
-| 星标 / Fork / 关注 | GitHub 仓库页 | Star 即「收藏」，Watch 是订阅更新；Watch 数只有仓库所有者可见 |
-| 安装量 | skills.sh（`npx skills add` 的 CLI 遥测） | 反映**真实使用**，比 Star 更接近实际采用度 |
-| Release 下载量 | GitHub Releases 附件 | 源码包（Code → Download ZIP）不计入，只有 Release 附件计数 |
-
-维护者可运行 `scripts/stats.sh` 采集并留存历史（GitHub Traffic 只有 14 天窗口，不存即永久丢失），运行 `scripts/release.sh` 发版并查看下载量。
