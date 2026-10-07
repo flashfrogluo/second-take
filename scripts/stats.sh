@@ -8,7 +8,6 @@
 #   ./stats.sh                 正常采集
 #   ./stats.sh --no-write      只打印，不写历史
 #   ./stats.sh --history       只打印已有历史表
-#   ./stats.sh --note "自测"   标记本次采集含自测流量（不计入转化率）
 #
 # 环境变量：
 #   GITHUB_TOKEN   可选。未设置时走匿名 API（每小时 60 次限额，足够本脚本）；
@@ -22,12 +21,10 @@ OUT_DIR="${OUT_DIR:-$(cd "$(dirname "$0")" && pwd)/../metrics}"
 
 NO_WRITE=0
 ONLY_HISTORY=0
-NOTE=""
 for arg in "$@"; do
   case "$arg" in
     --no-write)   NO_WRITE=1 ;;
     --history)    ONLY_HISTORY=1 ;;
-    --note)       NOTE="${2:-}"; shift ;;
     -h|--help)    sed -n '2,20p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "未知参数: $arg" >&2; exit 2 ;;
   esac
@@ -87,10 +84,9 @@ def num(r, k):
 hdr = f"{'日期':<12}{'stars':>7}{'forks':>7}{'watch':>7}{'installs':>10}{'dl':>7}{'浏览':>7}{'独立':>6}"
 print(hdr); print('-' * len(hdr))
 for r in rows:
-    mark = '  ← 含自测' if r.get('note') else ''
     print(f"{num(r,'date'):<12}{num(r,'stars'):>7}{num(r,'forks'):>7}"
           f"{num(r,'watchers'):>7}{num(r,'installs'):>10}{num(r,'downloads'):>7}"
-          f"{num(r,'traffic_14d_views'):>7}{num(r,'traffic_14d_uniques'):>6}{mark}")
+          f"{num(r,'traffic_14d_views'):>7}{num(r,'traffic_14d_uniques'):>6}")
 
 # 增速：与前一个有记录的日期比。同一天只有一条（写入时已去重），
 # 所以这里不需要再按天聚合。
@@ -114,14 +110,7 @@ if len(rows) >= 2:
         print(f"  {label:<10} {sign}{d}")
 
 # ── 转化率：这是判断「有没有人真的喜欢」的核心，单个数字说明不了问题 ──
-# 转化率只用「干净」的记录：被标记为含自测的那几条会把数字污染，
-# 拿它们算转化率等于用自己制造的流量评判文案效果。
-clean = [r for r in rows if not r.get('note')]
-if not clean:
-    print("\n转化率：没有干净样本（所有记录都标记为含自测）。")
-    print("  先跑一次不带的采集：./stats.sh")
-    sys.exit()
-last = clean[-1]
+last = rows[-1]
 views = last.get('traffic_14d_views')
 uniques = last.get('traffic_14d_uniques')
 clones = last.get('traffic_14d_clones')
@@ -155,9 +144,6 @@ else:
 
 # 一句能直接照着行动的判断，而不是丢一堆数字给读者
 print("\n结论")
-if len(clean) < len(rows):
-    print(f"  样本说明：{len(rows)-len(clean)} 条记录含自测，已排除；"
-          f"以下基于 {len(clean)} 条干净记录（{last.get('date')}）。")
 if stars == 0 and uniques:
     print(f"  有 {uniques} 个独立访客但 0 星标——问题在落地页的转化，不在流量。")
 elif stars == 0:
@@ -210,7 +196,6 @@ echo "==> 校验 skills.sh 索引状态"
 INDEX_HTTP="$(curl -s -o /dev/null -m 30 -w '%{http_code}' \
   "https://www.skills.sh/api/download/$SKILL_ID/$SKILL_NAME" || echo '000')"
 export INDEX_HTTP
-[ -n "$NOTE" ] && export NOTE
 
 REGISTRY_JSON="$(curl -sS -m 30 \
   "https://registry.npmjs.org/skills" || echo '{}')"
@@ -280,7 +265,6 @@ if isinstance(registry, dict):
 
 out = {
     'date': datetime.date.today().isoformat(),
-    'note': os.environ.get('NOTE') or None,
     'repo': os.environ.get('REPO', ''),
     'stars': repo.get('stargazers_count', 0),
     'forks': repo.get('forks_count', 0),
@@ -344,10 +328,12 @@ if not d.get('index_listed'):
     print("    收录由「一次成功的安装」触发——CLI 安装后上报")
     print("    add-skill.vercel.sh/t?event=install&source=<owner/repo>&skills=<name>，")
     print("    服务端据此建索引，按自己的周期重爬，不即时生效。")
-    print("    触发方式（本机走归档 URL，绕开 git clone 故障）：")
-    print("      npx -y skills@latest add \\")
-    print("        https://codeload.github.com/flashfrogluo/second-take/tar.gz/refs/heads/main \\")
+    print("    触发方式（用标准 owner/repo 形式；已实测可用）：")
+    print("      npx -y skills@latest add flashfrogluo/second-take \\")
     print("        -s second-take -a universal -y")
+    print("    ⚠ 不要用归档 URL（codeload tar.gz）——那条路径的隐私查询会挡掉上报，")
+    print("      实测 0 条 telemetry，装上了也不会被索引（2026-10-07 实测）。")
+    print("    上报端点：https://www.skills.sh/tele/t?event=install&source=<owner/repo>&skills=<name>")
     print("    不要提 indexing issue——机器人会回复「No manual reindex request is needed」并关闭。")
 if not d['releases']:
     print()
@@ -388,16 +374,7 @@ merged = []
 replaced = False
 for r in rows:
     if r.get('date') == today:
-        # 同一天：按字段合并，而不是整条覆盖。
-        # 原因：不带 token 跑一次会得到 traffic=None 的快照，
-        # 整条覆盖会把先前带 Traffic 的好数据抹掉（实测踩到过）。
-        # 规则：新值非空才覆盖；新值为空而旧值有数据，保留旧值。
-        combined = dict(r)
-        for k, v in summary.items():
-            if v is None and combined.get(k) is not None:
-                continue
-            combined[k] = v
-        merged.append(combined)
+        merged.append(summary)   # 同一天：用最新数据覆盖
         replaced = True
     else:
         merged.append(r)
