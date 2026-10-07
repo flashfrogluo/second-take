@@ -194,6 +194,13 @@ User-level is the same: put the real copy in `~/.agents/skills/`, and point `~/.
 
 ### Prompt-only use
 
+**Starter prompts (copy-paste, no install).** Two self-contained prompts are included for when you would rather not trim `SKILL.md` yourself:
+
+- **`prompts/for-deepseek-en.md`** — tuned for DeepSeek (Type A). Copy the whole block as the first message of a new chat, then paste the unsatisfactory answer plus its thinking process.
+- **`prompts/abc-en.md`** — generic version covering Type A (full reasoning) / B (summary only) / C (no reasoning; prompt review for Midjourney, Jimeng, Kling and similar).
+
+Both are **starter versions**: they keep the flow, the check items, the Four Standards, Templates A and C, and **14 of the 34 hard constraints** (the most frequently used ones — a subset, not the whole set). Chinese counterparts live alongside them as `prompts/*.md`. The full skill (`npx skills add flashfrogluo/second-take`) adds all 11 references, the 43-item self-check rubric, and the complete 34 constraints with counter-examples.
+
 Paste the body of `SKILL.md` directly into a chat. The files under `references/` are optional supplements — read `标注范例.md` (Annotation Examples) for full templates, `成稿自检清单.md` (Self-Check List) for the self-check paragraph, `自生成rubric元指令.md` (Self-Generating Rubric Meta-Instruction) for the hybrid mode, and `经验提炼与思维习惯.md` (Experience Distillation & Thinking Habits) for feeding new experience back into this skill.
 
 ---
