@@ -60,31 +60,38 @@ The word *take* has two meanings — in film it means "one shot" (let's do anoth
 > This is the **English version**; the Chinese version is at [`docs/assets/workflow-zh.png`](docs/assets/workflow-zh.png).
 > The sources (SVG / Mermaid) and the design spec live in the development workspace and are not published with this repository.
 
-## Film-set vocabulary
+## Treat one AI generation like shooting a film (vocabulary & control panel)
 
-Treat one AI generation like shooting a film. This method **packages** the whole review pipeline into film terms — dailies, reshoot, pick-up, continuity, retake note, final cut, color grading, packaging. You don't need to memorize AI jargon; just know these film terms and you can name which step you want.
+> This method **packages** the whole review pipeline into film-making terms: you do not need to learn AI jargon — just recognise the film words below and you can name the exact step you want.
 
+**Only five modes can be named — this table is your control panel**:
 
-> 📌 **Two names first**: the deliverable is formally called the **optimization instruction** (self-contained, copy the whole block, paste it back into the original chat);
-> in the film metaphor it is called the **retake note** (重拍单). They are the same thing — **this page uses "optimization instruction" throughout in the body text**,
-> and "retake note" appears only in sections about the film vocabulary.
-The table below is your **control panel**: the film term on the left, what it actually has the AI optimize and why on the right.
+| Mode | When to use it | Words to name it |
+|---|---|---|
+| **Reshoot / 重拍** | First round, or when the previous version does not hold (wrong structure, misread goal, large gaps) | `reshoot` · start over · rewrite from scratch · full rewrite · this version is completely wrong |
+| **Pick-up / 补拍** | Later rounds, when the previous version does hold | `pick-up` · change it from this version · just fix these spots · tweak · iterate |
+| **Final cut / 定剪** | Several rounds in and new errors keep appearing, or two versions contradict each other | `final cut` · pick one for me · which one · lock it · make the call |
+| **Color grading / 调色** | All Four Standards met; only texture or style is missing | `color grading` · polish it · adjust the tone · more visual · unify the style |
+| **Packaging / 包装** | Already meets the output bar and needs to be shown to someone | `packaging` · make a chart · visualise it · mind map · comparison table · infographic |
 
-> ⚠️ **One boundary**: these film terms are the **command interface for invoking this tool**, not the content of the task you hand the AI. If your own request is literally "make a film" and mentions "reshoot / color grading", that's just your domain language — it does not trigger any step here. Triggering happens only when you actively use this tool.
+> You do not have to use these words — the tool will infer the right step from context. What each mode does and the order they run in: see [Five modes](#five-modes-from-is-it-right-to-does-it-read-clearly) below.
 
-| Our step | Film term (name) | What this step does | Purpose |
-|---|---|---|---|
-| Material under review (CoT + answer) | Dailies / 样片 | Take in the original AI's reasoning chain and final answer, then diagnose item by item | Locate "right or wrong" issues; decide what stays |
-| First full rewrite | Reshoot / 重拍 | When the subject doesn't hold, rewrite the entire reasoning chain | Rebuild the correct structure and judgment |
-| Targeted fix in later rounds | Pick-up / 补拍 | Subject already holds; change only the named spots | Keep qualified passages; fix precisely, avoid regression |
-| Self-consistency check | Continuity / 穿帮 | Check whether each step internally, steps among themselves, and against the conclusion stay self-consistent | Eliminate logic clashes |
-| Incomplete coverage | Missing coverage / 漏镜 | Check whether key branches or factors were missed | Close coverage gaps; avoid overgeneralizing |
-| Deliverable (optimization instruction) | Retake note / 重拍单 | Output a copy-ready sheet for the original AI to execute | Let the original AI re-shoot per the sheet |
-| Verdict after deadlock | Final cut / 定剪 | When versions conflict, make a trade-off call | Lock the cut; stop rewriting |
-| Polish after the subject is locked | Color grading / 调色 | All Four Standards met; polish only (text: wording/tone/rhythm/key lines; image & video prompts: visual descriptors & aesthetic direction) | Raise expressive / visual quality; no structural/factual change, no new claims |
-| Presentation at delivery | Packaging / 包装 | Output a summary, mind map, and visualizations | Make the result read clearly and land |
+> 📌 **What the deliverable is called**: the tool delivers a **retake note** (重拍单) — a single block you copy in full and paste back into the original chat.
+> In plain terms it is an **optimization instruction**: self-contained, depending on no surrounding context, so once pasted the other AI produces its better final answer directly.
+> **This page uses "retake note" throughout.**
 
----
+> ⚠️ **One boundary**: these film terms are the **command interface for invoking this tool**, not the content of the task you hand the AI. If your own work happens to be film-making and the words "reshoot" or "color grading" appear in your brief, that is just your domain language and will not trigger a step — triggering only happens when you actively use this tool.
+
+**The remaining film words are not modes and cannot be named** — they are step names that show up in the diagnosis:
+
+| Film word | What it refers to |
+|---|---|
+| **Dailies / 样片** | The material under review: the original AI's reasoning chain and final answer |
+| **Continuity / 穿帮** | The self-consistency check: whether each step, and the steps against the conclusion, hold together |
+| **Missing coverage / 漏镜** | Incomplete coverage: whether key branches or factors were missed |
+| **Retake note / 重拍单** | The deliverable itself (see the note above) |
+
+> **Check items** (continuity / missing coverage) are for **diagnosis** — they are not one of the five modes and never appear as trigger words.
 
 ## Trigger words (how to invoke, and how to name a mode)
 
@@ -119,7 +126,7 @@ The table below is your **control panel**: the film term on the left, what it ac
 - **Unsupported citation (borrowed from another field)**: it uses "persistence of vision", a physiological phenomenon explaining why moving images look continuous, as the basis for a static-composition rule — an unrelated transplant.
 - **Incomplete coverage**: the request explicitly asked for three tips; only two were given.
 
-**Optimization instruction (copy the whole block, paste at the end of the original chat)**
+**Retake note (copy the whole block, paste at the end of the original chat)**
 > Ignore the thinking process from the previous turn in this conversation and the answer it directly produced; all other instructions remain in force. Rewrite "three composition tips for beginners": 1) rule of thirds… 2) leading lines… 3) negative space…. Do not use unrelated cross-domain reasoning such as "persistence of vision"; output the body text only, with no analysis.
 
 **Result**: the original AI returns three tips with actionable points, and no transplanted reasoning.
@@ -128,16 +135,16 @@ The table below is your **control panel**: the film term on the left, what it ac
 
 ## Deliverables
 
-1. **A copy-ready optimization instruction** (the core deliverable). Paste it at the end of the original conversation; the other AI gives the final answer directly, without returning another "analysis" or "suggestion."
+1. **A copy-ready retake note** (the core deliverable). Paste it at the end of the original conversation; the other AI gives the final answer directly, without returning another "analysis" or "suggestion."
 2. **A diagnosis of a dozen-odd lines**, explaining where the original reasoning went wrong and what this version changes.
 
 This skill **does not** write the answer for you. Your context lives in that AI's conversation, so you must get the result there. If you want it to write directly, just say "write it directly."
 
-The optimization instruction is self-contained: the full UP is embedded, so copying the whole block works without any surrounding context. It **does not embed the original CoT** — the guesses and "thinking voice" inside the CoT are exactly the source of the problem; paste them in and the model will replay the same thought process. We give only: UP + a list of valid conclusions (the sound judgments distilled from the CoT) + revision points + an output-structure skeleton (how many sections, what each says, how long, conclusions first, key points bolded) + output requirements (including a ban on the thinking voice).
+The retake note is self-contained: the full UP is embedded, so copying the whole block works without any surrounding context. It **does not embed the original CoT** — the guesses and "thinking voice" inside the CoT are exactly the source of the problem; paste them in and the model will replay the same thought process. We give only: UP + a list of valid conclusions (the sound judgments distilled from the CoT) + revision points + an output-structure skeleton (how many sections, what each says, how long, conclusions first, key points bolded) + output requirements (including a ban on the thinking voice).
 
 What to produce is decided by the UP, not guessed: if the UP is a question or asks for content, produce the **final answer**; if the UP's deliverable *is* the reasoning itself (in prompt engineering, the CoT is the product), produce the **revised CoT**. Both templates are in `references/标注范例.md` (Annotation Examples).
 
-Just paste it at the **end of the original conversation** — no new chat needed. The optimization instruction begins with a **targeted-ignore declaration**: it only cuts that one failing stretch of deep thinking and the single answer it directly produced; your earlier instructions, added requirements, expression habits, and ways of thinking all remain in effect.
+Just paste it at the **end of the original conversation** — no new chat needed. The retake note begins with a **targeted-ignore declaration**: it only cuts that one failing stretch of deep thinking and the single answer it directly produced; your earlier instructions, added requirements, expression habits, and ways of thinking all remain in effect.
 
 This method is domain-agnostic. Its review logic has nothing to do with "what the product is" — copy, plans, code, analysis conclusions, and scoring rubrics all apply equally. Every rule in this skill is abstracted to keep only mechanisms that hold across domains; nothing tied to a single domain is written in.
 
@@ -165,8 +172,8 @@ The only criterion: **does that AI expose its reasoning process?**
 
 | Class | Representative AIs | What we review | What you get | Output type |
 |---|---|---|---|---|
-| **A Full reasoning** | DeepSeek, Qwen (thinking mode), Gemini, Doubao, Claude | That stretch of deep thinking | Optimization instruction (paste back) | Text / Other |
-| **B Reasoning summary only** | ChatGPT (thinking summary), some Doubao / Qwen share snapshots | Summary + infer backward from the product (source noted) | Optimization instruction | Text / Other |
+| **A Full reasoning** | DeepSeek, Qwen (thinking mode), Gemini, Doubao, Claude | That stretch of deep thinking | Retake note (paste back) | Text / Other |
+| **B Reasoning summary only** | ChatGPT (thinking summary), some Doubao / Qwen share snapshots | Summary + infer backward from the product (source noted) | Retake note | Text / Other |
 | **C No reasoning (generative)** | Jimeng, Kling, Midjourney, Sora, Runway | **The prompt itself** | Prompt retake note (directly pasteable) | Image / Video |
 
 > Class C is a deliberate adaptation: generative models don't show you their reasoning, but **the prompt is the complete instruction they received** — treat it as the CoT and the root cause of a bad image / clip is equally findable (missing elements, internal conflict, adjectives not operationalized, words the platform doesn't recognize). Three rules: don't fabricate platform parameters, keep the seed and reference images, change only the elements that are actually wrong, and don't throw out the whole image.
@@ -292,10 +299,10 @@ Both of the following work:
 
 ```
 # Provide a link (most common)
-Generate an optimization instruction for me: https://chat.deepseek.com/share/xxxxx
+Generate an retake note for me: https://chat.deepseek.com/share/xxxxx
 
 # Paste content directly
-Check whether this CoT is correct; if not or if it can be improved, generate an optimization instruction for me.
+Check whether this CoT is correct; if not or if it can be improved, generate an retake note for me.
 UP (user instruction): ……
 CoT (deep thinking): ……
 ```
@@ -319,7 +326,7 @@ Whether a chain of thought is effective is judged by four standards. **The Four 
 | **Feasibility** | Every thinking step can actually be carried out | After reading, do you know the specific next action? |
 | **Verifiability** | Every thinking step can be validated by real data and facts | Can each conclusion point to "why do you say so"? |
 
-Process: first find the concrete errors via the check items → map them to the Four Standards → give an overall score → write the optimization instruction from that. The revision points must cover all four; fill whichever is missing.
+Process: first find the concrete errors via the check items → map them to the Four Standards → give an overall score → write the retake note from that. The revision points must cover all four; fill whichever is missing.
 
 For per-standard judgment methods and the mapping to check items, see `references/思维链四标准.md` (The Four Standards for Chain of Thought).
 
@@ -413,9 +420,9 @@ Move along the production line: **Reshoot → Pick-up → Final cut → Color gr
 
 ---
 
-## The three segments at the end of the optimization instruction (hybrid mode)
+## The three segments at the end of the retake note (hybrid mode)
 
-The optimization instruction doesn't end after the requirements; three segments follow, in fixed order:
+The retake note doesn't end after the requirements; three segments follow, in fixed order:
 
 | Segment | Written by | Purpose |
 |---|---|---|
