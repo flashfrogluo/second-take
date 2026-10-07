@@ -35,7 +35,7 @@ The table below is your **control panel**: the film term on the left, what it ac
 | Targeted fix in later rounds | Pick-up / 补拍 | Subject already holds; change only the named spots | Keep qualified passages; fix precisely, avoid regression |
 | Self-consistency check | Continuity / 穿帮 | Check whether each step internally, steps among themselves, and against the conclusion stay self-consistent | Eliminate logic clashes |
 | Incomplete coverage | Missing coverage / 漏镜 | Check whether key branches or factors were missed | Close coverage gaps; avoid overgeneralizing |
-| Deliverable (optimization instruction) | Retake note / 重拍单 | Output a copy-ready sheet for the original AI to execute | Let the original AI re-shoot per the sheet |
+| Deliverable (retake note) | Retake note / 重拍单 | Output a copy-ready sheet for the original AI to execute | Let the original AI re-shoot per the sheet |
 | Verdict after deadlock | Final cut / 定剪 | When versions conflict, make a trade-off call | Lock the cut; stop rewriting |
 | Polish after the subject is locked | Color grading / 调色 | All Four Standards met; polish only (text: wording/tone/rhythm/key lines; image & video prompts: visual descriptors & aesthetic direction) | Raise expressive / visual quality; no structural/factual change, no new claims |
 | Presentation at delivery | Packaging / 包装 | Output a summary, mind map, and visualizations | Make the result read clearly and land |
@@ -69,16 +69,16 @@ The table below is your **control panel**: the film term on the left, what it ac
 
 ## Deliverables
 
-1. **A copy-ready optimization instruction** (the core deliverable). Paste it at the end of the original conversation; the other AI gives the final answer directly, without returning another "analysis" or "suggestion."
+1. **A copy-ready retake note** (the core deliverable). Paste it at the end of the original conversation; the other AI gives the final answer directly, without returning another "analysis" or "suggestion."
 2. **A diagnosis of a dozen-odd lines**, explaining where the original reasoning went wrong and what this version changes.
 
 This skill **does not** write the answer for you. Your context lives in that AI's conversation, so you must get the result there. If you want it to write directly, just say "write it directly."
 
-The optimization instruction is self-contained: the full UP is embedded, so copying the whole block works without any surrounding context. It **does not embed the original CoT** — the guesses and "thinking voice" inside the CoT are exactly the source of the problem; paste them in and the model will replay the same thought process. We give only: UP + a list of valid conclusions (the sound judgments distilled from the CoT) + revision points + an output-structure skeleton (how many sections, what each says, how long, conclusions first, key points bolded) + output requirements (including a ban on the thinking voice).
+The retake note is self-contained: the full UP is embedded, so copying the whole block works without any surrounding context. It **does not embed the original CoT** — the guesses and "thinking voice" inside the CoT are exactly the source of the problem; paste them in and the model will replay the same thought process. We give only: UP + a list of valid conclusions (the sound judgments distilled from the CoT) + revision points + an output-structure skeleton (how many sections, what each says, how long, conclusions first, key points bolded) + output requirements (including a ban on the thinking voice).
 
 What to produce is decided by the UP, not guessed: if the UP is a question or asks for content, produce the **final answer**; if the UP's deliverable *is* the reasoning itself (in prompt engineering, the CoT is the product), produce the **revised CoT**. Both templates are in `references/标注范例.md` (Annotation Examples).
 
-Just paste it at the **end of the original conversation** — no new chat needed. The optimization instruction begins with a **targeted-ignore declaration**: it only cuts that one failing stretch of deep thinking and the single answer it directly produced; your earlier instructions, added requirements, expression habits, and ways of thinking all remain in effect.
+Just paste it at the **end of the original conversation** — no new chat needed. The retake note begins with a **targeted-ignore declaration**: it only cuts that one failing stretch of deep thinking and the single answer it directly produced; your earlier instructions, added requirements, expression habits, and ways of thinking all remain in effect.
 
 This method is domain-agnostic. Its review logic has nothing to do with "what the product is" — copy, plans, code, analysis conclusions, and scoring rubrics all apply equally. Every rule in this skill is abstracted to keep only mechanisms that hold across domains; nothing tied to a single domain is written in.
 
@@ -106,8 +106,8 @@ The only criterion: **does that AI expose its reasoning process?**
 
 | Class | Representative AIs | What we review | What you get | Output type |
 |---|---|---|---|---|
-| **A Full reasoning** | DeepSeek, Qwen (thinking mode), Gemini, Doubao, Claude | That stretch of deep thinking | Optimization instruction (paste back) | Text / Other |
-| **B Reasoning summary only** | ChatGPT (thinking summary), some Doubao / Qwen share snapshots | Summary + infer backward from the product (source noted) | Optimization instruction | Text / Other |
+| **A Full reasoning** | DeepSeek, Qwen (thinking mode), Gemini, Doubao, Claude | That stretch of deep thinking | Retake note (paste back) | Text / Other |
+| **B Reasoning summary only** | ChatGPT (thinking summary), some Doubao / Qwen share snapshots | Summary + infer backward from the product (source noted) | Retake note | Text / Other |
 | **C No reasoning (generative)** | Jimeng, Kling, Midjourney, Sora, Runway | **The prompt itself** | Prompt retake note (directly pasteable) | Image / Video |
 
 > Class C is a deliberate adaptation: generative models don't show you their reasoning, but **the prompt is the complete instruction they received** — treat it as the CoT and the root cause of a bad image / clip is equally findable (missing elements, internal conflict, adjectives not operationalized, words the platform doesn't recognize). Three rules: don't fabricate platform parameters, keep the seed and reference images, change only the elements that are actually wrong, and don't throw out the whole image.
@@ -220,10 +220,10 @@ Both of the following work:
 
 ```
 # Provide a link (most common)
-Generate an optimization instruction for me: https://chat.deepseek.com/share/xxxxx
+Generate an retake note for me: https://chat.deepseek.com/share/xxxxx
 
 # Paste content directly
-Check whether this CoT is correct; if not or if it can be improved, generate an optimization instruction for me.
+Check whether this CoT is correct; if not or if it can be improved, generate an retake note for me.
 UP (user instruction): ……
 CoT (deep thinking): ……
 ```
@@ -247,7 +247,7 @@ Whether a chain of thought is effective is judged by four standards. **The Four 
 | **Feasibility** | Every thinking step can actually be carried out | After reading, do you know the specific next action? |
 | **Verifiability** | Every thinking step can be validated by real data and facts | Can each conclusion point to "why do you say so"? |
 
-Process: first find the concrete errors via the check items → map them to the Four Standards → give an overall score → write the optimization instruction from that. The revision points must cover all four; fill whichever is missing.
+Process: first find the concrete errors via the check items → map them to the Four Standards → give an overall score → write the retake note from that. The revision points must cover all four; fill whichever is missing.
 
 For per-standard judgment methods and the mapping to check items, see `references/思维链四标准.md` (The Four Standards for Chain of Thought).
 
@@ -312,9 +312,9 @@ Default to Reshoot; **after the second round, default to Pick-up** — the bigge
 
 ---
 
-## The three segments at the end of the optimization instruction (hybrid mode)
+## The three segments at the end of the retake note (hybrid mode)
 
-The optimization instruction doesn't end after the requirements; three segments follow, in fixed order:
+The retake note doesn't end after the requirements; three segments follow, in fixed order:
 
 | Segment | Written by | Purpose |
 |---|---|---|
