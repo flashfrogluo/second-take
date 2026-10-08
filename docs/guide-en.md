@@ -130,7 +130,8 @@ The more precise your information, the more precise the diagnosis. Provide the f
 
 ## Privacy
 
-- This skill runs **locally** — no network, no upload of any of your conversations or materials; diagnostic content exists only in this conversation.
+- The diagnosis happens entirely inside this conversation. This skill **sends nothing to the author** and has no background collection.
+- The one network call is **when you paste a share link**: your own machine requests that shared conversation from the platform (currently DeepSeek only) and hands the text to the AI you are already talking to. **It never passes through the author.**
 - The requirements, conversations, prompts, and outputs you paste are **used only for this diagnosis** — never collected, trained on, or leaked.
 - If you voluntarily contribute a sanitized case (see next section), that's your **active** contribution, unrelated to automatic collection.
 
@@ -168,7 +169,7 @@ The key is **you don't rewrite the question**: all context, history, and express
 npx skills add flashfrogluo/second-take
 ```
 
-The skills CLI supports dozens of agents — Claude Code, Codex, Cursor, GitHub Copilot, Windsurf, Gemini CLI, Cline, VS Code, Zed, Goose, OpenCode — and asks you to pick a target at install time.
+The skills CLI supports dozens of agents — Claude Code, Codex, Cursor, GitHub Copilot, Windsurf, Gemini CLI, Cline, Zed, Goose, OpenCode — and asks you to pick a target at install time. (The exact list changes with each CLI release; the install prompt shows what your version supports.)
 
 ### Discovery paths per platform (for manual install)
 
@@ -278,7 +279,7 @@ second-take/
 │   ├── 标注范例.md             # Copy-ready optimization-instruction templates A/B/C (placeholders, no case; the full annotated example is kept internal)
 │   ├── 成稿自检清单.md         # Self-check paragraph for the target AI: writing rules and item templates
 │   ├── 自生成rubric元指令.md   # Hybrid mode: meta-instruction letting the target AI write its own domain standard
-│   ├── 优化指令自查rubric.md   # Our pre-delivery five-field self-check (Must-have 18 items)
+│   ├── 优化与检查指令自查rubric.md   # Our pre-delivery five-field self-check (Must-have 18 items)
 │   ├── 经验提炼与思维习惯.md   # How cases are abstracted into rules, anti-pollution discipline, fixed mental actions
 │   ├── 画面描述规范.md         # Caption writing principles and eight judgments (sanitized from a general spec)
 │   └── 术语表.md               # Evaluation-side terms: Rubric's five fields, four hard-injury types, reward hacking
