@@ -7,7 +7,7 @@
 #   ./install.sh                          装到默认目录
 #   ./install.sh /path/to/skills/second-take   指定目标目录
 #   ./install.sh --from-local             从当前仓库目录装（开发者自用）
-#   ./install.sh --version 1.7.0          指定版本（默认取最新 release）
+#   ./install.sh --version 1.7.1          指定版本（默认取最新 release）
 #
 # 环境变量：
 #   REPO   默认 flashfrogluo/second-take
