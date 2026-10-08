@@ -1,10 +1,12 @@
 # Second Take · English Usage Manual
 
+🇬🇧 **English (this page)** ｜ 🇨🇳 [中文](README.md)
+
 > Got an AI answer you're not happy with? Just say "second take" — but this time, bring the retake note.
 
 [![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.7.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.7.1-blue)](CHANGELOG.md)
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
 [![Downloads](https://img.shields.io/github/downloads/flashfrogluo/second-take/total?style=flat&logo=github)](https://github.com/flashfrogluo/second-take/releases)
 [![Last commit](https://img.shields.io/github/last-commit/flashfrogluo/second-take?style=flat)](https://github.com/flashfrogluo/second-take/commits/main)
@@ -29,7 +31,7 @@ npx skills add flashfrogluo/second-take
 
 **Why "Second Take":** the word *take* has two meanings — in film it means "one shot" (let's do another take), and it also means "an opinion or interpretation" (my take on this). The name captures both things we do: **offer a second opinion, then let the original AI reshoot once.**
 
-📖 **Handbook** (the full walkthrough of all five modes): [https://flashfrogluo.github.io/second-take/](https://flashfrogluo.github.io/second-take/)
+🌐 **At a glance** (how it runs, what it produces) — [English](https://flashfrogluo.github.io/second-take/index-en.html) · [中文](https://flashfrogluo.github.io/second-take/)
 
 For DeepSeek, use [`prompts/for-deepseek-en.md`](prompts/for-deepseek-en.md) — tuned for its thinking mode; for other platforms use [`prompts/abc-en.md`](prompts/abc-en.md). Chinese readers: `prompts/for-deepseek.md` and `prompts/abc.md`.
 
@@ -49,74 +51,19 @@ npx skills add flashfrogluo/second-take
 
 ---
 
-## Why "Second Take"
+## One complete round-trip
 
-The word *take* has two meanings — in film it means "one shot" (let's do another take), and it also means "an opinion, a reading" (*my take on this*). The name covers both things this tool does: **offer a second reading, then have the original AI shoot it again**.
+```
+You  →  Paste a disappointing AI output, or its conversation share link
+It   →  ① A dozen-odd-line diagnosis: which rule broke, which class, overall score by the Four Standards
+        ② A retake note (code block, fully copyable)
+You  →  Paste the retake note at the end of the original AI's conversation
+That AI → Gives a better final answer directly
+```
 
-## Workflow diagram: five modes, one pipeline
+The key is **you don't rewrite the question**: all context, history, and expression habits in the original conversation are preserved; only that failing stretch of reasoning is cut.
 
-![Second Take five-mode workflow: input → classify & diagnose → reshoot → paste back to the original AI → the original AI runs it → your call; if not satisfied, pick-up / final cut loop back; if satisfied, output, with color grading / packaging optional](docs/assets/workflow-en.png)
-
-> This is the **English version**; the Chinese version is at [`docs/assets/workflow-zh.png`](docs/assets/workflow-zh.png).
-> The sources (SVG / Mermaid) and the design spec live in the development workspace and are not published with this repository.
-
-## Treat one AI generation like shooting a film (vocabulary & control panel)
-
-> This method **packages** the whole review pipeline into film-making terms: you do not need to learn AI jargon — just recognise the film words below and you can name the exact step you want.
-
-**Only five modes can be named — this table is your control panel**:
-
-| Mode | When to use it | Words to name it |
-|---|---|---|
-| **Reshoot / 重拍** | First round, or when the previous version does not hold (wrong structure, misread goal, large gaps) | `reshoot` · start over · rewrite from scratch · full rewrite · this version is completely wrong |
-| **Pick-up / 补拍** | Later rounds, when the previous version does hold | `pick-up` · change it from this version · just fix these spots · tweak · iterate |
-| **Final cut / 定剪** | Several rounds in and new errors keep appearing, or two versions contradict each other | `final cut` · pick one for me · which one · lock it · make the call |
-| **Color grading / 调色** | All Four Standards met; only texture or style is missing | `color grading` · polish it · adjust the tone · more visual · unify the style |
-| **Packaging / 包装** | Already meets the output bar and needs to be shown to someone | `packaging` · make a chart · visualise it · mind map · comparison table · infographic |
-
-> You do not have to use these words — the tool will infer the right step from context. What each mode does and the order they run in: see [Five modes](#five-modes-from-is-it-right-to-does-it-read-clearly) below.
-
-> 📌 **What the deliverable is called**: the tool delivers a **retake note** (重拍单) — a single block you copy in full and paste back into the original chat.
-> In plain terms it is an **optimization instruction**: self-contained, depending on no surrounding context, so once pasted the other AI produces its better final answer directly.
-> **This page uses "retake note" throughout.**
-
-> ⚠️ **One boundary**: these film terms are the **command interface for invoking this tool**, not the content of the task you hand the AI. If your own work happens to be film-making and the words "reshoot" or "color grading" appear in your brief, that is just your domain language and will not trigger a step — triggering only happens when you actively use this tool.
-
-**The remaining film words are not modes and cannot be named** — they are step names that show up in the diagnosis:
-
-| Film word | What it refers to |
-|---|---|
-| **Dailies / 样片** | The material under review: the original AI's reasoning chain and final answer |
-| **Continuity / 穿帮** | The self-consistency check: whether each step, and the steps against the conclusion, hold together |
-| **Missing coverage / 漏镜** | Incomplete coverage: whether key branches or factors were missed |
-| **Retake note / 重拍单** | The deliverable itself (see the note above) |
-
-> **Check items** (continuity / missing coverage) are for **diagnosis** — they are not one of the five modes and never appear as trigger words.
-
-## Trigger words (how to invoke, and how to name a mode)
-
-> The tool is invoked by two kinds of words: **general triggers** open the flow; **mode triggers** name which step to run (you can also omit them and let the tool decide from context). Film terms are the "command interface", not your task content — see the boundary note above.
-
-### General triggers (open the tool)
-
-| Intent | Trigger words |
-|---|---|
-| Unhappy result (QA) | the result is wrong / not usable / misses points / wrong length / sounds robotic / too much AI flavor / wrong format / off-topic / logic is flawed / self-contradictory |
-| Hand me material to diagnose | check this reasoning / diagnose this CoT / where did this thinking go wrong / here's a share link / my prompt produces a bad image |
-| Optimize / rewrite | improve the prompt / have the original AI redo it / spot errors / review / re-examine / rewrite the CoT / QA it with this rubric |
-| Generative platforms | JiMeng / Kling / Midjourney image is wrong / not the frame I wanted / prompt retake note |
-
-### Mode triggers (name the step)
-
-| Mode | Signal (when) | Trigger words (film term + natural intent, with evaluated extensions) |
-|---|---|---|
-| Reshoot | first pass / core invalid / wrong direction | `reshoot` · rewrite from scratch · start over · full rewrite · this version is completely wrong · redo · reroll |
-| Pick-up | after round 2 / core holds / change only a few spots | `pick-up` · revise on top of this version · adjust just these few · add a bit · keep this version · tweak · iterate · fix a few spots |
-| Final cut | stuck across rounds / versions conflict / need a ruling | `final cut` · help me choose · which one · lock the draft · make the call · decide · merge conflict |
-| Color grading | core perfect (four standards pass) / only lacks polish or style | `color grading` · polish · adjust tone · more visual feel · unify style · refine · improve quality · beautify |
-| Packaging | overall meets bar / needs structured visualization | `packaging` · make a diagram · visualize · mind map · comparison table · infographic · dashboard · concept map |
-
-> Extensions were added after evaluation: no semantic overlap with existing modes, and they stay on the "command interface vs task content" side of the boundary.
+---
 
 ## A 30-second walkthrough: the shortest demo
 
@@ -135,12 +82,17 @@ The word *take* has two meanings — in film it means "one shot" (let's do anoth
 
 ## Deliverables
 
-1. **A copy-ready retake note** (the core deliverable). Paste it at the end of the original conversation; the other AI gives the final answer directly, without returning another "analysis" or "suggestion."
-2. **A diagnosis of a dozen-odd lines**, explaining where the original reasoning went wrong and what this version changes.
+**One retake note.** Paste it at the end of the original conversation; the other AI gives the final answer directly — it will not hand you back another "analysis" or "suggestions".
+
+Before writing the note it runs a short diagnosis (which step was wrong, which family of error it belongs to, an overall score against the Four Standards). That part is internal — it costs you no extra step. All you do is copy the note.
 
 This skill **does not** write the answer for you. Your context lives in that AI's conversation, so you must get the result there. If you want it to write directly, just say "write it directly."
 
-The retake note is self-contained: the full UP is embedded, so copying the whole block works without any surrounding context. It **does not embed the original CoT** — the guesses and "thinking voice" inside the CoT are exactly the source of the problem; paste them in and the model will replay the same thought process. We give only: UP + a list of valid conclusions (the sound judgments distilled from the CoT) + revision points + an output-structure skeleton (how many sections, what each says, how long, conclusions first, key points bolded) + output requirements (including a ban on the thinking voice).
+The retake note is self-contained: the full user instruction is embedded, so copying the whole block works with no surrounding context.
+
+It does **not** embed the original thinking process. That is where the guessing and the thinking-aloud tone come from — pasted in, the model simply replays it.
+
+It gives four things: the user instruction, a list of valid conclusions (the judgments from the thinking process that still hold), the required changes, and an output skeleton (how many sections, what each covers, how long — conclusions first, key points in bold) plus output requirements (including the ban on thinking-aloud tone).
 
 What to produce is decided by the UP, not guessed: if the UP is a question or asks for content, produce the **final answer**; if the UP's deliverable *is* the reasoning itself (in prompt engineering, the CoT is the product), produce the **revised CoT**. Both templates are in `references/标注范例.md` (Annotation Examples).
 
@@ -150,14 +102,93 @@ This method is domain-agnostic. Its review logic has nothing to do with "what th
 
 ---
 
-## When to use it
+## Treat one AI generation like shooting a film (vocabulary & control panel)
 
-- Check whether a model's chain of thought stays faithful to the user's instructions
-- Find unsupported citations, forced reasoning, and common-sense errors in the logic
-- QA the prompt / reasoning before batch generation
-- Turn "finding faults" experience into a reusable process
+> This method **packages** the whole review pipeline into film-making terms: you do not need to learn AI jargon — just recognise the film words below and you can name the exact step you want.
+> **The table below is everything you can name.**
 
----
+![Second Take five-mode workflow: input → classify & diagnose → reshoot → paste back to the original AI → the original AI runs it → your call; if not satisfied, pick-up / final cut loop back; if satisfied, output, with color grading / packaging optional](docs/assets/workflow-en.png)
+
+| Mode / deliverable | When to use it | What it does | Words to name it |
+|---|---|---|---|
+| **Reshoot / 重拍** | First round, or when the subject does not hold | Full rewrite | `reshoot` · start over · rewrite from scratch · full rewrite · this version is completely wrong · redo it · another take |
+| **Pick-up / 补拍** | Second round onwards, subject already holds | Change only the named spots; keep everything else as it is | `pick-up` · change it from this version · just fix these spots · add a bit · keep this version · tweak · iterate |
+| **Final cut / 定剪** | Deadlock after several rounds, or two versions contradict each other | Stop rewriting; make a trade-off call | `final cut` · pick one for me · which one · lock it · make the call · settle it · merge the conflict |
+| **Color grading / 调色** | Subject is already perfect (Four Standards met, no check-item problems); only texture / style is missing | Touch neither structure nor facts; polish and strengthen style only | `color grading` · polish it · adjust the tone · more visual · unify the style · sharpen it · raise the quality · beautify |
+| **Packaging / 包装** | Already meets the output bar and needs to be structured so it reads at a glance | Visual analysis: summary, mind map, charts | `packaging` · make a chart · visualise it · mind map · comparison table · infographic · dashboard |
+| **Retake note** | Every step above produces one — this is **the sheet the tool hands you** | It is essentially an **optimization & checking instruction** — it carries both the changes to make and check items that can be judged pass/fail. One block you copy in full and paste back into the original chat; the other AI answers better from it
+
+**To invoke it, you do not need to name a mode — just say:**
+
+| Intent | Trigger words |
+|---|---|
+| Unhappy result (QA) | the result is wrong / not usable / misses points / wrong length / sounds robotic / too much AI flavor / wrong format / off-topic / logic is flawed / self-contradictory |
+| Hand me material to diagnose | check this reasoning / diagnose this CoT / where did this thinking go wrong / here's a share link / my prompt produces a bad image |
+| Optimize / rewrite | improve the prompt / have the original AI redo it / spot errors / review / re-examine / rewrite the CoT / QA it with this rubric |
+| Generative platforms | JiMeng / Kling / Midjourney image is wrong / not the frame I wanted / prompt retake note |
+
+**The first three settle "is it right"; color grading settles "is it good enough"; packaging settles "does it read clearly".**
+
+> **Neither color grading nor packaging re-judges the conclusion** — they rest on "the subject already holds". If the Four Standards are not all met yet, run the first three first.
+>
+> **From round two on, Pick-up is the default**: the biggest risk of a rewrite is not writing it badly, but **throwing away the parts of the previous version that were already fine**.
+
+> 📌 **On the name.** The deliverable is called a **retake note** (重拍单). Essentially it is an **optimization & checking instruction** — it states what to change and carries check items that can be judged pass/fail. It is self-contained: paste it and it works, no surrounding context needed.
+
+> ⚠️ **One boundary**: these film terms are the **command interface for invoking this tool**, not the content of the task you hand the AI. If your own work happens to be film-making and the words "reshoot" or "color grading" appear in your brief, that is just your domain language and will not trigger a step — triggering only happens when you actively use this tool.
+
+**The remaining film words are not modes and cannot be named** — they are step names that show up in the diagnosis:
+
+| Film word | What it refers to |
+|---|---|
+| **Dailies / 样片** | The material under review: the original AI's reasoning chain and final answer |
+| **Continuity / 穿帮** | Self-consistency check — **a check item, not a mode** |
+| **Missing coverage / 漏镜** | Incomplete coverage — **a check item, not a mode** |
+
+> These two are **check items** — they describe what is wrong with the reasoning, not modes you can name, so they never appear as trigger words.
+
+## Default to the light version
+
+By default you get the **light version**: the diagnosis is still done item by item, but the delivery is kept to what you actually need — most often a **targeted fix** (the previous version holds, so the good parts stay and only a few spots change).
+
+Ask for the **full version** any time by saying "this is important / go deeper / dig into it"; or, when the problem is clearly structural (several things are wrong, the direction is off, or you have already been through several rounds), the tool will go straight to the full version — full rewrite, item-by-item diagnosis and the draft self-check included.
+
+## Installation
+
+```bash
+npx skills add flashfrogluo/second-take
+```
+
+One line installs it into your agent — the installer asks you to pick a target. **What is supported depends on your version of the `skills` CLI** (the list changes between releases; the install prompt shows yours).
+
+> **Share the link, do not ask people to search.** Searching `second-take` collides with same-substring names (scrump / thumbnail) and loses on ranking; `second take` with a space drops into semantic search sorted by install count.
+
+**Manual install: where each platform looks**
+
+| Agent | Project-level | User-level |
+|---|---|---|
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Codex CLI | `.agents/skills/` | `~/.codex/skills/` |
+| Cursor | `.agents/skills/` | `~/.cursor/skills/` |
+| Windsurf | `.windsurf/skills/` | `~/.codeium/windsurf/skills/` |
+| Cline · Zed | `.agents/skills/` | `~/.agents/skills/` |
+| Gemini CLI | `.agents/skills/` | `~/.gemini/skills/` |
+| GitHub Copilot | `.agents/skills/` | `~/.copilot/skills/` |
+| OpenCode | `.agents/skills/` | `~/.config/opencode/skills/` |
+| Goose | `.goose/skills/` | `~/.config/goose/skills/` |
+| WorkBuddy | — | `~/.workbuddy/skills/` |
+| DeepSeek Harness | `.agents/skills/` | `~/.agents/skills/` |
+
+**Most agents read `.agents/skills/`** — for a manual install that one place is usually enough.
+
+**Prompt-only use (no install)**
+
+Paste the body of `SKILL.md` into a chat. Prefer a ready-made one? Two **starter prompts**:
+
+- [`prompts/for-deepseek-en.md`](prompts/for-deepseek-en.md) — tuned for DeepSeek (Type A)
+- [`prompts/abc-en.md`](prompts/abc-en.md) — generic, covering Types A / B / C
+
+> ⚠️ Both are **trimmed starters** (a subset of 14 high-frequency hard constraints; the full skill has 34). Copying solves "this once"; installing is what gets you the full check every time.
 
 ## Supported models and output types
 
@@ -180,119 +211,6 @@ The only criterion: **does that AI expose its reasoning process?**
 
 ---
 
-## What to provide per output type (for the most accurate diagnosis)
-
-The more precise your information, the more precise the diagnosis. Provide the following by output type; you can still run with gaps and fill in later:
-
-| Output you're reviewing | Provide if possible (more = better) | Purpose |
-|---|---|---|
-| **Text / code / plan** | ① Original user instruction (UP) ② That stretch of deep thinking (CoT) ③ The final answer it gave | CoT is the main evidence; UP checks "which requirement was dropped"; the answer confirms "did the error reach the result" |
-| **Summary only (ChatGPT, etc.)** | ① UP ② Thinking summary ③ Final product | Main evidence becomes the product; conclusions note "inferred from product" and state "full reasoning not seen, coverage may be low" |
-| **Image / video (generative)** | ① The effect you expected (UP) ② The prompt used (params / seed / reference) ③ This version's output | The prompt is the reasoning; seed / reference decide whether we can "change only the broken element" |
-| **With reference / target material** | ① Target (the look you expected) ② Reference (take the one dimension it was named for) ③ The AI artifact to fix | Keep the three distinct to avoid the "loop": if you treat the AI artifact as the standard, every fix makes it more like the original error |
-| **Any type** | One line "what you're unhappy about" | Helps us finish the judgment first and take fewer detours; if unstated we infer from UP and product |
-
----
-
-## Privacy
-
-- This skill runs **locally** — no network, no upload of any of your conversations or materials; diagnostic content exists only in this conversation.
-- The requirements, conversations, prompts, and outputs you paste are **used only for this diagnosis** — never collected, trained on, or leaked.
-- If you voluntarily contribute a sanitized case (see next section), that's your **active** contribution, unrelated to automatic collection.
-
----
-
-## Contributing: share your cases and corpus
-
-The hard constraints of this skill were honed one real case at a time. **If you're willing to share an "unsatisfying result" together with its original instruction / prompt, you help us sharpen the judgments** — email **flashfrogluo@gmail.com**, or open an issue / PR in the repository.
-
-- **Sanitize before contributing:** remove real names, client names, internal addresses, and confidential data; keep "task type + instruction + that reasoning / prompt + what you were unhappy about."
-- Your cases never automatically enter the public knowledge base; only patterns abstracted into "mechanisms" flow back, and specific nouns are stripped — it helps us without leaking your business.
-- Usage suggestions, testing feedback, and collaboration ideas are all welcome.
-
----
-
-## One complete round-trip
-
-```
-You  →  Paste a disappointing AI output, or its conversation share link
-It   →  ① A dozen-odd-line diagnosis: which rule broke, which class, overall score by the Four Standards
-        ② A retake note (code block, fully copyable)
-You  →  Paste the retake note at the end of the original AI's conversation
-That AI → Gives a better final answer directly
-```
-
-The key is **you don't rewrite the question**: all context, history, and expression habits in the original conversation are preserved; only that failing stretch of reasoning is cut.
-
----
-
-## Installation
-
-### One-line install to any agent (recommended)
-
-```bash
-npx skills add flashfrogluo/second-take
-```
-
-The skills CLI itself supports Claude Code, Codex, Cursor, GitHub Copilot, Windsurf, Gemini CLI, Cline, Zed, Goose, OpenCode and 48 more (58 in total) — pick your target when installing. **For runtimes it does not cover, dropping the folder into their skills directory works just the same** (see the last two rows of the table above).
-
-**Not on that list, yet still usable**: this skill is just Markdown — **any runtime that can read `SKILL.md` can use it**. WorkBuddy and DeepSeek Harness are exactly that case (they do not go through the skills CLI; they read their own skills directories — see the table above).
-
-### Discovery paths per platform (for manual install)
-
-| Agent | Project-level | User-level |
-|---|---|---|
-| **Claude Code** | `.claude/skills/` | `~/.claude/skills/` |
-| **Codex CLI** | `.agents/skills/` | `~/.codex/skills/` |
-| **Cursor** | `.agents/skills/` | `~/.cursor/skills/` |
-| **Windsurf** | `.windsurf/skills/` | `~/.codeium/windsurf/skills/` |
-| **Cline** | `.agents/skills/` | `~/.agents/skills/` |
-| **Zed** | `.agents/skills/` | `~/.agents/skills/` |
-| **Gemini CLI** | `.agents/skills/` | `~/.gemini/skills/` |
-| **GitHub Copilot** | `.agents/skills/` | `~/.copilot/skills/` |
-| **OpenCode** | `.agents/skills/` | `~/.config/opencode/skills/` |
-| **Goose** | `.goose/skills/` | `~/.config/goose/skills/` |
-| **WorkBuddy** | — | `~/.workbuddy/skills/` |
-| **DeepSeek Harness** | `.agents/skills/` | `~/.agents/skills/` |
-
-> The first 10 paths come from the `skills` CLI's own agent definitions (v1.7.1); **WorkBuddy and DeepSeek Harness were added from measurement**
-> (WorkBuddy's `~/.workbuddy/skills/` actually holds this skill; DeepSeek Harness uses the `.agents/skills/` standard path and lists user skills
-> alongside the skills bundled with the app).
->
-> **Most agents read `.agents/skills/`** — for a manual install, putting it there is usually enough. For agents not listed, see their own docs.
-
-**One master copy + symlinks** (the standard setup when sharing across agents, to avoid copies drifting apart):
-
-```bash
-mkdir -p .agents/skills .claude
-cp -R second-take .agents/skills/
-ln -s ../.agents/skills .claude/skills     # Claude Code supports directory symlinks
-```
-
-User-level is the same: put the real copy in `~/.agents/skills/`, and point `~/.claude/skills` and `~/.workbuddy/skills/second-take` at it. On Windows, symlinks need Developer Mode; if that's a hassle, copy a duplicate and exclude it in `.gitignore`.
-
-### Prompt-only use
-
-**Starter prompts (copy-paste, no install).** Two self-contained prompts are included for when you would rather not trim `SKILL.md` yourself:
-
-- **`prompts/for-deepseek-en.md`** — tuned for DeepSeek (Type A). Copy the whole block as the first message of a new chat, then paste the unsatisfactory answer plus its thinking process.
-- **`prompts/abc-en.md`** — generic version covering Type A (full reasoning) / B (summary only) / C (no reasoning; prompt review for Midjourney, Jimeng, Kling and similar).
-
-Both are **starter versions**: they keep the flow, the check items, the Four Standards, Templates A and C, and **14 of the 34 hard constraints** (the most frequently used ones — a subset, not the whole set). Chinese counterparts live alongside them as `prompts/*.md`. The full skill (`npx skills add flashfrogluo/second-take`) adds all 11 references, the 43-item self-check rubric, and the complete 34 constraints with counter-examples.
-
-Paste the body of `SKILL.md` directly into a chat. The files under `references/` are optional supplements — read `标注范例.md` (Annotation Examples) for full templates, `成稿自检清单.md` (Self-Check List) for the self-check paragraph, `自生成rubric元指令.md` (Self-Generating Rubric Meta-Instruction) for the hybrid mode, and `经验提炼与思维习惯.md` (Experience Distillation & Thinking Habits) for feeding new experience back into this skill.
-
----
-
-## Compatibility
-
-- Follows the **agentskills.io** open standard: 6 fields total (`name` / `description` / `license` / `compatibility` / `metadata` / `allowed-tools`); this skill uses the first 5, omits `allowed-tools`, and uses no platform-private fields (such as Cursor's `paths` or Codex's `agents/openai.yaml`), so it won't be silently stripped by other runtimes.
-- Directory name matches `name` exactly: `second-take`.
-- All `references/` links use relative paths, with no machine-specific absolute paths.
-- Pure Markdown — no scripts, no network requests, no system dependencies. Install is trust-by-default and won't trigger security-audit warnings.
-
----
-
 ## Usage
 
 Both of the following work:
@@ -312,6 +230,30 @@ After a link, it calls the API to fetch the original instruction, deep thinking,
 Optional inputs include: material description (Caption), target product, reference material, and instructions you add in later rounds (e.g. "no bullet points, output one long block"). Whichever is missing, the check that depends on it is simply marked "none."
 
 Pure text Q&A with only UP and CoT and no product or material also works; the focus then falls on instruction conflict, incomplete coverage, and reasoning defects.
+
+---
+
+**Terms**
+
+| Abbreviation | Meaning |
+|---|---|
+| UP (User Prompt) | The requirement and constraints the user gave |
+| CoT (Chain of Thought) | The reasoning process under review |
+| Caption | A text description of the target product or reference material |
+
+---
+
+## What to provide per output type (for the most accurate diagnosis)
+
+The more precise your information, the more precise the diagnosis. Provide the following by output type; you can still run with gaps and fill in later:
+
+| Output you're reviewing | Provide if possible (more = better) | Purpose |
+|---|---|---|
+| **Text / code / plan** | ① Original user instruction (UP) ② That stretch of deep thinking (CoT) ③ The final answer it gave | CoT is the main evidence; UP checks "which requirement was dropped"; the answer confirms "did the error reach the result" |
+| **Summary only (ChatGPT, etc.)** | ① UP ② Thinking summary ③ Final product | Main evidence becomes the product; conclusions note "inferred from product" and state "full reasoning not seen, coverage may be low" |
+| **Image / video (generative)** | ① The effect you expected (UP) ② The prompt used (params / seed / reference) ③ This version's output | The prompt is the reasoning; seed / reference decide whether we can "change only the broken element" |
+| **With reference / target material** | ① Target (the look you expected) ② Reference (take the one dimension it was named for) ③ The AI artifact to fix | Keep the three distinct to avoid the "loop": if you treat the AI artifact as the standard, every fix makes it more like the original error |
+| **Any type** | One line "what you're unhappy about" | Helps us finish the judgment first and take fewer detours; if unstated we infer from UP and product |
 
 ---
 
@@ -344,82 +286,6 @@ The full itemized list and per-item judgment methods live in `references/思维�
 
 ---
 
-## Repository layout
-
-```
-second-take/
-├── SKILL.md              # Main flow: input, discipline, check items, the 34 hard-constraint points, steps
-├── README.md / README_EN.md / CHANGELOG.md / LICENSE
-├── references/           # 11 reference documents — table below
-├── docs/                 # Manuals and maintainer docs — table below
-├── prompts/              # 4 "starter" prompts (Chinese / English) — table below
-├── tests/                # validate.py (structural checks) + samples/ (7 JSON samples)
-├── scripts/              # Maintenance scripts: release / push / sync / stats / patch_*
-└── metrics/              # Historical install-count records (GitHub Traffic only keeps 14 days)
-```
-
-**references/ (11 documents, all read on demand)**
-
-| File | Contents |
-|---|---|
-| `硬约束详解.md` | Full explanations, counter-examples and correct phrasings for all 34 hard constraints |
-| `多场景适配.md` | What DeepSeek / ChatGPT / Gemini / generative platforms each expose, and how to adapt |
-| `判定细则.md` | Judgment order, attribution rules, exemption list, sub-type boundaries |
-| `思维链四标准.md` | Single source of truth for the Four Standards: definitions + per-item judgment + mapping + five modes / two mechanisms / boundaries |
-| `标注范例.md` | Copy-ready optimization-instruction templates A/B/C (placeholders, no cases) |
-| `成稿自检清单.md` | The self-check paragraph for the target AI: writing rules and item templates |
-| `自生成rubric元指令.md` | Hybrid mode: the meta-instruction that lets the target AI write its own domain criteria |
-| `优化指令自查rubric.md` | Our pre-delivery five-field self-check (Must-have 18 items) |
-| `经验提炼与思维习惯.md` | How cases are abstracted into rules, anti-pollution discipline, fixed mental moves |
-| `画面描述规范.md` | Caption writing principles and eight judgments (sanitized from a general spec) |
-| `术语表.md` | Evaluation-side terms: the Rubric's five fields, four hard-injury types, reward hacking |
-
-**docs/ and prompts/**
-
-| Path | Contents |
-|---|---|
-| `docs/使用与迭代.md` | For users: how to use it, how feedback reaches the next version |
-| `docs/迭代工作流.md` | Maintainer guide: changing hard constraints / adding references / corpus / release checklist |
-| `docs/guide-en.md` | The full English usage manual |
-| `docs/ROADMAP.md` | Roadmap: done / in progress / envisioned |
-| `docs/四标准质检法.md` | Entry pointer: merged into `references/思维链四标准.md`; do not write content here |
-| `docs/index.html` + `docs/assets/` | GitHub Pages landing page; key visual `hero.svg`; **workflow diagram** `workflow-zh.png` / `workflow-en.png` |
-| `prompts/for-deepseek.md` / `-en.md` | Starter prompt for DeepSeek (Type A), Chinese / English |
-| `prompts/abc.md` / `-en.md` | Starter prompt for Types A/B/C, Chinese / English |
-
-> Also present: `install.sh` / `update.sh` (install and upgrade), `scripts/` (release, push, sync, stats), `metrics/` (historical records), `.github/` (CI and governance files).
-
----
-
-## Default to the light version (delivery form vs mode)
-
-By default Second Take delivers the **light version**: the diagnosis is still full-strength, but the delivery is intentionally compact — most often a **pick-up** (the previous version's subject already holds, keep what's good and change only a few spots). The full version (full rewrite, item-by-item diagnosis, self-check, 18-point checklist) is on demand only: when the user says "important / go deeper / dig further", or the problem is clearly structural (many things wrong, wrong direction, several rounds in and still not working).
-
-Keep the two layers distinct, don't conflate them:
-
-- **Delivery form**: light / full — answers "how long is this delivery"; defaults to light.
-- **Mode (Reshoot / Pick-up / Final cut / Color grading / Packaging)**: chosen only on the full-version path, answers "which QA workflow".
-
-So "default to Reshoot" is precisely: **default to Reshoot under the full-version path**; by default we deliver the light version (mostly a pick-up in spirit). The two statements don't conflict — they describe different layers.
-
-## Five modes: from "is it right" to "does it read clearly"
-
-Not every round needs a full redo. Judge whether the subject holds first, then pick a mode:
-
-| Mode | Film term | When to use | Approach |
-|---|---|---|---|
-| **Reshoot** | 重拍 | First round, or the previous version's subject doesn't hold (wrong structure, wrong target judgment, large missing items) | Full rewrite |
-| **Pick-up** | 补拍 | Later iteration rounds, where the previous version's subject already holds | Change only the named spots; keep the rest as-is |
-| **Final cut** | 定剪 | Many rounds in and still producing new errors, or two versions' conclusions contradict each other | Stop rewriting; make a trade-off verdict |
-| **Color grading** | 调色 | The subject is already perfect (all Four Standards met, no check-item issues); only the feel / style falls short | Touch structure and facts not at all; only light polish and style strengthening — text: sharpen wording, unify tone, heighten rhythm and visual sense, spotlight key lines; image & video prompts: tighten style / lighting / mood descriptors and strengthen aesthetic direction, but keep the subject unchanged and add or remove no elements |
-| **Packaging** | 包装 | The whole thing already meets the output standard, but needs structured presentation so others get it at a glance | Do visualization analysis: output summary, mind map, and visual charts (flow / comparison / relation / timeline) |
-
-Move along the production line: **Reshoot → Pick-up → Final cut → Color grading → Packaging**. The first three answer "is it right"; Color grading answers "is it good enough"; Packaging answers "does it read clearly." **Neither Color grading nor Packaging re-judges the conclusion**: Color grading only polishes expression or visual presentation — no new points, no factual or structural change (for image & video prompts it tunes visual descriptors only, never swapping the subject or adding/removing elements); Packaging only presents the existing conclusion — faithful to the original judgment, never distorting relations for looks. Both assume the subject already passes; if the Four Standards aren't all met yet, do the first three first — don't jump to Color grading or Packaging.
-
-**Under the full-version path,** default to Reshoot; **after the second round, default to Pick-up** — the biggest risk of a rewrite is throwing away qualified content from the previous version (version regression).
-
----
-
 ## The three segments at the end of the retake note (hybrid mode)
 
 The retake note doesn't end after the requirements; three segments follow, in fixed order:
@@ -430,7 +296,7 @@ The retake note doesn't end after the requirements; three segments follow, in fi
 | **[Known Defects]** | Us (seed entries) | Anchor the actual mistakes the previous version made — it doesn't know which line it deleted |
 | **[Self-Check]** | Us (10–12 Yes/No items) | A unified pass after writing; answer "no" and fix on the spot; the self-check process doesn't enter the body |
 
-Why not just write it all ourselves: our items are **after-the-fact** (written after seeing the bad product), so they only guard against seen errors; its self-written items are **before-the-fact** (define the standard right after receiving the UP), guarding against unseen errors. **The two cover different error sets.**
+Why not fix it all in the tool: the items the tool supplies are **after-the-fact** (written after seeing a bad result), so they only guard against errors already seen; its self-written items are **before-the-fact** (define the standard right after receiving the UP), guarding against unseen errors. **The two cover different error sets.**
 
 Why not hand it all to it: it will inflate its self-score, and will **infer the standard backward from the previous bad product** (treating "last version had six sections" as the standard), writing unjudgeable items like "is the content reasonable." So the meta-instruction must have guardrails — **every item must state "on what basis," and missing basis counts as "no"**; **standards may come only from the UP and common sense, never from the look of any previous answer**; bare adjectives are forbidden.
 
@@ -460,25 +326,6 @@ Enabled by default. Four cases fall back to giving only **[Self-Check]**: the ta
 
 ---
 
-## How experience is distilled into the skill: abstract, don't carry over
-
-Each use yields one more lesson, but **conversation cases are test material, not knowledge**. The distillation order is fixed: **symptom → root cause → mechanism → rule**. Skipping abstraction and writing cases straight into the corpus is using the test set as the training set; the rules will carry that domain's shape and get awkwardly forced onto other domains.
-
-The only judgment standard is the **cross-domain test**: swap every domain-specific noun in the rule for a placeholder and read it again.
-
-- **Still holds** → mechanism, write into the skill;
-- **Doesn't hold** → practice, keep in the case file.
-
-One line: **delete the nouns and what remains is what's transferable.**
-
-| Finding in a case | After abstraction (into the skill) | Stays in the case file |
-|---|---|---|
-| After iterative rewrite, a class of items vanished entirely | Rewrite throws away the previous version's qualified content | What that specific item was |
-| A sample table's fields merged pairwise | When column limit conflicts with field count, the model merges fields rather than adding columns | Which fields that table had |
-| Sacrificing content to hit a volume metric | Quantifiable metrics get "performed" as assessment items | What that specific number was |
-
----
-
 ## How it differs from similar skills
 
 The community already has many "make AI better" skills, but we're not doing the same thing:
@@ -497,53 +344,59 @@ One line: **what others do is make AI think one more layer, or fix its own style
 ## FAQ
 
 **Will it write the answer directly?**
-No. By default it only gives the retake note. Your context lives in that AI's conversation, so you must get the result there. If you want it to write directly, just say "write it directly."
+No — by default it only gives the retake note. Your context lives in that AI's conversation, so the result has to come from there. If you want it to write directly, say "just write it".
 
 **Why isn't the original thinking in the retake note?**
-Because the CoT itself is the root cause. Once pasted in, the target model replays the same thought process and the output becomes "hmm, the user is asking…". We give only the full UP + the **list of valid conclusions** distilled from the CoT.
+Because that thinking is the root cause. Pasted back in, the model replays it and the output turns into "So, the user is asking…".
 
-**Will pasting back into the original conversation pollute the context?**
-The retake note carries a **targeted-ignore declaration**: it ignores only that previous round's stretch of deep thinking and the single answer it directly produced; your earlier instructions, added requirements, and expression habits all stay in effect.
+**Will pasting back pollute the context?**
+No. The retake note carries a **targeted-ignore declaration**: it drops only that previous round's thinking and the answer it produced; your earlier instructions, follow-ups and phrasing all stay in force.
 
-**Does it work on code?**
-Yes. Its review logic has nothing to do with "what the product is" — copy, plans, code, analysis conclusions, and scoring rubrics all apply equally.
+**I only have a stretch of thinking, no link — can I still use it?**
+Yes. Paste the user instruction and the thinking together.
 
-**What if it's still erroring in the third iteration?**
-Switch to Final cut mode: stop rewriting, make a trade-off verdict. If many rounds in still produce new errors, the problem isn't "not rewritten well enough" but the trade-off itself.
+**Still erroring on the third iteration?**
+Switch to **Final cut**: stop rewriting and make a trade-off call. New errors after many rounds mean the problem is the trade-off, not the rewriting.
 
-**The content is all correct, but it just feels off — can you polish it?**
-Yes — that's exactly **Color grading** mode. Once the subject is perfect and all Four Standards pass, it stops touching structure and facts and only does light polish and style strengthening. Text: sharpen wording, unify tone, heighten rhythm and visual sense, spotlight key lines. Image & video prompts: tighten style / lighting / mood descriptors and strengthen aesthetic direction, but keep the subject unchanged and add or remove no elements. It polishes expression or visual presentation only — no new points, no factual or structural change.
+**The content is right but it feels flat — or I need to present it?**
+Use **Color grading** (polish wording and style only, never structure or facts) or **Packaging** (summary, mind map, charts — ready to present).
 
-**It meets the standard, but I need to present or send it to others — can you give me a glance-readable version?**
-Yes — that's exactly **Packaging** mode. Once the whole thing meets the output standard, it does visualization analysis: a one-page summary, a mind map, and visual charts (flow / comparison / relation / timeline). It only presents the existing conclusion, faithful to the original judgment, never distorting relations for looks.
+## Privacy
 
-**I only have a CoT, no link — can I use it?**
-Yes. Just paste the user instruction and the deep thinking together.
+- The diagnosis happens entirely inside this conversation. This skill **sends nothing to the author** and has no background collection.
+- The one network call is **when you paste a share link**: your own machine requests that shared conversation from the platform (currently DeepSeek only) and hands the text to the AI you are already talking to. **It never passes through the author.**
+- In other words: your content does not go to the author, but pasting a link does send it to that link's platform. Those are different things, so they are stated separately.
+- The requirements, conversations, prompts, and outputs you paste are **used only for this diagnosis** — never collected, trained on, or leaked.
+- If you voluntarily contribute a sanitized case (see next section), that's your **active** contribution, unrelated to automatic collection.
+
+---
+
+## Contributing: share your cases and corpus
+
+The hard constraints of this skill were honed one real case at a time. **If you're willing to share an "unsatisfying result" together with its original instruction / prompt, you help us sharpen the judgments** — email **flashfrogluo@gmail.com**, or open an issue / PR in the repository.
+
+- **Sanitize before contributing:** remove real names, client names, internal addresses, and confidential data; keep "task type + instruction + that reasoning / prompt + what you were unhappy about."
+- Your cases never automatically enter the public knowledge base; only patterns abstracted into "mechanisms" flow back, and specific nouns are stripped — it helps us without leaking your business.
+- Usage suggestions, testing feedback, and collaboration ideas are all welcome.
 
 ---
 
 ## About the author
 
-**flashfrogluo** — came up in film creation (cinematography / directing / screenwriting), now pivoting to AI creation, testing, and development, moving back and forth between "film language" and "AI engineering" for the long term.
+**flashfrogluo** — came up in film creation (cinematography / directing / screenwriting), now working in AI creation, evaluation and development.
 
-The direct motive for this skill comes from the intersection of two identities: on one side, making image work made me keenly sensitive to "why this shot is wrong"; on the other, daily use of various AIs kept hitting the same pain point — the quality of a model's "deep thinking / CoT" is unstable, sometimes with logic jumps, sometimes dropping dimensions the user explicitly asked for, sometimes quietly changing the instruction to match the tone; and pasting that thinking back to re-answer often carries the error along. Second Take wants to turn that "shot-by-shot fault-finding" intuition from the first identity into an operable process for the second: do a **third-party QA**, read another already-finished stretch of reasoning, judge where it's wrong, and produce a "retake note" you can paste straight back so the original AI gives a better final answer.
+The motive came from the intersection of two roles: making images made me sensitive to "why is this shot wrong", while using AI daily kept surfacing one pain — the quality of a model's "deep thinking" is unstable, skipping steps or dropping dimensions the user explicitly asked for.
 
-**All exchange is welcome**: usage suggestions, testing feedback, real conversations usable as corpus, and collaboration ideas — open an issue / PR, or email **flashfrogluo@gmail.com**.
+Suggestions, review feedback, real conversations usable as corpus, and collaboration ideas are all welcome — open an issue / PR, or email **flashfrogluo@gmail.com**.
 
-Finally, thank you for using this skill. It's maintained by one person, which is genuinely not easy; but we promise to keep iterating with real needs — the problem you hit is likely the next hard constraint to add. Every piece of your feedback lands directly in the next version's improvements.
 
----
-
-## Terms
-
-| Abbreviation | Meaning |
-|---|---|
-| UP (User Prompt) | The requirement and constraints the user gave |
-| CoT (Chain of Thought) | The reasoning process under review |
-| Caption | A text description of the target product or reference material |
-
----
 
 ## License
 
 MIT. See `LICENSE`.
+
+---
+
+## 中文
+
+本页的完整中文说明见 [`README.md`](README.md)。
