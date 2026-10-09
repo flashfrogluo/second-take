@@ -1,5 +1,7 @@
 # Second Take · English Usage Manual
 
+> **QA for AI reasoning · retake notes** — turn a disappointing chain of thought into a better answer.
+
 🇬🇧 **English (this page)** ｜ 🇨🇳 [中文](README.md)
 
 > Got an AI answer you're not happy with? Just say "second take" — but this time, bring the retake note.
