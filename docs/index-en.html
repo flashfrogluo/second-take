@@ -121,6 +121,17 @@
   .extra{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:13.5px;line-height:1.65}
   .extra li{margin:5px 0}
   .extra strong{color:var(--ink)}
+  .hero{margin:22px 0 0}
+  /* 主视觉：按页面主题切换（含手动按钮），不只跟随系统 */
+  .hero img{display:block;width:100%;height:auto;border-radius:12px;
+    border:1px solid var(--line);box-shadow:0 1px 3px rgba(15,23,32,.05)}
+  .hero .hero-light{display:none}
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]) .hero .hero-dark{display:none}
+    :root:not([data-theme="dark"]) .hero .hero-light{display:block}
+  }
+  :root[data-theme="light"] .hero .hero-dark{display:none}
+  :root[data-theme="light"] .hero .hero-light{display:block}
   .install{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
     box-shadow:0 1px 2px rgba(15,23,32,.04)}
   .cmd{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -236,6 +247,11 @@
     <p>You paste an unsatisfying answer and the reasoning behind it — it names what went wrong and how to check, then hands you a <strong>retake note</strong> (an optimization &amp; checking instruction) you copy in full and <strong>paste back into the original chat</strong>, so the original AI answers better.</p>
     <p>It does not write the answer for you. Your habits, your context and the result you want all stay in the original AI's chat.</p>
   </div>
+
+  <figure class="hero">
+    <img class="hero-dark" src="assets/hero-dark.svg" alt="Second Take visual: your AI output to improve → retake note → better AI output" width="960" height="470"/>
+    <img class="hero-light" src="assets/hero-light.svg" alt="Second Take visual: your AI output to improve → retake note → better AI output" width="960" height="470"/>
+  </figure>
 
   <hr/>
 
