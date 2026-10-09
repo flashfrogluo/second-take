@@ -121,6 +121,17 @@
   .extra{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:13.5px;line-height:1.65}
   .extra li{margin:5px 0}
   .extra strong{color:var(--ink)}
+  .hero{margin:22px 0 0}
+  /* 主视觉：按页面主题切换（含手动按钮），不只跟随系统 */
+  .hero img{display:block;width:100%;height:auto;border-radius:12px;
+    border:1px solid var(--line);box-shadow:0 1px 3px rgba(15,23,32,.05)}
+  .hero .hero-light{display:none}
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]) .hero .hero-dark{display:none}
+    :root:not([data-theme="dark"]) .hero .hero-light{display:block}
+  }
+  :root[data-theme="light"] .hero .hero-dark{display:none}
+  :root[data-theme="light"] .hero .hero-light{display:block}
   .install{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
     box-shadow:0 1px 2px rgba(15,23,32,.04)}
   .cmd{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -236,6 +247,11 @@
     <p>你在任意一个 AI 拿到一段不满意的回答，把那背后的推理交给它——它会说清错在哪、怎么自检，产出一份<strong>可整段复制、粘回原对话</strong>的<strong>重拍单</strong>（优化与检查指令），让原 AI 直接给出更好的最终答案。</p>
     <p>它不代写答案。你的习惯、上下文和满意的产物都保留在原 AI 的对话里。</p>
   </div>
+
+  <figure class="hero">
+    <img class="hero-dark" src="assets/hero-dark.svg" alt="Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出" width="960" height="470"/>
+    <img class="hero-light" src="assets/hero-light.svg" alt="Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出" width="960" height="470"/>
+  </figure>
 
   <hr/>
 
