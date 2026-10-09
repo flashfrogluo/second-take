@@ -12,7 +12,8 @@
 [![Last commit](https://img.shields.io/github/last-commit/flashfrogluo/second-take?style=flat)](https://github.com/flashfrogluo/second-take/commits/main)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
 
-[![Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出](docs/assets/hero.svg)](https://github.com/flashfrogluo/second-take)
+[![Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出](docs/assets/hero-dark.svg#gh-light-mode-only)](https://github.com/flashfrogluo/second-take)
+[![Second Take 主视觉：待改善的 AI 成果 → 重拍单 → 更好的 AI 产出](docs/assets/hero-light.svg#gh-dark-mode-only)](https://github.com/flashfrogluo/second-take)
 
 ## 它解决什么问题
 
