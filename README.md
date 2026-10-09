@@ -1,5 +1,7 @@
 # Second Take · 再来一条
 
+> **AI 深度思考质检与重拍单生成** —— 把一段不满意的思考，重拍成更好的答案。
+
 🇨🇳 **中文（本页）** ｜ 🇬🇧 [English](README_EN.md)
 
 [![GitHub stars](https://img.shields.io/github/stars/flashfrogluo/second-take?style=flat&logo=github)](https://github.com/flashfrogluo/second-take)
