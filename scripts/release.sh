@@ -118,7 +118,7 @@ STAGE="$TMP/second-take"
 mkdir -p "$STAGE"
 
 echo "==> 打包（排除版本控制与临时文件）"
-EXCLUDES=(.git '.apply-backup-*' '.sync-backup-*' '.write-backup-*' metrics node_modules __pycache__ '*.pyc' .DS_Store '*.log' 'second-take-*.zip' MANIFEST.txt cases)
+EXCLUDES=(.git '.apply-backup-*' '.sync-backup-*' '.write-backup-*' metrics node_modules __pycache__ '*.pyc' .DS_Store '*.log' 'second-take-*.zip' MANIFEST.txt cases DEVLOG.md)
 for item in .[!.]* *; do
   [ -e "$item" ] || continue
   skip=0
