@@ -7,3 +7,10 @@ node_modules/
 Thumbs.db
 *.log
 corpus/
+cases/
+# 开发者日志（不发布）
+DEVLOG.md
+
+# 发布构建产物（release.sh 生成，分发走 Release 附件）
+second-take-latest.zip
+dist/
