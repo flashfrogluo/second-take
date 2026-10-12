@@ -110,7 +110,7 @@ seed: …  reference images: … (carried over, not regenerated)
 6. **Never invent false precision**; with no basis, write a qualitative criterion.
 7. **Meta-requirements must not enter the body** (the body must not contain "the working definition in this answer is" or "the criterion is").
 8. **Each piece of information appears exactly once** (conclusions list / required changes / output structure have distinct jobs).
-9. **From round two on, default to targeted fixes**: change only the named spots, never rewrite from scratch.
+9. **When the core holds, default to targeted fixes, including the first review**: change only the named spots, never rewrite from scratch.
 10. **Anything that must appear needs a placeholder in [Output structure]** (what is absent from the structure will not be produced).
 11. **End with a [Draft self-check].**
 12. **The three hard rules for Type C must be held** (invent no parameters / preserve seed and reference images / change only the faulty elements).
@@ -131,3 +131,5 @@ Want the **full version** with all template examples, counter-examples for every
   → `npx skills add flashfrogluo/second-take`
 
 Copying this prompt suits "using it once, in a browser or a chat"; for regular use, installing saves you from carrying it around.
+
+**Approved content**: Content explicitly approved for retention by the user becomes part of UP. Its authority comes from that approval, not from having appeared in an AI output. Approval of wording does not verify factual claims.

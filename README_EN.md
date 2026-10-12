@@ -113,8 +113,8 @@ This method is domain-agnostic. Its review logic has nothing to do with "what th
 
 | Mode / deliverable | When to use it | What it does | Words to name it |
 |---|---|---|---|
-| **Reshoot / 重拍** | First round, or when the subject does not hold | Full rewrite | `reshoot` · start over · rewrite from scratch · full rewrite · this version is completely wrong · redo it · another take |
-| **Pick-up / 补拍** | Second round onwards, subject already holds | Change only the named spots; keep everything else as it is | `pick-up` · change it from this version · just fix these spots · add a bit · keep this version · tweak · iterate |
+| **Reshoot / 重拍** | Core invalid, or an explicit rewrite request | Full rewrite | `reshoot` · start over · rewrite from scratch · full rewrite · this version is completely wrong · redo it · another take |
+| **Pick-up / 补拍** | Core holds; only local fixes are needed | Change only the named spots; keep everything else as it is | `pick-up` · change it from this version · just fix these spots · add a bit · keep this version · tweak · iterate |
 | **Final cut / 定剪** | Deadlock after several rounds, or two versions contradict each other | Stop rewriting; make a trade-off call | `final cut` · pick one for me · which one · lock it · make the call · settle it · merge the conflict |
 | **Color grading / 调色** | Subject is already perfect (Four Standards met, no check-item problems); only texture / style is missing | Touch neither structure nor facts; polish and strengthen style only | `color grading` · polish it · adjust the tone · more visual · unify the style · sharpen it · raise the quality · beautify |
 | **Packaging / 包装** | Already meets the output bar and needs to be structured so it reads at a glance | Visual analysis: summary, mind map, charts | `packaging` · make a chart · visualise it · mind map · comparison table · infographic · dashboard |
@@ -133,7 +133,7 @@ This method is domain-agnostic. Its review logic has nothing to do with "what th
 
 > **Neither color grading nor packaging re-judges the conclusion** — they rest on "the subject already holds". If the Four Standards are not all met yet, run the first three first.
 >
-> **From round two on, Pick-up is the default**: the biggest risk of a rewrite is not writing it badly, but **throwing away the parts of the previous version that were already fine**.
+> **When the core holds, Pick-up is the default, including the first review**: the biggest risk of a rewrite is not writing it badly, but **throwing away the parts of the previous version that were already fine**.
 
 > 📌 **On the name.** The deliverable is called a **retake note** (重拍单). Essentially it is an **optimization & checking instruction** — it states what to change and carries check items that can be judged pass/fail. It is self-contained: paste it and it works, no surrounding context needed.
 

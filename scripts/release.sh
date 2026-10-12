@@ -117,22 +117,21 @@ trap 'rm -rf "$TMP"' EXIT
 STAGE="$TMP/second-take"
 mkdir -p "$STAGE"
 
-echo "==> 打包（排除版本控制与临时文件）"
-EXCLUDES=(.git '.apply-backup-*' '.sync-backup-*' '.write-backup-*' metrics node_modules __pycache__ '*.pyc' .DS_Store '*.log' 'second-take-*.zip' MANIFEST.txt cases DEVLOG.md)
-for item in .[!.]* *; do
-  [ -e "$item" ] || continue
-  skip=0
-  for ex in "${EXCLUDES[@]}"; do
-    case "$item" in $ex|$ex/*) skip=1; break ;; esac
-  done
-  [ "$skip" -eq 1 ] && continue
-  cp -R "$item" "$STAGE/"
-done
+echo "==> 打包（仅复制审核过的公开文件）"
+python3 "$ROOT/scripts/package_files.py" "$ROOT" "$STAGE"
 
 # 清单便于核对
 ( cd "$STAGE" && find . -type f | sed 's|^\./||' | sort > MANIFEST.txt )
 FILE_COUNT="$(wc -l < "$STAGE/MANIFEST.txt" | tr -d ' ')"
-( cd "$TMP" && zip -qr "$ASSET" second-take )
+python3 - "$STAGE" "$TMP/$ASSET" <<'PYZIP'
+from pathlib import Path
+import sys, zipfile
+stage = Path(sys.argv[1])
+with zipfile.ZipFile(sys.argv[2], 'w', zipfile.ZIP_DEFLATED) as archive:
+    for path in sorted(stage.rglob('*')):
+        if path.is_file():
+            archive.write(path, 'second-take/' + path.relative_to(stage).as_posix())
+PYZIP
 SIZE="$(du -h "$TMP/$ASSET" | cut -f1 | tr -d ' ')"
 echo "    文件数 $FILE_COUNT，压缩包 $SIZE"
 

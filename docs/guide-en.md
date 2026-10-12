@@ -59,8 +59,8 @@ The table below is your **control panel**: the film term on the left, what it ac
 
 | Mode | Signal (when) | Trigger words (film term + natural intent, with evaluated extensions) |
 |---|---|---|
-| Reshoot | first pass / core invalid / wrong direction | `reshoot` · rewrite from scratch · start over · full rewrite · this version is completely wrong · redo · reroll |
-| Pick-up | after round 2 / core holds / change only a few spots | `pick-up` · revise on top of this version · adjust just these few · add a bit · keep this version · tweak · iterate · fix a few spots |
+| Reshoot | core invalid / wrong direction / explicit rewrite request | `reshoot` · rewrite from scratch · start over · full rewrite · this version is completely wrong · redo · reroll |
+| Pick-up | core holds / change only a few spots | `pick-up` · revise on top of this version · adjust just these few · add a bit · keep this version · tweak · iterate · fix a few spots |
 | Final cut | stuck across rounds / versions conflict / need a ruling | `final cut` · help me choose · which one · lock the draft · make the call · decide · merge conflict |
 | Color grading | core perfect (four standards pass) / only lacks polish or style | `color grading` · polish · adjust tone · more visual feel · unify style · refine · improve quality · beautify |
 | Packaging | overall meets bar / needs structured visualization | `packaging` · make a diagram · visualize · mind map · comparison table · infographic · dashboard · concept map |
@@ -301,7 +301,7 @@ Not every round needs a full redo. Judge whether the subject holds first, then p
 
 | Mode | Film term | When to use | Approach |
 |---|---|---|---|
-| **Reshoot** | 重拍 | First round, or the previous version's subject doesn't hold (wrong structure, wrong target judgment, large missing items) | Full rewrite |
+| **Reshoot** | 重拍 | Core invalid (wrong structure, wrong target judgment, large missing items), or an explicit rewrite request | Full rewrite |
 | **Pick-up** | 补拍 | Later iteration rounds, where the previous version's subject already holds | Change only the named spots; keep the rest as-is |
 | **Final cut** | 定剪 | Many rounds in and still producing new errors, or two versions' conclusions contradict each other | Stop rewriting; make a trade-off verdict |
 | **Color grading** | 调色 | The subject is already perfect (all Four Standards met, no check-item issues); only the feel / style falls short | Touch structure and facts not at all; only light polish and style strengthening — text: sharpen wording, unify tone, heighten rhythm and visual sense, spotlight key lines; image & video prompts: tighten style / lighting / mood descriptors and strengthen aesthetic direction, but keep the subject unchanged and add or remove no elements |
@@ -309,7 +309,7 @@ Not every round needs a full redo. Judge whether the subject holds first, then p
 
 Move along the production line: **Reshoot → Pick-up → Final cut → Color grading → Packaging**. The first three answer "is it right"; Color grading answers "is it good enough"; Packaging answers "does it read clearly." **Neither Color grading nor Packaging re-judges the conclusion**: Color grading only polishes expression or visual presentation — no new points, no factual or structural change (for image & video prompts it tunes visual descriptors only, never swapping the subject or adding/removing elements); Packaging only presents the existing conclusion — faithful to the original judgment, never distorting relations for looks. Both assume the subject already passes; if the Four Standards aren't all met yet, do the first three first — don't jump to Color grading or Packaging.
 
-Default to Reshoot; **after the second round, default to Pick-up** — the biggest risk of a rewrite is throwing away qualified content from the previous version (version regression).
+Choose by defect scope: **when the core holds, default to Pick-up, including the first review** — the biggest risk of a rewrite is throwing away qualified content from the previous version (version regression).
 
 ---
 
