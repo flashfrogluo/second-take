@@ -11,6 +11,8 @@ set -euo pipefail
 REPO="${REPO:-flashfrogluo/second-take}"
 VERSION=""
 TARGET=""
+PACKAGER="$(cd "$(dirname "$0")" && pwd)/scripts/package_files.py"
+command -v python3 >/dev/null || { echo "需要 python3" >&2; exit 1; }
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -70,13 +72,7 @@ if [ -z "$SRC" ]; then
 fi
 
 echo "==> 重装到: $TARGET"
-mkdir -p "$TARGET"
-for item in "$SRC"/* "$SRC"/.[!.]*; do
-  [ -e "$item" ] || continue
-  name="$(basename "$item")"
-  case "$name" in .git|node_modules|__pycache__|metrics) continue ;; esac
-  cp -R "$item" "$TARGET/"
-done
+python3 "$PACKAGER" "$SRC" "$TARGET" --allow-legacy
 
 echo "==> 更新完成。当前版本见 $TARGET/CHANGELOG.md"
 grep -m1 '^  version:' "$TARGET/SKILL.md" 2>/dev/null | sed 's/^/    /' || true

@@ -9,7 +9,7 @@
 | `install.sh` | 安装：优先从 Release 附件，失败回退 codeload |
 | `update.sh` | 更新：同上的双通路 |
 | `sync-local.sh` | 把远端最新版同步到本地安装副本（codeload 归档 + 自动备份） |
-| `push-to-github.sh` | 经 GitHub Contents API 提交（用于 git 传输不可用的环境） |
+| `push-to-github.sh` | 在独立 Git 工作区按公开清单检查、测试、提交并正常推送 |
 | `schedule/` | launchd 定时采集的安装、卸载与任务定义 |
 | `patch_readme.py` | 给 README 打补丁：真实计数徽章 + Star/Watch 引导 + 数据说明小节 |
 | `patch_description.py` | 改写 SKILL.md 的 `description`：检索词前置，保留原触发集 |
@@ -44,7 +44,7 @@ GITHUB_TOKEN=xxx ./release.sh 1.6.2        # 发版
 ./sync-local.sh --diff         # 只看本地安装副本与远端的差异
 ./sync-local.sh                # 同步（自动备份）
 
-./push-to-github.sh --check    # 校验 token / 权限 / 远端 sha
+./push-to-github.sh --check    # 校验公开清单并读取远端分支
 ./push-to-github.sh --dry-run  # 看将提交什么
 ./push-to-github.sh            # 提交
 ```
@@ -96,7 +96,7 @@ git ls-remote https://github.com/...  →  Error in the HTTP2 framing layer
                                         （或 Empty reply from server）
 ```
 
-这是**间歇性**的。`push-to-github.sh` 走 Contents API 绕开它，并对所有请求加了 `--retry 5 --retry-all-errors`。如果你所在网络稳定，用普通 git 即可。
+这是**间歇性**的。`push-to-github.sh` 使用普通 Git 推送；网络失败时保留本地提交，修复网络后重试，不强制覆盖远端。
 
 **`~/.npm` 里若有 root 属主的文件**，`npx` 会报 `EPERM` 或 `ECOMPROMISED`。把缓存指到可写位置：
 
@@ -111,3 +111,9 @@ export npm_config_cache=/tmp/npm-cache
 3. `GITHUB_TOKEN=xxx ./release.sh x.y.z`
 4. `git push origin vx.y.z`（推送 tag，让它在仓库页显示）
 5. 若改了 `description`：**重新安装一次**，让索引抓到新元数据
+
+## 公开文件边界
+
+`public-files.txt` 是逐文件公开清单；新增文件须先检查内容再加入。打包、安装、更新和推送只处理清单中的路径，拒绝私有目录、越界路径和文件符号链接。`corpus/`、`cases/`、`DEVLOG.md`、`metrics/`、环境文件、备份与日志不加入发布包。现有目标目录中的其他文件不会被删除。
+
+工程脚本需要 Python 3，skill 的 Markdown 质检流程仍无运行依赖。安装兼容 1.7.1 中尚不存在的三个新增工具文件；其他清单文件缺失仍报错。公开清单是文件边界，不是内容脱敏器，发布前仍须检查内容。推送脚本应在独立 Git 克隆中运行，不能在包含私有开发资料的真源目录直接提交。

@@ -1,205 +1,50 @@
 #!/usr/bin/env bash
-# 用 GitHub Contents API 把本次改动推到 flashfrogluo/second-take。
-#
-# 为什么不用 git：这台机器对 github.com 的 git 传输被阻断
-#   （git ls-remote https://github.com → HTTP2 framing error / Empty reply，
-#     而同一 git 对 gitee.com 正常），所以改走纯 HTTPS 的 Contents API。
-#
-# 用法：
-#   export GITHUB_TOKEN=github_pat_xxx
-#   ./push-to-github.sh --dry-run   打印将提交的文件清单（不写远端）
-#   ./push-to-github.sh --check     校验 token / 权限 / 远端 sha（只读）
-#   ./push-to-github.sh             正式提交
-#
-# token 权限：Fine-grained，仅 flashfrogluo/second-take，Contents: Read and write
+# Push reviewed public changes from a clean Git checkout.
+# Usage: scripts/push-to-github.sh [--dry-run|--check]
+# Uses Git's configured authentication; never stores a token.
 set -euo pipefail
-
-REPO="${REPO:-flashfrogluo/second-take}"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+MODE="${1:-push}"
+case "$MODE" in push|--dry-run|--check) ;; *) echo "Unknown option: $MODE" >&2; exit 2 ;; esac
+[ "$(git rev-parse --show-toplevel)" = "$ROOT" ] || { echo "Run from a dedicated Git checkout, not an installed skill directory." >&2; exit 1; }
 BRANCH="${BRANCH:-main}"
-HERE="$(cd "$(dirname "$0")" && pwd)"
-ROOT="$(cd "$HERE/.." && pwd)"   # 仓库根：PLAN 里的源路径相对此目录
-API="https://api.github.com/repos/$REPO/contents"
-
-MODE=push
-case "${1:-}" in
-  --check)   MODE=check ;;
-  --dry-run) MODE=dry ;;
-  "")        ;;
-  *)         echo "未知参数: $1" >&2; exit 2 ;;
-esac
-
-command -v python3 >/dev/null || { echo "需要 python3" >&2; exit 1; }
-command -v curl    >/dev/null || { echo "需要 curl" >&2; exit 1; }
-
-# ── 计划提交的内容 ────────────────────────────────────────────────────
-# direct：本地已就绪，直接提交
-# patch ：先取远端原文，再用补丁脚本就地改，然后提交（避免版本倒退）
-# 格式：仓库路径|方式|本地源或补丁脚本|提交信息
-PLAN=(
-  "README.md|direct|README.md|docs(readme): 交付物主名改回重拍单，影视术语表合并为一张操作面板"
-  "README_EN.md|direct|README_EN.md|docs(readme-en): 同步主名 retake note 与表格重构"
-  "CHANGELOG.md|direct|CHANGELOG.md|docs(changelog): 补记本轮名称统一与表格重构"
-  "docs/guide-en.md|direct|docs/guide-en.md|docs(guide-en): 主名统一为 retake note"
-  "docs/ROADMAP.md|direct|docs/ROADMAP.md|docs(roadmap): 用词统一"
-  "references/标注范例.md|direct|references/标注范例.md|docs(refs): 用词统一为重拍单"
-  "references/成稿自检清单.md|direct|references/成稿自检清单.md|docs(refs): 用词统一为重拍单"
-  "references/思维链四标准.md|direct|references/思维链四标准.md|docs(refs): 用词统一为重拍单"
-  "scripts/stats.sh|direct|scripts/stats.sh|fix(scripts): 索引触发命令改用标准 owner/repo（归档 URL 会静默跳过上报）"
-  "metrics/history.jsonl|direct|metrics/history.jsonl|chore(metrics): 10-07 快照"
-  "metrics/latest.md|direct|metrics/latest.md|chore(metrics): 10-07 快照"
-)
-
-if [ "$MODE" = "dry" ]; then
-  echo "==> 计划提交（仓库路径 | 方式 | 来源）"
-  for row in "${PLAN[@]}"; do
-    IFS='|' read -r path how src msg <<< "$row"
-    if [ "$how" = "direct" ]; then
-      if [ -f "$ROOT/$src" ]; then
-        printf "  %-30s direct  %-32s %6s 字节\n" "$path" "$src" "$(wc -c < "$ROOT/$src" | tr -d ' ')"
-      else
-        printf "  %-30s direct  %-32s 缺失！\n" "$path" "$src"
-      fi
-    else
-      printf "  %-30s patch   %-32s 远端原文 + 补丁\n" "$path" "$src"
-    fi
-  done
-  echo
-  echo "（dry-run：未发送写请求）"
+[ "$(git branch --show-current)" = "$BRANCH" ] || { echo "Checkout $BRANCH first." >&2; exit 1; }
+python3 scripts/package_files.py "$ROOT"
+# Reject already-staged private paths too; never commit unrelated staged files.
+python3 - <<'PY'
+from pathlib import Path
+import subprocess, sys
+sys.path.insert(0, 'scripts')
+from package_files import public_paths
+allowed = set(public_paths(Path.cwd()))
+changed = set()
+for args in [('diff', '--name-only', '-z'), ('diff', '--cached', '--name-only', '-z')]:
+    changed.update(p.decode() for p in subprocess.check_output(['git', *args]).split(b'\0') if p)
+blocked = sorted(changed - allowed)
+if blocked:
+    raise SystemExit('Non-public tracked changes; use a clean checkout: ' + ', '.join(blocked))
+print('Reviewed changes:')
+for name in sorted(allowed):
+    state = subprocess.check_output(['git', 'status', '--porcelain', '--', name]).decode().strip()
+    if state:
+        print(state)
+PY
+[ "$MODE" != --dry-run ] || exit 0
+if [ "$MODE" = --check ]; then
+  git ls-remote --exit-code origin "refs/heads/$BRANCH"
   exit 0
 fi
-
-if [ -z "${GITHUB_TOKEN:-}" ]; then
-  echo "未设置 GITHUB_TOKEN" >&2
-  echo "  export GITHUB_TOKEN=github_pat_xxx 后重试" >&2
-  exit 1
+python3 tests/validate.py all
+python3 -m unittest discover -s tests -p 'test_*.py'
+# Stage exact names only. Unknown untracked files never enter this commit.
+while IFS= read -r path; do
+  case "$path" in ''|'#'*) continue ;; esac
+  git add -- "$path"
+done < scripts/public-files.txt
+if ! git diff --cached --quiet; then
+  VERSION="$(python3 -c 'import re,pathlib;print(re.search(r"^  version: \"([^\"]+)\"",pathlib.Path("SKILL.md").read_text(),re.M)[1])')"
+  git commit -m "fix: second-take $VERSION public update"
 fi
-
-api_get() {
-  curl -sS -m 30 --retry 5 --retry-all-errors --retry-delay 2 \
-    -H "Authorization: Bearer $GITHUB_TOKEN" \
-    -H "Accept: application/vnd.github+json" "$API/$1?ref=$BRANCH"
-}
-
-remote_sha() {
-  api_get "$1" | python3 -c '
-import json,sys
-try: d=json.load(sys.stdin)
-except Exception: print(""); raise SystemExit
-print(d.get("sha","") if isinstance(d,dict) else "")
-'
-}
-
-if [ "$MODE" = "check" ]; then
-  echo "==> 校验 token"
-  curl -sS -m 30 -H "Authorization: Bearer $GITHUB_TOKEN" \
-    -H "Accept: application/vnd.github+json" https://api.github.com/user \
-  | python3 -c '
-import json,sys
-d=json.load(sys.stdin)
-if "login" not in d:
-    print("  token 无效:", d.get("message")); raise SystemExit(1)
-print("  ✓ 认证为", d["login"])
-'
-  echo "==> 仓库写权限"
-  curl -sS -m 30 -H "Authorization: Bearer $GITHUB_TOKEN" \
-    -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$REPO" \
-  | python3 -c '
-import json,sys
-d=json.load(sys.stdin)
-p=d.get("permissions",{})
-print("  push:", p.get("push"), "| admin:", p.get("admin"))
-if not p.get("push"):
-    print("  ✗ 该 token 对本仓库没有写权限"); raise SystemExit(1)
-'
-  echo "==> 远端当前 sha"
-  for row in "${PLAN[@]}"; do
-    IFS='|' read -r path how src msg <<< "$row"
-    printf "  %-30s %s\n" "$path" "$(remote_sha "$path" | cut -c1-12)"
-  done
-  exit 0
-fi
-
-TMP="$(mktemp -d)"
-trap 'rm -rf "$TMP"' EXIT
-
-fetch_remote() { # 仓库路径  输出目录
-  local path="$1" outdir="$2" base
-  base="$(basename "$path")"
-  mkdir -p "$outdir"
-  api_get "$path" > "$TMP/_resp.json"
-  python3 - "$TMP/_resp.json" "$outdir/$base" "$path" <<'PY'
-import base64, json, pathlib, sys
-src, dest, path = sys.argv[1], sys.argv[2], sys.argv[3]
-try:
-    d = json.load(open(src, encoding='utf-8'))
-except Exception as e:
-    print(f"  ✗ 取远端 {path} 失败：响应无法解析（{e}）"); raise SystemExit(1)
-if 'content' not in d:
-    print(f"  ✗ 取远端 {path} 失败：{d.get('message')}"); raise SystemExit(1)
-pathlib.Path(dest).write_bytes(base64.b64decode(d['content']))
-PY
-}
-
-put_file() { # 仓库路径  本地文件  提交信息
-  local path="$1" lf="$2" msg="$3" sha code
-  sha="$(remote_sha "$path")"
-  python3 - "$lf" "$sha" "$path" "$msg" "$BRANCH" > "$TMP/_payload.json" <<'PY'
-import base64, json, sys
-lf, sha, path, msg, branch = sys.argv[1:6]
-body = {"message": msg,
-        "content": base64.b64encode(open(lf, 'rb').read()).decode(),
-        "branch": branch}
-if sha:
-    body["sha"] = sha
-print(json.dumps(body))
-PY
-  code="$(curl -sS -m 180 --retry 5 --retry-all-errors --retry-delay 2 -X PUT \
-    -H "Authorization: Bearer $GITHUB_TOKEN" \
-    -H "Accept: application/vnd.github+json" \
-    -H "Content-Type: application/json" \
-    "$API/$path" --data-binary "@$TMP/_payload.json" \
-    -o "$TMP/_resp2.json" -w '%{http_code}')"
-  if [ "$code" = "200" ] || [ "$code" = "201" ]; then
-    printf "  ✓ %-30s %s\n" "$path" "$( [ -n "$sha" ] && echo 更新 || echo 新建 )"
-  else
-    printf "  ✗ %-30s http=%s\n" "$path" "$code" >&2
-    python3 -c 'import json,sys;d=json.load(open(sys.argv[1]));print("     ",d.get("message"),d.get("errors",""))' "$TMP/_resp2.json" 2>/dev/null || true
-    return 1
-  fi
-}
-
-echo "==> 开始提交（每个文件一次 commit，便于单独回滚）"
-FAIL=0
-for row in "${PLAN[@]}"; do
-  IFS='|' read -r path how src msg <<< "$row"
-  if [ "$how" = "direct" ]; then
-    if [ -f "$ROOT/$src" ]; then
-      put_file "$path" "$ROOT/$src" "$msg" || FAIL=1
-    else
-      echo "  - 跳过 $path（本地缺失 $src）"
-    fi
-  else
-    work="$TMP/patch-$(echo "$path" | tr '/' '_')"
-    if fetch_remote "$path" "$work"; then
-      base="$(basename "$path")"
-      if python3 "$HERE/scripts/$src" "$work" > "$TMP/_patch.log" 2>&1; then
-        sed 's/^/    /' "$TMP/_patch.log"
-        put_file "$path" "$work/$base" "$msg" || FAIL=1
-      else
-        echo "  ✗ $path 补丁失败：" >&2
-        sed 's/^/      /' "$TMP/_patch.log" >&2
-        FAIL=1
-      fi
-    else
-      FAIL=1
-    fi
-  fi
-done
-
-echo
-if [ "$FAIL" -eq 0 ]; then
-  echo "==> 全部完成。提交历史： https://github.com/$REPO/commits/$BRANCH"
-else
-  echo "==> 有文件失败（见上方 ✗），其余已提交；重跑本脚本会补上失败项。" >&2
-  exit 1
-fi
+# Normal push rejects concurrent remote updates; do not force or auto-resolve.
+git push origin "HEAD:$BRANCH"

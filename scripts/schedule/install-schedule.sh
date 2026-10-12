@@ -63,7 +63,21 @@ if [ -f "$PLIST_DST" ]; then
   cp "$PLIST_DST" "$PLIST_DST.bak.$(date +%s)"
   echo "  已备份旧文件"
 fi
-cp "$PLIST_SRC" "$PLIST_DST"
+python3 - "$PLIST_SRC" "$PLIST_DST" "$HOME" <<'PYPLIST'
+import plistlib, sys
+with open(sys.argv[1], 'rb') as stream:
+    data = plistlib.load(stream)
+def expand(value):
+    if isinstance(value, str):
+        return value.replace('__HOME__', sys.argv[3])
+    if isinstance(value, list):
+        return [expand(item) for item in value]
+    if isinstance(value, dict):
+        return {key: expand(item) for key, item in value.items()}
+    return value
+with open(sys.argv[2], 'wb') as stream:
+    plistlib.dump(expand(data), stream)
+PYPLIST
 echo "  $PLIST_DST"
 
 echo "==> 装载"

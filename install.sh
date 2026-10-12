@@ -30,22 +30,14 @@ done
 TARGET="${TARGET:-$HOME/.workbuddy/skills/second-take}"
 SRC="$(cd "$(dirname "$0")" && pwd)"
 
-EXCLUDES=(.git .github/metrics node_modules __pycache__ metrics)
+# Use this installer's reviewed list, including for older downloaded releases.
+PACKAGER="$SRC/scripts/package_files.py"
+command -v python3 >/dev/null || { echo "需要 python3" >&2; exit 1; }
 
 install_from() {
   local from="$1"
   echo "==> 安装到: $TARGET"
-  mkdir -p "$TARGET"
-  for item in "$from"/* "$from"/.[!.]*; do
-    [ -e "$item" ] || continue
-    local name; name="$(basename "$item")"
-    local skip=0
-    for ex in "${EXCLUDES[@]}"; do
-      [ "$name" = "$ex" ] && skip=1 && break
-    done
-    [ "$skip" -eq 1 ] && continue
-    cp -R "$item" "$TARGET/"
-  done
+  python3 "$PACKAGER" "$from" "$TARGET" --allow-legacy
 }
 
 if [ "$FROM_LOCAL" -eq 1 ]; then

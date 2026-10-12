@@ -4,7 +4,7 @@ name: CI
 #   1. SKILL.md frontmatter 必填字段是否存在；
 #   2. README 内部链接是否指向真实文件；
 #   3. tests/samples 下每个样例的 expected_retake_note 是否含诊断 / 可复制指令 / 约束三要素。
-# 它通过 ≠ 重拍单质量合格：三要素是关键词存在性检查，不含负例，空壳也能通过。
+# 它通过 ≠ 重拍单质量合格：包含围栏、约束关键词、原始指令与已知负例检查，不证明语义正确。
 # 质量判定请用 references/优化与检查指令自查rubric.md（赶时间只过「Must-have 精简版 18 条」）。
 
 on:
@@ -24,3 +24,5 @@ jobs:
           python-version: '3.11'
       - name: Run validation suite
         run: python tests/validate.py all
+      - name: Test public file boundaries
+        run: python -m unittest discover -s tests -p 'test_*.py'

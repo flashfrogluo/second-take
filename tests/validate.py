@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 """Validation suite for the second-take skill.
 
-This is the skill's "可验证信号" (verifiability signal): a machine-checkable
-contract that the deliverable (the 重拍单 / retake note) always contains the
-three required elements, and that the repo's entry points stay well-formed.
+Structural smoke checks only: nonempty instructions, constraints, sample UP
+preservation, frontmatter and links. Passing does not establish semantic quality.
 
 Subcommands:
   skill            Validate SKILL.md frontmatter has name / version / description.
@@ -30,7 +29,7 @@ DIAGNOSIS_HINTS = ["诊断", "问题", "缺陷", "症状", "漏", "矛盾", "无
                    "错误", "不成立", "缺", "冲突"]
 COPY_HINTS = ["复制", "粘回", "整段复制", "重拍单", "优化指令", "retake"]
 CONSTRAINT_HINTS = ["约束", "不要", "禁止", "必须", "不改", "保持", "注意", "边界",
-                    "只输出", "禁用", "不得", "不可"]
+                    "只输出", "禁用", "不得", "不可", "不编造", "不增设"]
 
 
 def _has_bullets(text):
@@ -48,19 +47,20 @@ def check_retake_note(text):
     if not diagnosis_ok:
         problems.append("缺少诊断条目（诊断/问题清单，或带要点的诊断列表）")
 
-    # 2) 可复制指令 — a fenced code block, a 重拍单/优化指令 heading, or copy hints.
-    has_code = "```" in text
-    has_instr_heading = bool(re.search(r'重拍单|优化指令|Retake note|Retake Note', text))
-    copy_hits = sum(1 for h in COPY_HINTS if h.lower() in text.lower())
-    instruction_ok = has_code or has_instr_heading or copy_hits >= 1
+    # Only a complete nonempty fenced payload is accepted by this checker.
+    # Plain prose notes may be valid, but are outside this structural contract.
+    blocks = re.findall(r"(?m)^```[^\n]*\n(.*?)^```[ \t]*$", text, re.S)
+    payload = max(blocks, key=len, default="").strip()
+    lines = [line.strip() for line in payload.splitlines() if line.strip()]
+    instruction_ok = len(lines) >= 3 and len(payload) >= 40
     if not instruction_ok:
-        problems.append("缺少可复制指令（代码块 / 重拍单-优化指令段落 / 复制-粘回提示）")
+        problems.append("缺少完整、非空的可复制指令代码块（本检查器只支持围栏格式）")
 
-    # 3) 约束 — at least two constraint keywords in the note.
-    constr_hits = sum(1 for h in CONSTRAINT_HINTS if h in text)
+    # Constraints must be inside the instruction, not merely in the diagnosis.
+    constr_hits = sum(1 for h in CONSTRAINT_HINTS if h in payload)
     constraint_ok = constr_hits >= 2
     if not constraint_ok:
-        problems.append("缺少约束（不要/禁止/必须/只输出/禁用 等至少 2 处）")
+        problems.append("可复制指令内部缺少约束；关键词检查不证明约束正确")
 
     return {"diagnosis": diagnosis_ok,
             "instruction": instruction_ok,
@@ -113,6 +113,10 @@ def run_self_tests():
             data = json.load(f)
         note = data.get("expected_retake_note", "")
         res = check_retake_note(note)
+        up = data.get("input", {}).get("up", "")
+        blocks = re.findall(r"(?m)^```[^\n]*\n(.*?)^```[ \t]*$", note, re.S)
+        if not up or not any(up in block for block in blocks):
+            res["problems"].append("原始 UP 未完整保留在可复制指令中")
         if res["problems"]:
             problems.append(f"{os.path.basename(sp)} 的 expected_retake_note 未通过：{res['problems']}")
     return problems
@@ -125,6 +129,9 @@ def run_negative_tests():
         ("空笔记", ""),
         ("闲聊无三要素", "今天天气不错，谢谢你的帮助。"),
         ("只有标题无内容", "# 重拍单\n\n"),
+        ("关键词空壳", "诊断：问题。必须不要。重拍单\n```\n```"),
+        ("未闭合围栏", "诊断：缺少内容。\n```\n任务：请修复正文。\n必须修改问题。\n不要扩大范围。"),
+        ("约束只在诊断", "诊断：必须修改，不要扩写。\n```\n任务：写一篇有关公园的短文。\n内容：介绍园内景色与游览感受。\n输出：一段连贯的文字描述。\n```"),
     )
     for label, bad in cases:
         res = check_retake_note(bad)
@@ -139,6 +146,9 @@ def _report(ok, label, detail):
 
 def main():
     cmd = sys.argv[1] if len(sys.argv) > 1 else "all"
+    if cmd not in ("skill", "links", "retake", "all"):
+        print("Unknown command: " + cmd, file=sys.stderr)
+        sys.exit(2)
     all_problems = []
 
     if cmd in ("skill", "all"):

@@ -83,10 +83,10 @@ Output the final body text only. Ban thinking-aloud phrasing such as "hmm / the 
 6. **Never invent false precision** ("every 15 minutes", "at least 3 items"); with no basis, write a qualitative criterion.
 7. **Meta-requirements must not enter the body** (the body must not contain "the working definition in this answer is" or "the criterion is").
 8. **Each piece of information appears exactly once** (conclusions list / required changes / output structure have distinct jobs: usable material carries conclusions, required changes say only what to change, structure carries the detail).
-9. **From round two on, default to targeted fixes**: change only the named spots, never rewrite from scratch; write in the output structure "reuse the previous version's sections and headings; not repeated here".
+9. **When the core holds, default to targeted fixes, including the first review**: change only the named spots, never rewrite from scratch; write in the output structure "reuse the previous version's sections and headings; not repeated here".
 10. **Anything that must appear needs a placeholder in [Output structure]** (what is absent from the structure will not be produced).
 11. **End with a [Draft self-check]** so the target model reviews itself before outputting.
-12. **Closing question**: its own paragraph, 2–3 concrete directions, an invitation to correct you, formal "you", and an explicit statement of your judgment about the material type and intent.
+12. **Closing question**: optional, outside the deliverable, and only when useful and extra commentary is allowed. Omit it for body-only, JSON-only, code-only, or stop-after-output requests. Never exempt it from the user’s length limit on your own.
 
 13. **Delivery boundary**: produce **paste-ready text only** — no files, nothing written to disk, no execution on the user's behalf. The tell is "I've fixed it for you".
 14. **Concrete values must be obtained, not recalled**: paths, filenames, byte counts, hashes and line numbers must come from actual command output; "it should be" or "I remember it as" is a violation.
@@ -104,3 +104,5 @@ Want the **full version** with all template examples, counter-examples for every
   → `npx skills add flashfrogluo/second-take`
 
 Copying this prompt suits "using it once, in a browser or a chat"; for regular use, installing saves you from carrying it around.
+
+**Approved content**: Content explicitly approved for retention by the user becomes part of UP. Its authority comes from that approval, not from having appeared in an AI output. Approval of wording does not verify factual claims.
