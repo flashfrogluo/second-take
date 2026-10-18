@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 960 1140" width="960" height="1140" xmlns="http://www.w3.org/2000/svg">
+<style>
+  :root{--c1:#5F5E5A;--c2:#854F0B;--c3:#854F0B;--c4:#FFFFFF;--c5:#000000;--c6:#5F5E5A;--c7:#000000;--c8:#B5B1A8;--c9:#FFFFFF;--c10:#5F5E5A;--c11:#444441;--c12:#0F6E56;--c13:#444441;--c14:#6F6896;--c15:#444441;--c16:#FFFFFF;--c17:#5F5E5A;--c18:#5F5E5A;--c19:#444441;--c20:#633806;--c21:#854F0B;--c22:#5F5E5A;--c23:#9C988F;--c24:#854F0B;--c25:#5F5E5A;--c26:#888780;--c27:#888780;--c28:#9C988F;--c29:#888780;--c30:#9C988F;--c31:#888780;--c32:#9C988F;--c33:#888780;--c34:#9C988F;--c35:#633806;--c36:#5F5E5A;--c37:#F3F8F5;--c38:#7FA396;--c39:#A8C4B8;--c40:#3D6B5A;--c41:#7A8C84;--c42:#5F5E5A;--c43:#E1F5EE;--c44:#0F6E56;--c45:#0F6E56;--c46:#085041;--c47:#6FA890;--c48:#5F5E5A;--c49:#888780;--c50:#5F5E5A;--c51:#FFFFFF;--c52:#5F5E5A;--c53:#5F5E5A;--c54:#444441;--c55:#5F5E5A;--c56:#5F5E5A;--c57:#F1F0F7;--c58:#6F6896;--c59:#6F6896;--c60:#5B5480;--c61:#5F5E5A;--c62:#5F5E5A;--c63:#FFFFFF;--c64:#5F5E5A;--c65:#444441;--c66:#5F5E5A;--c67:#633806;--c68:#F1F0F7;--c69:#6F6896;--c70:#6F6896;--c71:#5B5480;--c72:#854F0B;--c73:#854F0B;--c74:#854F0B;--c75:#854F0B;--c76:#633806;--c77:#E1F5EE;--c78:#0F6E56;--c79:#0F6E56;--c80:#085041;--c81:#5F5E5A;--c82:#E1F5EE;--c83:#0F6E56;--c84:#0F6E56;--c85:#085041;--c86:#5F5E5A;--c87:#854F0B;--c88:#633806;--c89:#854F0B;--c90:#854F0B;--c91:#FFFFFF;--c92:#5F5E5A;--c93:#5F5E5A;--c94:#5F5E5A;--c95:#854F0B;--c96:#E1F5EE;--c97:#0F6E56;--c98:#0F6E56;--c99:#085041;--c100:#6FA890;--c101:#085041;--c102:#5F5E5A;--c103:#E1F5EE;--c104:#0F6E56;--c105:#0F6E56;--c106:#085041;--c107:#6FA890;--c108:#085041;--c109:#5F5E5A;--c110:#5F5E5A;--c111:#854F0B;--c112:#854F0B;--c113:#854F0B;--c114:#854F0B;--c115:#633806}
+  @media (prefers-color-scheme: dark){
+    :root{--c1:#8A939B;--c2:#E0A63A;--c3:#E0A63A;--c4:#121A20;--c5:#E8ECEF;--c6:#C2C8CF;--c7:#E8ECEF;--c8:#8A9098;--c9:#121A20;--c10:#8A939B;--c11:#E8ECEF;--c12:#12664E;--c13:#E8ECEF;--c14:#4A3F86;--c15:#E8ECEF;--c16:#121A20;--c17:#8A939B;--c18:#2A3138;--c19:#E8ECEF;--c20:#F2C063;--c21:#8A5410;--c22:#C2C8CF;--c23:#8B939B;--c24:#8A5410;--c25:#C2C8CF;--c26:#9AA1A8;--c27:#5C636A;--c28:#8B939B;--c29:#5C636A;--c30:#8B939B;--c31:#5C636A;--c32:#8B939B;--c33:#5C636A;--c34:#8B939B;--c35:#F2C063;--c36:#8A939B;--c37:#0F1A20;--c38:#3E7F6E;--c39:#17332C;--c40:#6FBFA4;--c41:#7C9A90;--c42:#8A939B;--c43:#0E2A24;--c44:#2FB492;--c45:#12664E;--c46:#5FE0BB;--c47:#4FBFA0;--c48:#C2C8CF;--c49:#9AA1A8;--c50:#8A939B;--c51:#121A20;--c52:#8A939B;--c53:#2A3138;--c54:#E8ECEF;--c55:#C2C8CF;--c56:#8A939B;--c57:#1B1A26;--c58:#A98CF0;--c59:#4A3F86;--c60:#B9A6F5;--c61:#C2C8CF;--c62:#8A939B;--c63:#121A20;--c64:#8A939B;--c65:#E8ECEF;--c66:#8A939B;--c67:#F2C063;--c68:#1B1A26;--c69:#A98CF0;--c70:#4A3F86;--c71:#B9A6F5;--c72:#E0A63A;--c73:#E0A63A;--c74:#E0A63A;--c75:#E0A63A;--c76:#F2C063;--c77:#0E2A24;--c78:#2FB492;--c79:#12664E;--c80:#5FE0BB;--c81:#C2C8CF;--c82:#0E2A24;--c83:#2FB492;--c84:#12664E;--c85:#5FE0BB;--c86:#C2C8CF;--c87:#E0A63A;--c88:#F2C063;--c89:#E0A63A;--c90:#E0A63A;--c91:#121A20;--c92:#8A939B;--c93:#2A3138;--c94:#C2C8CF;--c95:#E0A63A;--c96:#0E2A24;--c97:#2FB492;--c98:#12664E;--c99:#5FE0BB;--c100:#4FBFA0;--c101:#5FE0BB;--c102:#C2C8CF;--c103:#0E2A24;--c104:#2FB492;--c105:#12664E;--c106:#5FE0BB;--c107:#4FBFA0;--c108:#5FE0BB;--c109:#C2C8CF;--c110:#C2C8CF;--c111:#E0A63A;--c112:#E0A63A;--c113:#E0A63A;--c114:#E0A63A;--c115:#F2C063}
+  }
+</style>
+<defs>
+<marker id="arwM" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M2 1L8 5L2 9" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--c1)" /></marker>
+<marker id="arwA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M2 1L8 5L2 9" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--c2)" /></marker>
+<marker id="arwA2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="7" orient="auto"><path d="M1 1.5L9 5L1 8.5" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--c3)" /></marker>
+</defs>
+<rect width="960" height="1140" style="fill:var(--c4)" />
+<text x="480" y="44" text-anchor="middle" font-family="DengXian,'DengXian SC','等线','PingFang SC','Hiragino Sans GB',sans-serif"><tspan font-size="30" font-weight="700" style="fill:var(--c5)">Second-take</tspan><tspan font-size="13" font-weight="400" style="fill:var(--c6)">（再来一条）</tspan><tspan font-size="30" font-weight="700" style="fill:var(--c7)">流程图</tspan></text>
+<text x="662.1" y="76" text-anchor="end" font-size="12" font-weight="400" style="fill:var(--c8)">By:Flashfrog_Luo</text>
+<!-- 图例（顶部独立一行，位于标题/署名之下、内容之上） -->
+<rect x="150" y="100" width="14" height="14" rx="3" stroke-width="2" style="fill:var(--c9);stroke:var(--c10)" />
+<text x="170" y="111" font-size="12" font-weight="500" style="fill:var(--c11)">用户（你）</text>
+<rect x="292" y="100" width="14" height="14" rx="3" style="fill:var(--c12)" />
+<text x="312" y="111" font-size="12" font-weight="500" style="fill:var(--c13)">本 skill</text>
+<rect x="512" y="100" width="14" height="14" rx="3" style="fill:var(--c14)" />
+<text x="532" y="111" font-size="12" font-weight="500" style="fill:var(--c15)">原 AI</text>
+
+<g font-family="DengXian,'DengXian SC','等线','PingFang SC','Hiragino Sans GB',sans-serif" transform="translate(0,150)">
+
+
+<!-- ① 输入（顶部标签条强调） -->
+<rect x="120" y="68" width="300" height="178" rx="10" stroke-width="2.2" style="fill:var(--c16);stroke:var(--c17)" />
+<path d="M120 78 A10 10 0 0 1 130 68 L410 68 A10 10 0 0 1 420 78 L420 98 L120 98 Z" style="fill:var(--c18)" />
+<text x="270" y="88" text-anchor="middle" font-size="15" font-weight="500" fill="#FFFFFF">输入</text>
+<text x="270" y="118" text-anchor="middle" font-size="14" font-weight="500" style="fill:var(--c19)">用户拿到不满意的结果</text>
+<text x="140" y="138" font-size="14" font-weight="600" style="fill:var(--c20)">必需</text>
+<circle cx="140" cy="174" r="2.6" style="fill:var(--c21)" />
+<text x="158" y="178" font-size="13.5" style="fill:var(--c22)">原提示词<tspan font-size="11" style="fill:var(--c23)">（用户初始需求）</tspan></text>
+<circle cx="140" cy="194" r="2.6" style="fill:var(--c24)" />
+<text x="158" y="198" font-size="13.5" style="fill:var(--c25)">原AI的深度思考过程</text>
+<text x="306" y="138" font-size="14" font-weight="600" style="fill:var(--c26)">可选</text>
+<circle cx="306" cy="154" r="2.6" style="fill:var(--c27)" />
+<text x="324" y="158" font-size="12" style="fill:var(--c28)">原AI产物</text>
+<circle cx="306" cy="174" r="2.6" style="fill:var(--c29)" />
+<text x="324" y="178" font-size="12" style="fill:var(--c30)">目标</text>
+<circle cx="306" cy="194" r="2.6" style="fill:var(--c31)" />
+<text x="324" y="198" font-size="12" style="fill:var(--c32)">参考</text>
+<circle cx="306" cy="214" r="2.6" style="fill:var(--c33)" />
+<text x="324" y="218" font-size="12" style="fill:var(--c34)">修改建议</text>
+<text x="410" y="238" text-anchor="end" font-size="9.5" style="fill:var(--c35)">（*没有思考过程/概述时必须提供原AI产物）</text>
+<path d="M270 246 L270 276" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c36)" />
+
+<!-- ② 分类 + 诊断 -->
+<rect x="120" y="276" width="300" height="60" rx="10" stroke-width="1.4" style="fill:var(--c37);stroke:var(--c38)" />
+<rect x="122" y="284" width="4" height="44" rx="2" style="fill:var(--c39)" />
+<text x="270" y="301" text-anchor="middle" font-size="14" font-weight="500" style="fill:var(--c40)">分类 + 诊断</text>
+<text x="270" y="321" text-anchor="middle" font-size="12" style="fill:var(--c41)">判定 A/B/C 类，根据标准与检查项逐条诊断</text>
+<path d="M270 336 L270 366" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c42)" />
+
+<!-- ③ 重拍 Reshoot -->
+<rect x="120" y="366" width="300" height="60" rx="10" stroke-width="2" style="fill:var(--c43);stroke:var(--c44)" />
+<rect x="122" y="374" width="4" height="44" rx="2" style="fill:var(--c45)" />
+<text x="270" y="391" text-anchor="middle" font-size="14" font-weight="500" style="fill:var(--c46)">重拍</text>
+<text x="288" y="391" text-anchor="start" font-size="13" font-weight="400" style="fill:var(--c47)">Reshoot</text>
+<text x="270" y="411" text-anchor="middle" font-size="12" style="fill:var(--c48)">以需求为准生成全量重写的重拍单<tspan font-size="9.5" style="fill:var(--c49)">（Retake note）</tspan></text>
+<path d="M270 426 L270 456" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c50)" />
+
+<!-- ④ 贴回原 AI -->
+<rect x="120" y="456" width="300" height="60" rx="10" stroke-width="2" style="fill:var(--c51);stroke:var(--c52)" />
+<rect x="122" y="464" width="6" height="44" rx="3" style="fill:var(--c53)" />
+<text x="270" y="481" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c54)">贴回原 AI</text>
+<text x="270" y="501" text-anchor="middle" font-size="12" style="fill:var(--c55)">用户把重拍单粘贴到原AI的工作区末尾</text>
+<path d="M270 516 L270 546" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c56)" />
+
+<!-- ⑤ 原 AI 执行 -->
+<rect x="120" y="546" width="300" height="60" rx="10" stroke-width="1.4" style="fill:var(--c57);stroke:var(--c58)" />
+<rect x="122" y="554" width="4" height="44" rx="2" style="fill:var(--c59)" />
+<text x="270" y="571" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c60)">原 AI 执行</text>
+<text x="270" y="591" text-anchor="middle" font-size="12" style="fill:var(--c61)">按重拍单给出新产物</text>
+<path d="M270 606 L270 636" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c62)" />
+
+<!-- 判断（闸口，不编号；宽=主流程节点宽 300） -->
+<polygon points="270,636 420,676 270,716 120,676" stroke-width="2" style="fill:var(--c63);stroke:var(--c64)" />
+<text x="270" y="681" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c65)">用户判断：新产物是否满足需求？</text>
+
+<!-- 满意 -->
+<path d="M270 716 L270 746" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c66)" />
+<text x="282" y="736" font-size="12" font-weight="500" style="fill:var(--c67)">满意</text>
+
+<!-- ⑥ 输出（顶部深紫填充条 + 白字，参考输入结构） -->
+<rect x="120" y="746" width="300" height="70" rx="10" stroke-width="2.0" style="fill:var(--c68);stroke:var(--c69)" />
+<path d="M120 756 A10 10 0 0 1 130 746 L410 746 A10 10 0 0 1 420 756 L420 776 L120 776 Z" style="fill:var(--c70)" />
+<text x="270" y="768" text-anchor="middle" font-size="15" font-weight="500" fill="#FFFFFF">输出</text>
+<text x="270" y="804" text-anchor="middle" font-size="14" font-weight="500" style="fill:var(--c71)">用户获得的满意结果</text>
+
+<!-- 可选：调色 / 包装 从输出并列分出 -->
+<path d="M270 816 L270 836" stroke-width="1.5" stroke-dasharray="5 4" fill="none" style="stroke:var(--c72)" />
+<path d="M190 836 L350 836" stroke-width="1.5" stroke-dasharray="5 4" fill="none" style="stroke:var(--c73)" />
+<path d="M190 836 L190 860" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arwA)" fill="none" style="stroke:var(--c74)" />
+<path d="M350 836 L350 860" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arwA)" fill="none" style="stroke:var(--c75)" />
+<text x="285" y="830" text-anchor="start" font-size="12" font-weight="500" style="fill:var(--c76)">可选</text>
+
+<rect x="120" y="860" width="140" height="60" rx="10" stroke-width="1.4" style="fill:var(--c77);stroke:var(--c78)" />
+<rect x="122" y="868" width="4" height="44" rx="2" style="fill:var(--c79)" />
+<text x="190" y="885" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c80)">调色</text>
+<text x="190" y="905" text-anchor="middle" font-size="11" style="fill:var(--c81)">润色质感风格</text>
+
+<rect x="280" y="860" width="140" height="60" rx="10" stroke-width="1.4" style="fill:var(--c82);stroke:var(--c83)" />
+<rect x="282" y="868" width="4" height="44" rx="2" style="fill:var(--c84)" />
+<text x="350" y="885" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c85)">包装</text>
+<text x="350" y="905" text-anchor="middle" font-size="11" style="fill:var(--c86)">结构化/可视化呈现</text>
+
+<!-- 不满意：分叉直接导向「用户提出局部修改意见→补拍」与「定剪」 -->
+<path d="M420 676 L510 676" stroke-width="2.1" fill="none" style="stroke:var(--c87)" />
+<text x="476" y="666" text-anchor="middle" font-size="12" font-weight="500" style="fill:var(--c88)">不满意</text>
+<path d="M510 676 L540 676" stroke-width="2.1" fill="none" marker-end="url(#arwA2)" style="stroke:var(--c89)" />
+<path d="M510 676 L510 810 L540 810" stroke-width="2.1" fill="none" marker-end="url(#arwA2)" style="stroke:var(--c90)" />
+
+<!-- 用户提出局部修改意见（轻量用户动作，整体缩小） -->
+<rect x="580" y="618" width="220" height="36" rx="8" stroke-width="1.3" style="fill:var(--c91);stroke:var(--c92)" />
+<rect x="582" y="625" width="3" height="22" rx="1.5" style="fill:var(--c93)" />
+<text x="690" y="640" text-anchor="middle" font-size="10.5" style="fill:var(--c94)">用户提出局部修改意见</text>
+<path d="M690 654 L690 676" stroke-width="2.1" fill="none" marker-end="url(#arwA2)" style="stroke:var(--c95)" />
+
+<!-- 补拍 Pick-up -->
+<rect x="540" y="676" width="300" height="80" rx="10" stroke-width="1.4" style="fill:var(--c96);stroke:var(--c97)" />
+<rect x="542" y="684" width="4" height="64" rx="2" style="fill:var(--c98)" />
+<text x="560" y="704" font-size="13" font-weight="500" style="fill:var(--c99)">补拍 <tspan font-weight="400" style="fill:var(--c100)">Pick-up</tspan></text>
+<text x="560" y="726" font-size="12" style="fill:var(--c101)">适用情况：主体成立，只改几处</text>
+<text x="560" y="746" font-size="12" style="fill:var(--c102)">局部修改，其他保持原样</text>
+
+<!-- 定剪 Final cut -->
+<rect x="540" y="810" width="300" height="110" rx="10" stroke-width="1.4" style="fill:var(--c103);stroke:var(--c104)" />
+<rect x="542" y="818" width="4" height="94" rx="2" style="fill:var(--c105)" />
+<text x="560" y="838" font-size="13" font-weight="500" style="fill:var(--c106)">定剪 <tspan font-weight="400" style="fill:var(--c107)">Final cut</tspan></text>
+<text x="560" y="860" font-size="11" style="fill:var(--c108)">适用情况：迭代多轮仍出错 / 版本冲突 / 难以取舍</text>
+<text x="560" y="880" font-size="12" style="fill:var(--c109)">进一步生成个性化判定规则</text>
+<text x="560" y="900" font-size="12" style="fill:var(--c110)">进行最终取舍裁决，提出定稿意见</text>
+
+<!-- 回流：补拍/定剪 输出端口先在汇流竖线（x=880，476→865）汇合；三个汇合点画成可见接点（r=3.0 琥珀，画在线段之下，线段从圆心穿过）；再由合流横线 y=476 带回「贴回原AI」右边界 x=420 -->
+<path d="M880 476 L880 865" stroke-width="2.1" fill="none" style="stroke:var(--c111)" />
+<path d="M840 716 L880 716" stroke-width="2.1" fill="none" marker-end="url(#arwA2)" style="stroke:var(--c112)" />
+<path d="M840 865 L880 865" stroke-width="2.1" fill="none" marker-end="url(#arwA2)" style="stroke:var(--c113)" />
+<path d="M880 476 L420 476" stroke-width="2.1" fill="none" marker-end="url(#arwA2)" style="stroke:var(--c114)" />
+<text x="650" y="468" text-anchor="middle" font-size="12" style="fill:var(--c115)">据需求生成的新重拍单，再次粘贴到原 AI 工作区末尾</text>
+
+</g>
+</svg>
