@@ -17,8 +17,8 @@ docs/assets/hero-light.svg
 docs/assets/hero.svg
 docs/assets/social-card-en.png
 docs/assets/social-card-zh.png
-docs/assets/workflow-en.png
-docs/assets/workflow-zh.png
+docs/assets/workflow-en.svg
+docs/assets/workflow-zh.svg
 docs/guide-en.md
 docs/index-en.html
 docs/index.html
