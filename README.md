@@ -8,7 +8,6 @@
 [![License](https://img.shields.io/github/license/flashfrogluo/second-take?style=flat)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.7.1-blue)](CHANGELOG.md)
 [![Agent-Skill](https://img.shields.io/badge/Agent--Skill-agentskills.io-111111?logo=openai)](https://agentskills.io)
-[![Downloads](https://img.shields.io/github/downloads/flashfrogluo/second-take/total?style=flat&logo=github)](https://github.com/flashfrogluo/second-take/releases)
 [![Last commit](https://img.shields.io/github/last-commit/flashfrogluo/second-take?style=flat)](https://github.com/flashfrogluo/second-take/commits/main)
 [![CI](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml/badge.svg)](https://github.com/flashfrogluo/second-take/actions/workflows/ci.yml)
 
