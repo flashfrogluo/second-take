@@ -108,7 +108,7 @@ This method is domain-agnostic. Its review logic has nothing to do with "what th
 > This method **packages** the whole review pipeline into film-making terms: you do not need to learn AI jargon — just recognise the film words below and you can name the exact step you want.
 > **The table below is everything you can name.**
 
-![Second Take five-mode workflow: input → classify & diagnose → reshoot → paste back to the original AI → the original AI runs it → your call; if not satisfied, pick-up / final cut loop back; if satisfied, output, with color grading / packaging optional](docs/assets/workflow-en.png)
+![Second Take five-mode workflow: input → classify & diagnose → reshoot → paste back to the original AI → the original AI runs it → your call; if not satisfied, pick-up / final cut loop back; if satisfied, output, with color grading / packaging optional](docs/assets/workflow-en.svg)
 
 | Mode / deliverable | When to use it | What it does | Words to name it |
 |---|---|---|---|
