@@ -229,6 +229,8 @@ npx skills add flashfrogluo/second-take
 
 只有用户指令和深度思考、没有产物和素材的纯文本问答场景也适用，这时检查重点落在指令冲突、覆盖不全、推理缺陷三项。
 
+一轮不满意可以继续说「哪里不对」，它会接着改；改的过程中想到新要求不必等它改完——见 [`docs/使用与迭代.md`](docs/使用与迭代.md)。
+
 ## 不同产物类型，提供哪些信息最准
 
 > **EN** — What to provide for the most accurate diagnosis, by output type (text/code, summary-only, image/video, with reference, or any type).
@@ -377,8 +379,6 @@ npx skills add flashfrogluo/second-take
 ## License
 
 MIT。见 `LICENSE`。
-
----
 
 ---
 
