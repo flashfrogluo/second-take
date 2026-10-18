@@ -50,7 +50,7 @@ if command -v curl >/dev/null 2>&1; then
     if [ -f "$TMP/src/SKILL.md" ]; then SRC="$TMP/src"
     else SRC="$(find "$TMP/src" -maxdepth 2 -name SKILL.md -print -quit 2>/dev/null | xargs -r dirname)"; fi
     if [ -n "$SRC" ] && [ -f "$SRC/SKILL.md" ]; then
-      echo "    ✓ 已取得 release 附件（$cand）"
+      echo "    ✓ 已取得 release 附件（${cand}）"
       break
     fi
     SRC=""
@@ -59,7 +59,7 @@ fi
 
 if [ -z "$SRC" ]; then
   REF="${VERSION:+v${VERSION#v}}"; REF="${REF:-main}"
-  echo "==> 回退：下载源码包 $REPO@$REF（GitHub 不统计这类下载）"
+  echo "==> 回退：下载源码包 ${REPO}@${REF}（GitHub 不统计这类下载）"
   if command -v git >/dev/null 2>&1 \
      && git clone --depth=1 --branch "$REF" "https://github.com/$REPO.git" "$TMP/repo" >/dev/null 2>&1; then
     SRC="$TMP/repo"
