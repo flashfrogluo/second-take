@@ -5,13 +5,13 @@
 | 脚本 | 作用 |
 |---|---|
 | `stats.sh` | 聚合采集影响力数据：星标 / Fork / 关注 / skills.sh 安装量 / Release 下载量，追加历史并算增速 |
-| `release.sh` | 打包 → 打 tag → 发 Release → 传 zip 附件 → 回显下载量 |
+| `release.sh` | 校验公开包 → 草稿 Release → 上传及核验 ZIP → 正式发布（不输出下载次数） |
 | `install.sh` | 安装：优先从 Release 附件，失败回退 codeload |
 | `update.sh` | 更新：同上的双通路 |
 | `sync-local.sh` | 把远端最新版同步到本地安装副本（codeload 归档 + 自动备份） |
 | `push-to-github.sh` | 在独立 Git 工作区按公开清单检查、测试、提交并正常推送 |
 | `schedule/` | launchd 定时采集的安装、卸载与任务定义 |
-| `patch_readme.py` | 给 README 打补丁：真实计数徽章 + Star/Watch 引导 + 数据说明小节 |
+| `patch_readme.py` | 维护 README 的 Star/Watch 引导与最近提交徽章，不增加下载次数展示 |
 | `patch_description.py` | 改写 SKILL.md 的 `description`：检索词前置，保留原触发集 |
 
 ## 为什么需要这些
@@ -37,9 +37,9 @@
 ./stats.sh --history           # 看历史与增速（自动定位历史文件）
 ./stats.sh --no-write          # 只看，不写历史
 
-GITHUB_TOKEN=xxx ./release.sh 1.6.2        # 发版
-./release.sh 1.6.2 --dry-run               # 只打包
-./release.sh 1.6.2 --notes "自定义说明"     # 覆盖 CHANGELOG 抓取
+GITHUB_TOKEN="$(gh auth token)" ./release.sh 1.7.3        # 发版
+./release.sh 1.7.3 --dry-run               # 只打包
+./release.sh 1.7.3 --notes "自定义说明"     # 覆盖 CHANGELOG 抓取
 
 ./sync-local.sh --diff         # 只看本地安装副本与远端的差异
 ./sync-local.sh                # 同步（自动备份）
@@ -52,7 +52,7 @@ GITHUB_TOKEN=xxx ./release.sh 1.6.2        # 发版
 `stats.sh` 未设 `GITHUB_TOKEN` 时走匿名 API（每小时 60 次，够用），但读不到 Traffic（访客/克隆）。要读 Traffic 就设 token：
 
 ```bash
-export GITHUB_TOKEN=ghp_xxx   # Fine-grained：Contents 只读即可
+export GITHUB_TOKEN="$(gh auth token)"   # 请先以安全方式登录 gh CLI
 ```
 
 ## 定时采集
@@ -108,9 +108,10 @@ export npm_config_cache=/tmp/npm-cache
 
 1. 改 `SKILL.md` 的 `metadata.version`（`release.sh` 会核对，不一致直接拒绝）
 2. 更新 `CHANGELOG.md`，加 `## [x.y.z]` 段落（`release.sh` 会抓它作为发布说明）
-3. `GITHUB_TOKEN=xxx ./release.sh x.y.z`
-4. `git push origin vx.y.z`（推送 tag，让它在仓库页显示）
-5. 若改了 `description`：**重新安装一次**，让索引抓到新元数据
+3. 在独立干净 Git 克隆中运行 `scripts/push-to-github.sh`，完成测试、限定公开路径提交、推送代码。
+4. `GITHUB_TOKEN="$(gh auth token)" ./scripts/release.sh x.y.z`（先草稿、核验 ZIP、再正式发布；GitHub 会为新版本创建 tag，无需另行手工推同名 tag）。
+5. 核验 GitHub Tags、Release 与附件 URL，确认安装器指向正式版本。
+6. 若改了 `description`：**重新安装一次**，让索引抓到新元数据
 
 ## 公开文件边界
 
