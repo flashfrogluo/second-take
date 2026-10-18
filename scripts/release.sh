@@ -109,9 +109,6 @@ trap cleanup EXIT
 STAGE="$TMP/second-take"
 mkdir -p "$STAGE"
 python3 "$ROOT/scripts/package_files.py" "$ROOT" "$STAGE"
-( cd "$STAGE" && find . -type f ! -path './MANIFEST.txt' | sed 's|^./||' | LC_ALL=C sort > MANIFEST.txt )
-printf 'MANIFEST.txt\n' >> "$STAGE/MANIFEST.txt"
-LC_ALL=C sort -o "$STAGE/MANIFEST.txt" "$STAGE/MANIFEST.txt"
 [[ -f "$STAGE/SKILL.md" ]] || fail 'Packager did not include SKILL.md'
 python3 - "$STAGE" "$TMP/$ASSET" <<'PYZIP'
 from pathlib import Path
