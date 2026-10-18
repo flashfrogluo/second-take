@@ -55,7 +55,10 @@ def public_paths(source, manifest=MANIFEST, allow_legacy=False):
 
 def copy_public(source, destination, manifest=MANIFEST, allow_legacy=False):
     source = Path(source).resolve()
-    destination = Path(destination).resolve()
+    destination = Path(destination)
+    if destination.is_symlink():
+        raise ValueError('Symbolic link in destination: root')
+    destination = destination.resolve()
     if source == destination or source in destination.parents or destination in source.parents:
         raise ValueError('Source and destination must be separate directories')
     names = public_paths(source, manifest, allow_legacy)
