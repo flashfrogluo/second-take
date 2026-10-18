@@ -126,7 +126,7 @@ exit 22
                    TEST_ARCHIVE=str(self.src / 'second-take-latest.zip'))
         result = subprocess.run(['bash', str(self.src / 'install.sh'),
                                  '--version', '1.7.2', str(self.dst)],
-                                env=env, capture_output=True, text=True)
+                                env=env, capture_output=True, text=True, errors='replace')
         self.assertNotEqual(result.returncode, 0)
         self.assertFalse(self.dst.exists())
         self.assertIn('版本', result.stderr)
