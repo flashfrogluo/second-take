@@ -166,6 +166,8 @@ One line installs it into your agent — the installer asks you to pick a target
 
 **Manual install: where each platform looks**
 
+> The table below is only a **sample of common agents**; paths change between versions. Trust what your installed version actually does.
+
 | Agent | Project-level | User-level |
 |---|---|---|
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
