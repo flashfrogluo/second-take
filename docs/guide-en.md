@@ -173,6 +173,8 @@ The skills CLI supports dozens of agents — Claude Code, Codex, Cursor, GitHub 
 
 ### Discovery paths per platform (for manual install)
 
+> The table below is only a **sample of common agents**; paths change between versions. Trust what your installed version actually does.
+
 | Agent | Project-level | User-level |
 |---|---|---|
 | **Claude Code** | `.claude/skills/` | `~/.claude/skills/` |
