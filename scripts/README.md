@@ -108,6 +108,8 @@ export npm_config_cache=/tmp/npm-cache
 
 默认安装与更新都查询 GitHub 最新正式 Release 的 Tag，优先下载该 Tag 的 Release ZIP；如附件缺失，则只回退到**同一个 Tag** 的源码包。显式 `--version x.y.z` 也会检查下载包内的 `SKILL.md` 版本，不会在失败时悄悄安装 `main`。安装开发版请使用 `npx skills add flashfrogluo/second-take`（从仓库安装），而不是把正式版更新命令当成开发分支同步。
 
+发布经 GitHub Actions 双平台测试（Ubuntu / macOS）验证。在 `main` 中提交标题为 `release: v1.7.3` 的发版提交后，CI 全部通过才会运行现有 `release.sh`，核验正式附件，并测试版本安装与更新。其他普通提交不会触发发版。
+
 ## 发版检查清单
 
 1. 改 `SKILL.md` 的 `metadata.version`（`release.sh` 会核对，不一致直接拒绝）
