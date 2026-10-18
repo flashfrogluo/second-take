@@ -23,7 +23,6 @@ docs/guide-en.md
 docs/index-en.html
 docs/index.html
 docs/使用与迭代.md
-docs/四标准质检法.md
 docs/迭代工作流.md
 install.sh
 prompts/abc-en.md
@@ -48,8 +47,6 @@ scripts/patch_intro.py
 scripts/patch_readme.py
 scripts/public-files.txt
 scripts/push-to-github.sh
-scripts/readme-snippets/intro-cn.md
-scripts/readme-snippets/intro-en.md
 scripts/release.sh
 scripts/schedule/com.flashfrogluo.second-take-stats.plist
 scripts/schedule/install-schedule.sh
