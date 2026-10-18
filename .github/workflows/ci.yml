@@ -14,7 +14,11 @@ on:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
     steps:
@@ -26,3 +30,44 @@ jobs:
         run: python tests/validate.py all
       - name: Test public file boundaries
         run: python -m unittest discover -s tests -p 'test_*.py'
+
+      - name: Verify current published Release install
+        env:
+          INSTALL_DEST: ${{ runner.temp }}/second-take-release-check
+        run: |
+          bash install.sh --version 1.7.1 "$INSTALL_DEST"
+          grep -Eq 'version: "?1[.]7[.]1"?' "$INSTALL_DEST/SKILL.md"
+
+  publish:
+    # Publishing requires a deliberate versioned commit on main and passing tests.
+    if: >-
+      ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'release: v') }}
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish versioned Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          VERSION="${COMMIT_MESSAGE%%$'\n'*}"
+          VERSION="${VERSION#release: v}"
+          bash scripts/release.sh "$VERSION" --repo "$GITHUB_REPOSITORY"
+      - name: Verify live Release and installation
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          VERSION="${COMMIT_MESSAGE%%$'\n'*}"
+          VERSION="${VERSION#release: v}"
+          TAG="v$VERSION"
+          gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq '.assets[].name' | grep -Fx 'second-take-latest.zip'
+          test "$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq .tag_name)" = "$TAG"
+          bash install.sh --version "$VERSION" "$RUNNER_TEMP/second-take-versioned"
+          bash update.sh "$RUNNER_TEMP/second-take-current"
+          for dest in "$RUNNER_TEMP/second-take-versioned" "$RUNNER_TEMP/second-take-current"; do
+            grep -Eq "version: \"?$VERSION\"?" "$dest/SKILL.md"
+          done

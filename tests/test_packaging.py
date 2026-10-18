@@ -126,7 +126,7 @@ exit 22
                    TEST_ARCHIVE=str(self.src / 'second-take-latest.zip'))
         result = subprocess.run(['bash', str(self.src / 'install.sh'),
                                  '--version', '1.7.2', str(self.dst)],
-                                env=env, capture_output=True, text=True)
+                                env=env, capture_output=True, text=True, errors='replace')
         self.assertNotEqual(result.returncode, 0)
         self.assertFalse(self.dst.exists())
         self.assertIn('版本', result.stderr)
@@ -166,7 +166,7 @@ exit 22
                 manifest.write_text('SKILL.md\n' + entry + '\n')
                 with self.assertRaises(ValueError): pkg.public_paths(self.src, manifest)
 
-    def test_legacy_allows_only_new_tools_to_be_missing(self):
+    def test_legacy_allows_only_post_171_files_to_be_missing(self):
         p = self.src / 'SKILL.md'
         p.write_text(p.read_text().replace('version: "1.7.3"', 'version: "1.7.1"'))
         for name in pkg.NEW_IN_172: (self.src / name).unlink()

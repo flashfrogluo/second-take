@@ -12,7 +12,9 @@ import shutil
 import sys
 
 MANIFEST = Path(__file__).with_name('public-files.txt')
-NEW_IN_172 = {'scripts/package_files.py', 'scripts/public-files.txt', 'tests/test_packaging.py'}
+NEW_IN_172 = {'docs/assets/hero-dark.svg', 'docs/assets/hero-light.svg',
+              'docs/assets/social-card-en.png', 'scripts/package_files.py',
+              'scripts/public-files.txt', 'tests/test_packaging.py'}
 DENIED = ('corpus', 'cases', 'metrics', 'DEVLOG.md', '.git', '.env', '.env.*',
           '*backup*', '__pycache__', 'node_modules', '*.pyc', '*.log', '.DS_Store')
 
