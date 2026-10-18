@@ -61,5 +61,7 @@ tests/samples/05-prompt-qa.json
 tests/samples/06-b-class-summary.json
 tests/samples/07-video-caption.json
 tests/test_packaging.py
+tests/test_trigger.py
+tests/trigger-cases.md
 tests/validate.py
 update.sh
