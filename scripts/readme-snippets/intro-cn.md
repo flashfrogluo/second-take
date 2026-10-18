@@ -34,7 +34,7 @@ npx skills add flashfrogluo/second-take
 
 ## 流程图：五种模式一条工作流
 
-![Second Take 五模式流程图：输入 → 分类诊断 → 重拍 → 贴回原 AI → 原 AI 执行 → 用户判断，不满意走补拍 / 定剪再回流；满意则输出，可选调色 / 包装](docs/assets/workflow-zh.png)
+![Second Take 五模式流程图：输入 → 分类诊断 → 重拍 → 贴回原 AI → 原 AI 执行 → 用户判断，不满意走补拍 / 定剪再回流；满意则输出，可选调色 / 包装](docs/assets/workflow-zh.svg)
 
-> 上方是**中文版**；英文版见 [`docs/assets/workflow-en.png`](docs/assets/workflow-en.png)。
+> 上方是**中文版**；英文版见 [`docs/assets/workflow-en.svg`](docs/assets/workflow-en.svg)。
 > 源文件（SVG / Mermaid）与设计规范在开发工作区，不随本仓库发布。
