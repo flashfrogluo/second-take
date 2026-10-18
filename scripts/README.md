@@ -7,7 +7,7 @@
 | `stats.sh` | 聚合采集影响力数据：星标 / Fork / 关注 / skills.sh 安装量 / Release 下载量，追加历史并算增速 |
 | `release.sh` | 校验公开包 → 草稿 Release → 上传及核验 ZIP → 正式发布（不输出下载次数） |
 | `install.sh` | 安装：优先从 Release 附件，失败回退 codeload |
-| `update.sh` | 更新：同上的双通路 |
+| `update.sh` | 更新：直接复用 `install.sh`，避免第二套下载与校验逻辑 |
 | `sync-local.sh` | 把远端最新版同步到本地安装副本（codeload 归档 + 自动备份） |
 | `push-to-github.sh` | 在独立 Git 工作区按公开清单检查、测试、提交并正常推送 |
 | `schedule/` | launchd 定时采集的安装、卸载与任务定义 |
@@ -103,6 +103,10 @@ git ls-remote https://github.com/...  →  Error in the HTTP2 framing layer
 ```bash
 export npm_config_cache=/tmp/npm-cache
 ```
+
+## 安装版本规则
+
+默认安装与更新都查询 GitHub 最新正式 Release 的 Tag，优先下载该 Tag 的 Release ZIP；如附件缺失，则只回退到**同一个 Tag** 的源码包。显式 `--version x.y.z` 也会检查下载包内的 `SKILL.md` 版本，不会在失败时悄悄安装 `main`。安装开发版请使用 `npx skills add flashfrogluo/second-take`（从仓库安装），而不是把正式版更新命令当成开发分支同步。
 
 ## 发版检查清单
 

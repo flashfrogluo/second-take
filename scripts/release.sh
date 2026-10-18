@@ -71,6 +71,7 @@ REPO="${REPO%.git}"
 skill_version="$(sed -n -E 's/^[[:space:]]*version:[[:space:]]*"?([^"[:space:]]+)"?.*$/\1/p' SKILL.md | head -n 1)"
 [[ -n "$skill_version" ]] || fail 'Could not read SKILL.md metadata.version'
 [[ "$skill_version" = "${TAG#v}" ]] || fail "SKILL.md is $skill_version, requested $TAG"
+grep -Fq "## [${TAG#v}] - " CHANGELOG.md || fail "CHANGELOG.md missing version heading for $TAG"
 
 printf '==> Repository: %s\n==> Version: %s\n==> Asset: %s\n' "$REPO" "$TAG" "$ASSET"
 

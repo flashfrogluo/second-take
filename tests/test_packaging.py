@@ -61,7 +61,22 @@ class PackagingTests(unittest.TestCase):
         # without internet or real credentials.
         bindir = self.base / 'bin'; bindir.mkdir()
         curl = bindir / 'curl'
-        curl.write_text('#!/bin/sh\nwhile [ "$#" -gt 0 ]; do\n if [ "$1" = "-o" ]; then cp "$TEST_ARCHIVE" "$2"; exit; fi\n shift\ndone\nexit 1\n')
+        curl.write_text("""#!/bin/sh
+api=0
+for arg in "$@"; do
+  case "$arg" in *api.github.com*/releases/latest) api=1;; esac
+done
+while [ "$#" -gt 0 ]; do
+  if [ "$1" = "-o" ]; then
+    if [ "$api" -eq 1 ]; then printf '{"tag_name":"v1.7.3"}' > "$2"
+    else cp "$TEST_ARCHIVE" "$2"; fi
+    exit 0
+  fi
+  shift
+done
+exit 1
+""")
+
         curl.chmod(0o755)
         env = dict(os.environ, PATH=str(bindir) + os.pathsep + os.environ['PATH'], TEST_ARCHIVE=str(self.src / 'second-take-latest.zip'))
         for script in ['install.sh', 'update.sh']:
@@ -71,6 +86,50 @@ class PackagingTests(unittest.TestCase):
                 self.assertEqual((dest / 'SKILL.md').read_bytes(), (self.src / 'SKILL.md').read_bytes())
                 self.assertTrue((dest / 'references/思维链四标准.md').is_file())
                 self.assertFalse((dest / 'corpus').exists())
+
+
+    def test_missing_latest_release_never_falls_back_to_main(self):
+        bindir = self.base / 'api-failure-bin'; bindir.mkdir()
+        curl = bindir / 'curl'
+        curl.write_text("""#!/bin/sh
+printf '%s\\n' "$*" >> "$TEST_LOG"
+exit 22
+""")
+        curl.chmod(0o755)
+        log = self.base / 'network-requests.log'
+        env = dict(os.environ, PATH=str(bindir) + os.pathsep + os.environ['PATH'], TEST_LOG=str(log))
+        result = subprocess.run(['bash', str(self.src / 'update.sh'), str(self.dst)],
+                                env=env, capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(self.dst.exists())
+        self.assertNotIn('refs/heads/main', log.read_text())
+
+    def test_explicit_version_rejects_wrong_archive(self):
+        # A valid ZIP from 1.7.3 must not be installed as 1.7.2.
+        subprocess.run(['bash', str(self.src / 'scripts/release.sh'), '1.7.3',
+                        '--dry-run', '--repo', 'example/second-take'],
+                       check=True, capture_output=True)
+        bindir = self.base / 'version-bin'; bindir.mkdir()
+        curl = bindir / 'curl'
+        curl.write_text("""#!/bin/sh
+for arg in "$@"; do
+  case "$arg" in *codeload.github.com*) exit 22;; esac
+done
+while [ "$#" -gt 0 ]; do
+  if [ "$1" = "-o" ]; then cp "$TEST_ARCHIVE" "$2"; exit 0; fi
+  shift
+done
+exit 22
+""")
+        curl.chmod(0o755)
+        env = dict(os.environ, PATH=str(bindir) + os.pathsep + os.environ['PATH'],
+                   TEST_ARCHIVE=str(self.src / 'second-take-latest.zip'))
+        result = subprocess.run(['bash', str(self.src / 'install.sh'),
+                                 '--version', '1.7.2', str(self.dst)],
+                                env=env, capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(self.dst.exists())
+        self.assertIn('版本', result.stderr)
 
     def test_missing_file_aborts_before_write(self):
         (self.src / 'README.md').unlink()
