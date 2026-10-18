@@ -96,7 +96,7 @@ PYVERSION
   if [[ "$GOT" -eq 0 ]]; then
     echo "==> Release 附件不可用，改用同版本 Tag 源码包: v$VERSION"
     curl -fsSL -m 180 "https://codeload.github.com/$REPO/tar.gz/refs/tags/v$VERSION" -o "$TMP/pkg.tar.gz" \
-      || { echo "无法获取 v$VERSION；不会静默安装 main" >&2; exit 1; }
+      || { echo "无法获取 v${VERSION}；不会静默安装 main" >&2; exit 1; }
     rm -rf "$TMP/src"; mkdir -p "$TMP/src"
     tar -xzf "$TMP/pkg.tar.gz" -C "$TMP/src" --strip-components=1
     SRC="$TMP/src"
