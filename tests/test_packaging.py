@@ -51,6 +51,7 @@ class PackagingTests(unittest.TestCase):
         with zipfile.ZipFile(self.src / 'second-take-latest.zip') as z:
             files = {n.removeprefix('second-take/') for n in z.namelist() if not n.endswith('/')}
             self.assertEqual(files, set(pkg.public_paths(ROOT)) | {'MANIFEST.txt'})
+            self.assertEqual(z.read('second-take/MANIFEST.txt').decode().splitlines(), sorted(files))
             self.assertFalse(any(self.marker in z.read(n) for n in z.namelist() if not n.endswith('/')))
 
     def test_remote_install_and_update_from_release(self):
@@ -89,6 +90,15 @@ class PackagingTests(unittest.TestCase):
         with self.assertRaises(ValueError): pkg.copy_public(self.src, self.dst)
         self.assertEqual(list(outside.iterdir()), [])
         self.assertFalse((self.dst / 'SKILL.md').exists())
+
+    def test_destination_root_symlink_rejected_before_overwrite(self):
+        outside = self.base / 'outside-root'; outside.mkdir()
+        (outside / 'SKILL.md').write_text('do not overwrite')
+        self.dst.symlink_to(outside, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, 'Symbolic link'):
+            pkg.copy_public(self.src, self.dst)
+        self.assertEqual((outside / 'SKILL.md').read_text(), 'do not overwrite')
+        self.assertEqual([p.name for p in outside.iterdir()], ['SKILL.md'])
 
     def test_traversal_private_and_duplicate_manifest_rejected(self):
         manifest = self.base / 'list.txt'
