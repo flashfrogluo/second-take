@@ -33,7 +33,7 @@ npx skills add flashfrogluo/second-take
 
 ## Workflow diagram: five modes, one pipeline
 
-![Second Take five-mode workflow: input → classify & diagnose → reshoot → paste back to the original AI → the original AI runs it → your call; if not satisfied, pick-up / final cut loop back; if satisfied, output, with color grading / packaging optional](docs/assets/workflow-en.png)
+![Second Take five-mode workflow: input → classify & diagnose → reshoot → paste back to the original AI → the original AI runs it → your call; if not satisfied, pick-up / final cut loop back; if satisfied, output, with color grading / packaging optional](docs/assets/workflow-en.svg)
 
-> This is the **English version**; the Chinese version is at [`docs/assets/workflow-zh.png`](docs/assets/workflow-zh.png).
+> This is the **English version**; the Chinese version is at [`docs/assets/workflow-zh.svg`](docs/assets/workflow-zh.svg).
 > The sources (SVG / Mermaid) and the design spec live in the development workspace and are not published with this repository.
