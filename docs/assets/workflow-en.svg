@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1488 1140" width="1488" height="1140" xmlns="http://www.w3.org/2000/svg">
+<style>
+  :root{--c1:#5F5E5A;--c2:#854F0B;--c3:#854F0B;--c4:#FFFFFF;--c5:#000000;--c6:#000000;--c7:#000000;--c8:#B5B1A8;--c9:#FFFFFF;--c10:#5F5E5A;--c11:#444441;--c12:#0F6E56;--c13:#444441;--c14:#6F6896;--c15:#444441;--c16:#FFFFFF;--c17:#5F5E5A;--c18:#5F5E5A;--c19:#444441;--c20:#633806;--c21:#854F0B;--c22:#5F5E5A;--c23:#9C988F;--c24:#854F0B;--c25:#5F5E5A;--c26:#888780;--c27:#888780;--c28:#9C988F;--c29:#888780;--c30:#9C988F;--c31:#888780;--c32:#9C988F;--c33:#888780;--c34:#9C988F;--c35:#633806;--c36:#5F5E5A;--c37:#F3F8F5;--c38:#7FA396;--c39:#A8C4B8;--c40:#3D6B5A;--c41:#7A8C84;--c42:#5F5E5A;--c43:#E1F5EE;--c44:#0F6E56;--c45:#0F6E56;--c46:#085041;--c47:#6FA890;--c48:#5F5E5A;--c49:#888780;--c50:#5F5E5A;--c51:#FFFFFF;--c52:#5F5E5A;--c53:#5F5E5A;--c54:#444441;--c55:#5F5E5A;--c56:#5F5E5A;--c57:#F1F0F7;--c58:#6F6896;--c59:#6F6896;--c60:#5B5480;--c61:#5F5E5A;--c62:#5F5E5A;--c63:#FFFFFF;--c64:#5F5E5A;--c65:#444441;--c66:#5F5E5A;--c67:#633806;--c68:#F1F0F7;--c69:#6F6896;--c70:#6F6896;--c71:#5B5480;--c72:#854F0B;--c73:#854F0B;--c74:#854F0B;--c75:#854F0B;--c76:#633806;--c77:#E1F5EE;--c78:#0F6E56;--c79:#0F6E56;--c80:#085041;--c81:#5F5E5A;--c82:#E1F5EE;--c83:#0F6E56;--c84:#0F6E56;--c85:#085041;--c86:#5F5E5A;--c87:#854F0B;--c88:#633806;--c89:#854F0B;--c90:#854F0B;--c91:#FFFFFF;--c92:#5F5E5A;--c93:#5F5E5A;--c94:#5F5E5A;--c95:#854F0B;--c96:#E1F5EE;--c97:#0F6E56;--c98:#0F6E56;--c99:#085041;--c100:#6FA890;--c101:#085041;--c102:#5F5E5A;--c103:#E1F5EE;--c104:#0F6E56;--c105:#0F6E56;--c106:#085041;--c107:#6FA890;--c108:#085041;--c109:#5F5E5A;--c110:#5F5E5A;--c111:#854F0B;--c112:#854F0B;--c113:#854F0B;--c114:#854F0B;--c115:#633806}
+  @media (prefers-color-scheme: dark){
+    :root{--c1:#8A939B;--c2:#E0A63A;--c3:#E0A63A;--c4:#121A20;--c5:#E8ECEF;--c6:#E8ECEF;--c7:#E8ECEF;--c8:#8A9098;--c9:#121A20;--c10:#8A939B;--c11:#E8ECEF;--c12:#12664E;--c13:#E8ECEF;--c14:#4A3F86;--c15:#E8ECEF;--c16:#121A20;--c17:#8A939B;--c18:#2A3138;--c19:#E8ECEF;--c20:#F2C063;--c21:#8A5410;--c22:#C2C8CF;--c23:#8B939B;--c24:#8A5410;--c25:#C2C8CF;--c26:#9AA1A8;--c27:#5C636A;--c28:#8B939B;--c29:#5C636A;--c30:#8B939B;--c31:#5C636A;--c32:#8B939B;--c33:#5C636A;--c34:#8B939B;--c35:#F2C063;--c36:#8A939B;--c37:#0F1A20;--c38:#3E7F6E;--c39:#17332C;--c40:#6FBFA4;--c41:#7C9A90;--c42:#8A939B;--c43:#0E2A24;--c44:#2FB492;--c45:#12664E;--c46:#5FE0BB;--c47:#4FBFA0;--c48:#C2C8CF;--c49:#9AA1A8;--c50:#8A939B;--c51:#121A20;--c52:#8A939B;--c53:#2A3138;--c54:#E8ECEF;--c55:#C2C8CF;--c56:#8A939B;--c57:#1B1A26;--c58:#A98CF0;--c59:#4A3F86;--c60:#B9A6F5;--c61:#C2C8CF;--c62:#8A939B;--c63:#121A20;--c64:#8A939B;--c65:#E8ECEF;--c66:#8A939B;--c67:#F2C063;--c68:#1B1A26;--c69:#A98CF0;--c70:#4A3F86;--c71:#B9A6F5;--c72:#E0A63A;--c73:#E0A63A;--c74:#E0A63A;--c75:#E0A63A;--c76:#F2C063;--c77:#0E2A24;--c78:#2FB492;--c79:#12664E;--c80:#5FE0BB;--c81:#C2C8CF;--c82:#0E2A24;--c83:#2FB492;--c84:#12664E;--c85:#5FE0BB;--c86:#C2C8CF;--c87:#E0A63A;--c88:#F2C063;--c89:#E0A63A;--c90:#E0A63A;--c91:#121A20;--c92:#8A939B;--c93:#2A3138;--c94:#C2C8CF;--c95:#E0A63A;--c96:#0E2A24;--c97:#2FB492;--c98:#12664E;--c99:#5FE0BB;--c100:#4FBFA0;--c101:#5FE0BB;--c102:#C2C8CF;--c103:#0E2A24;--c104:#2FB492;--c105:#12664E;--c106:#5FE0BB;--c107:#4FBFA0;--c108:#5FE0BB;--c109:#C2C8CF;--c110:#C2C8CF;--c111:#E0A63A;--c112:#E0A63A;--c113:#E0A63A;--c114:#E0A63A;--c115:#F2C063}
+  }
+</style>
+<defs>
+<marker id="arwM" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M2 1L8 5L2 9" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--c1)" /></marker>
+<marker id="arwA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M2 1L8 5L2 9" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--c2)" /></marker>
+<marker id="arwA2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="7" orient="auto"><path d="M1 1.5L9 5L1 8.5" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--c3)" /></marker>
+</defs>
+<rect width="1488" height="1140" style="fill:var(--c4)" />
+<text x="480" y="44" text-anchor="middle" font-family="DengXian,'DengXian SC','等线','PingFang SC','Hiragino Sans GB',sans-serif"><tspan font-size="30" font-weight="700" style="fill:var(--c5)">Second Take</tspan><tspan font-size="24" font-weight="700" style="fill:var(--c6)"> · Workflow</tspan><tspan font-size="17" font-weight="700" style="fill:var(--c7)"> (Five Modes)</tspan></text>
+<text x="705.6" y="76" text-anchor="end" font-size="12" font-weight="400" style="fill:var(--c8)">By:Flashfrog_Luo</text>
+<!-- 图例（顶部独立一行，位于标题/署名之下、内容之上） -->
+<rect x="232.5" y="100" width="14" height="14" rx="3" stroke-width="2" style="fill:var(--c9);stroke:var(--c10)" />
+<text x="263.5" y="111" font-size="12" font-weight="500" style="fill:var(--c11)">User</text>
+<rect x="452.6" y="100" width="14" height="14" rx="3" style="fill:var(--c12)" />
+<text x="483.6" y="111" font-size="12" font-weight="500" style="fill:var(--c13)">This skill</text>
+<rect x="793.6" y="100" width="14" height="14" rx="3" style="fill:var(--c14)" />
+<text x="824.6" y="111" font-size="12" font-weight="500" style="fill:var(--c15)">Original AI</text>
+
+<g font-family="DengXian,'DengXian SC','等线','PingFang SC','Hiragino Sans GB',sans-serif" transform="translate(0,150)">
+
+
+<!-- ① Input（顶部标签条强调） -->
+<rect x="186" y="68" width="465" height="206" rx="10" stroke-width="2.2" style="fill:var(--c16);stroke:var(--c17)" />
+<path d="M186 78A15.5 10 0 0 1 201.5 68L635.5 68A15.5 10 0 0 1 651 78L651 98L186 98Z" style="fill:var(--c18)" />
+<text x="418.5" y="88" text-anchor="middle" font-size="15" font-weight="500" fill="#FFFFFF">Input</text>
+<text x="418.5" y="118" text-anchor="middle" font-size="14" font-weight="500" style="fill:var(--c19)">User got an unsatisfactory result</text>
+<text x="217" y="138" font-size="14" font-weight="600" style="fill:var(--c20)">Required</text>
+<circle cx="217" cy="174" r="2.6" style="fill:var(--c21)" />
+<text x="244.9" y="178" font-size="13.5" style="fill:var(--c22)">The original prompt<tspan font-size="11" style="fill:var(--c23)"> (your request)</tspan></text>
+<circle cx="217" cy="194" r="2.6" style="fill:var(--c24)" />
+<text x="244.9" y="198" font-size="13.5" style="fill:var(--c25)">The original AI's thinking process</text>
+<text x="474.3" y="138" font-size="14" font-weight="600" style="fill:var(--c26)">Optional</text>
+<circle cx="474.3" cy="154" r="2.6" style="fill:var(--c27)" />
+<text x="502.2" y="158" font-size="12" style="fill:var(--c28)">The original AI's output</text>
+<circle cx="474.3" cy="174" r="2.6" style="fill:var(--c29)" />
+<text x="502.2" y="178" font-size="12" style="fill:var(--c30)">Goal</text>
+<circle cx="474.3" cy="194" r="2.6" style="fill:var(--c31)" />
+<text x="502.2" y="198" font-size="12" style="fill:var(--c32)">Reference</text>
+<circle cx="474.3" cy="214" r="2.6" style="fill:var(--c33)" />
+<text x="502.2" y="218" font-size="12" style="fill:var(--c34)">Suggestions</text>
+<text x="635.5" y="236" text-anchor="end" font-size="9.5" style="fill:var(--c35)">(*If no reasoning chain or summary is available, the original AI's output is required.)</text>
+<path d="M418.5 274L418.5 304" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c36)" />
+
+<!-- ② Classify + Diagnose -->
+<rect x="186" y="304" width="465" height="60" rx="10" stroke-width="1.4" style="fill:var(--c37);stroke:var(--c38)" />
+<rect x="189.1" y="312" width="6.2" height="44" rx="2" style="fill:var(--c39)" />
+<text x="418.5" y="329" text-anchor="middle" font-size="14" font-weight="500" style="fill:var(--c40)">Classify + Diagnose</text>
+<text x="418.5" y="349" text-anchor="middle" font-size="12" style="fill:var(--c41)">Class A/B/C, diagnose item by item</text>
+<path d="M418.5 364L418.5 394" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c42)" />
+
+<!-- ③ Reshoot  -->
+<rect x="186" y="394" width="465" height="60" rx="10" stroke-width="2" style="fill:var(--c43);stroke:var(--c44)" />
+<rect x="189.1" y="402" width="6.2" height="44" rx="2" style="fill:var(--c45)" />
+<text x="418.5" y="419" text-anchor="middle" font-size="14" font-weight="500" style="fill:var(--c46)">Reshoot</text>
+<text x="446.4" y="419" text-anchor="start" font-size="13" font-weight="400" style="fill:var(--c47)"></text>
+<text x="418.5" y="439" text-anchor="middle" font-size="12" style="fill:var(--c48)">Full rewrite from your request → a Retake note<tspan font-size="9.5" style="fill:var(--c49)"></tspan></text>
+<path d="M418.5 454L418.5 484" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c50)" />
+
+<!-- ④ Paste back -->
+<rect x="186" y="484" width="465" height="60" rx="10" stroke-width="2" style="fill:var(--c51);stroke:var(--c52)" />
+<rect x="189.1" y="492" width="9.3" height="44" rx="3" style="fill:var(--c53)" />
+<text x="418.5" y="509" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c54)">Paste back</text>
+<text x="418.5" y="529" text-anchor="middle" font-size="12" style="fill:var(--c55)">User pastes the Retake note at the end of the original AI's workspace</text>
+<path d="M418.5 544L418.5 574" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c56)" />
+
+<!-- ⑤ The original AI runs it -->
+<rect x="186" y="574" width="465" height="60" rx="10" stroke-width="1.4" style="fill:var(--c57);stroke:var(--c58)" />
+<rect x="189.1" y="582" width="6.2" height="44" rx="2" style="fill:var(--c59)" />
+<text x="418.5" y="599" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c60)">The original AI runs it</text>
+<text x="418.5" y="619" text-anchor="middle" font-size="12" style="fill:var(--c61)">Produces a new output per the Retake note</text>
+<path d="M418.5 634L418.5 664" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c62)" />
+
+<!-- 判断（闸口，不编号；宽=主流程节点宽 300） -->
+<polygon points="418.5,664 651,704 418.5,744 186,704" stroke-width="2" style="fill:var(--c63);stroke:var(--c64)" />
+<text x="418.5" y="709" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c65)">User decides: does it meet the need?</text>
+
+<!-- Satisfied -->
+<path d="M418.5 744L418.5 774" stroke-width="3" marker-end="url(#arwM)" style="stroke:var(--c66)" />
+<text x="437.1" y="764" font-size="12" font-weight="500" style="fill:var(--c67)">Satisfied</text>
+
+<!-- ⑥ Output（顶部深紫填充条 + 白字，参考Input结构） -->
+<rect x="186" y="774" width="465" height="70" rx="10" stroke-width="2.0" style="fill:var(--c68);stroke:var(--c69)" />
+<path d="M186 784A15.5 10 0 0 1 201.5 774L635.5 774A15.5 10 0 0 1 651 784L651 804L186 804Z" style="fill:var(--c70)" />
+<text x="418.5" y="796" text-anchor="middle" font-size="15" font-weight="500" fill="#FFFFFF">Output</text>
+<text x="418.5" y="832" text-anchor="middle" font-size="14" font-weight="500" style="fill:var(--c71)">The result the user is satisfied with</text>
+
+<!-- 可选：Color grading / Packaging 从Output并列分出 -->
+<path d="M418.5 844L418.5 864" stroke-width="1.5" stroke-dasharray="5 4" fill="none" style="stroke:var(--c72)" />
+<path d="M294.5 864L542.5 864" stroke-width="1.5" stroke-dasharray="5 4" fill="none" style="stroke:var(--c73)" />
+<path d="M294.5 864L294.5 888" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arwA)" fill="none" style="stroke:var(--c74)" />
+<path d="M542.5 864L542.5 888" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arwA)" fill="none" style="stroke:var(--c75)" />
+<text x="441.75" y="858" text-anchor="start" font-size="12" font-weight="500" style="fill:var(--c76)">Optional</text>
+
+<rect x="186" y="888" width="217" height="60" rx="10" stroke-width="1.4" style="fill:var(--c77);stroke:var(--c78)" />
+<rect x="189.1" y="896" width="6.2" height="44" rx="2" style="fill:var(--c79)" />
+<text x="294.5" y="913" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c80)">Color grading</text>
+<text x="294.5" y="933" text-anchor="middle" font-size="11" style="fill:var(--c81)">Refines tone and feel</text>
+
+<rect x="434" y="888" width="217" height="60" rx="10" stroke-width="1.4" style="fill:var(--c82);stroke:var(--c83)" />
+<rect x="437.1" y="896" width="6.2" height="44" rx="2" style="fill:var(--c84)" />
+<text x="542.5" y="913" text-anchor="middle" font-size="13" font-weight="500" style="fill:var(--c85)">Packaging</text>
+<text x="542.5" y="933" text-anchor="middle" font-size="11" style="fill:var(--c86)">Structured, visual form</text>
+
+<!-- Not satisfied：分叉直接导向「User points out spots to change→补拍」与「定剪」 -->
+<path d="M651 704L790.5 704" stroke-width="2.1" fill="none" style="stroke:var(--c87)" />
+<text x="737.8" y="694" text-anchor="middle" font-size="12" font-weight="500" style="fill:var(--c88)">Not satisfied</text>
+<path d="M790.5 704L837 704" stroke-width="2.1" fill="none" marker-end="url(#arwA2" style="stroke:var(--c89)" />
+<path d="M790.5 704L790.5 838L837 838" stroke-width="2.1" fill="none" marker-end="url(#arwA2" style="stroke:var(--c90)" />
+
+<!-- User points out spots to change（轻量用户动作，整体缩小） -->
+<rect x="899" y="646" width="341" height="36" rx="8" stroke-width="1.3" style="fill:var(--c91);stroke:var(--c92)" />
+<rect x="902.1" y="653" width="4.65" height="22" rx="1.5" style="fill:var(--c93)" />
+<text x="1069.5" y="668" text-anchor="middle" font-size="10.5" style="fill:var(--c94)">User points out spots to change</text>
+<path d="M1069.5 682L1069.5 704" stroke-width="2.1" fill="none" marker-end="url(#arwA2" style="stroke:var(--c95)" />
+
+<!-- 补拍 Pick-up -->
+<rect x="837" y="704" width="465" height="80" rx="10" stroke-width="1.4" style="fill:var(--c96);stroke:var(--c97)" />
+<rect x="840.1" y="712" width="6.2" height="64" rx="2" style="fill:var(--c98)" />
+<text x="868" y="732" font-size="13" font-weight="500" style="fill:var(--c99)">Pick-up<tspan font-weight="400" style="fill:var(--c100)"></tspan></text>
+<text x="868" y="754" font-size="12" style="fill:var(--c101)">When: only a few spots change</text>
+<text x="868" y="774" font-size="12" style="fill:var(--c102)">Other spots stay as is</text>
+
+<!-- 定剪 Final cut -->
+<rect x="837" y="838" width="465" height="110" rx="10" stroke-width="1.4" style="fill:var(--c103);stroke:var(--c104)" />
+<rect x="840.1" y="846" width="6.2" height="94" rx="2" style="fill:var(--c105)" />
+<text x="868" y="866" font-size="13" font-weight="500" style="fill:var(--c106)">Final cut<tspan font-weight="400" style="fill:var(--c107)"></tspan></text>
+<text x="868" y="888" font-size="11" style="fill:var(--c108)">When: errors persist / hard to choose</text>
+<text x="868" y="908" font-size="12" style="fill:var(--c109)">Builds case-specific rules</text>
+<text x="868" y="928" font-size="12" style="fill:var(--c110)">Proposes what to keep</text>
+
+<!-- 回流：补拍/定剪 Output端口先在汇流竖线（x=880，476→865）汇合；三个汇合点画成可见接点（r=3.0 琥珀，画在线段之下，线段从圆心穿过）；再由合流横线 y=476 带回「贴回原AI」右边界 x=420 -->
+<path d="M1364 504L1364 893" stroke-width="2.1" fill="none" style="stroke:var(--c111)" />
+<path d="M1302 744L1364 744" stroke-width="2.1" fill="none" marker-end="url(#arwA2" style="stroke:var(--c112)" />
+<path d="M1302 893L1364 893" stroke-width="2.1" fill="none" marker-end="url(#arwA2" style="stroke:var(--c113)" />
+<path d="M1364 504L651 504" stroke-width="2.1" fill="none" marker-end="url(#arwA2" style="stroke:var(--c114)" />
+<text x="1007.5" y="496" text-anchor="middle" font-size="12" style="fill:var(--c115)">A New Retake note generated from your request is pasted back to the original AI</text>
+
+</g>
+</svg>
