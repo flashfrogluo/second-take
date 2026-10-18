@@ -91,7 +91,10 @@ exit 1
     def test_missing_latest_release_never_falls_back_to_main(self):
         bindir = self.base / 'api-failure-bin'; bindir.mkdir()
         curl = bindir / 'curl'
-        curl.write_text('#!/bin/sh\\nprintf "%s\\n" "$*" >> "$TEST_LOG"\\nexit 22\\n')
+        curl.write_text("""#!/bin/sh
+printf '%s\\n' "$*" >> "$TEST_LOG"
+exit 22
+""")
         curl.chmod(0o755)
         log = self.base / 'network-requests.log'
         env = dict(os.environ, PATH=str(bindir) + os.pathsep + os.environ['PATH'], TEST_LOG=str(log))
