@@ -39,7 +39,7 @@ npx skills add flashfrogluo/second-take
 
 > **分享给别人时直接给链接**，不要让对方去搜：搜 `second-take` 会撞上同名子串（scrump / thumbnail 之类）与排序劣势，`second take` 带空格又会落到语义检索按安装量排序。直链见下方 GitHub 与 skills.sh 两处。
 
-支持 Claude Code、Codex、Cursor、Gemini CLI、GitHub Copilot、Windsurf、Cline、Zed、Goose、OpenCode 等几十种 agent。
+支持范围以 `skills` CLI 的当前版本为准——清单随版本变化，安装时会列出你的版本支持哪些。
 
 上面没列到的运行时也能用。本 skill 就是一份 Markdown，只要对方读 `SKILL.md` 就行。WorkBuddy 和 DeepSeek Harness 就属于这种：它们不走 skills CLI，而是各自读自己的 skills 目录，路径见下表。
 
@@ -160,6 +160,8 @@ npx skills add flashfrogluo/second-take
 > **搜索时写连字符 `second-take`。** skills.sh 的检索分两种：写 `second-take` 走精确匹配；写成带空格的 `second take` 会切到语义检索，返回按安装量排序的热门 skill，本工具排在几十名开外。
 
 **手动装：各平台把 skill 放在哪**
+
+> 下表只是**常见 agent 的目录约定示例**，各家路径会随版本调整；以你安装的版本实际行为为准。
 
 | Agent | 项目级 | 用户级 |
 |---|---|---|
