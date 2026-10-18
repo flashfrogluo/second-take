@@ -284,7 +284,6 @@ second-take/
 │   ├── 画面描述规范.md         # Caption writing principles and eight judgments (sanitized from a general spec)
 │   └── 术语表.md               # Evaluation-side terms: Rubric's five fields, four hard-injury types, reward hacking
 ├── docs/
-│   ├── 四标准质检法.md         # Entry pointer: merged into references/思维链四标准.md; write no content here
 │   ├── 迭代工作流.md           # Maintainer guide: change hard constraints / add reference / add corpus / release checklist
 │   ├── guide-en.md             # This file — the full English usage manual
 │   └── ROADMAP.md              # Roadmap: done / in progress / envisioned
