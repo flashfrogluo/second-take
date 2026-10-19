@@ -157,6 +157,14 @@ npx skills add flashfrogluo/second-take
 
 一条命令装到你的 agent——安装时会让你从目标列表里选。**支持范围以 `skills` CLI 的当前版本为准**（清单随版本变化，安装时会列出你的版本支持哪些）。
 
+**Claude Code 用户也可以走插件市场**：
+
+```bash
+/plugin marketplace add flashfrogluo/second-take
+/plugin install second-take@second-take
+```
+
+
 > **搜索时写连字符 `second-take`。** skills.sh 的检索分两种：写 `second-take` 走精确匹配；写成带空格的 `second take` 会切到语义检索，返回按安装量排序的热门 skill，本工具排在几十名开外。
 
 **手动装：各平台把 skill 放在哪**
