@@ -19,3 +19,6 @@ dist/
 .sync-backup-*
 .write-backup-*
 .apply-backup-*
+
+# 内部统计快照（不发布）
+metrics/
