@@ -221,15 +221,6 @@
       .jump{font-size:13px;gap:4px 12px}
     footer{margin-top:40px}
   }
-
-  .alt{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:var(--soft)}
-  .alt summary{cursor:pointer;padding:10px 0;font-size:13px;color:var(--muted);list-style:none}
-  .alt summary::-webkit-details-marker{display:none}
-  .alt summary::before{content:"▸ ";color:var(--green)}
-  .alt[open] summary::before{content:"▾ "}
-  .alt ul{margin:0 0 12px;padding-left:16px}
-  .alt li{font-size:12.5px;line-height:1.7;color:var(--muted);margin-bottom:4px}
-  .alt code{font-size:11.5px;background:var(--soft);border:1px solid var(--line);border-radius:4px;padding:1px 5px;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -328,15 +319,6 @@
     </div>
     <p class="note">Installs into your agent — the installer asks you to pick a target. Support depends on your version of the <code>skills</code> CLI.</p>
   </div>
-
-  <details class="alt">
-    <summary>Other ways to install</summary>
-    <ul>
-      <li><strong>Claude Code plugin</strong>: <code>/plugin marketplace add https://github.com/flashfrogluo/second-take.git</code>, then <code>/plugin install second-take@second-take</code></li>
-      <li><strong>Codex · Cursor · Antigravity</strong>: the repo ships <code>.codex-plugin</code>, <code>.cursor-plugin</code> and <code>.antigravity-plugin</code> manifests</li>
-      <li><strong>Script</strong>: <code>./install.sh</code> — pulls the release package and copies only allowlisted files</li>
-    </ul>
-  </details>
 
   <div class="mini">
     <a href="https://github.com/flashfrogluo">Follow the author</a>
