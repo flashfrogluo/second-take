@@ -159,7 +159,7 @@ Ask for the **full version** any time by saying "this is important / go deeper /
 **Claude Code users can also install from the plugin marketplace**:
 
 ```bash
-/plugin marketplace add flashfrogluo/second-take
+/plugin marketplace add https://github.com/flashfrogluo/second-take.git
 /plugin install second-take@second-take
 ```
 
