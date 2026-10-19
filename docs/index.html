@@ -221,6 +221,15 @@
       .jump{font-size:13px;gap:4px 12px}
     footer{margin-top:40px}
   }
+
+  .alt{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:var(--soft)}
+  .alt summary{cursor:pointer;padding:10px 0;font-size:13px;color:var(--muted);list-style:none}
+  .alt summary::-webkit-details-marker{display:none}
+  .alt summary::before{content:"▸ ";color:var(--green)}
+  .alt[open] summary::before{content:"▾ "}
+  .alt ul{margin:0 0 12px;padding-left:16px}
+  .alt li{font-size:12.5px;line-height:1.7;color:var(--muted);margin-bottom:4px}
+  .alt code{font-size:11.5px;background:var(--soft);border:1px solid var(--line);border-radius:4px;padding:1px 5px;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -319,6 +328,15 @@
     </div>
     <p class="note">装到你的 agent——安装时会让你从目标列表里选。支持范围以 <code>skills</code> CLI 的当前版本为准。</p>
   </div>
+
+  <details class="alt">
+    <summary>其他安装方式</summary>
+    <ul>
+      <li><strong>Claude Code 插件</strong>：<code>/plugin marketplace add https://github.com/flashfrogluo/second-take.git</code>，再 <code>/plugin install second-take@second-take</code></li>
+      <li><strong>Codex · Cursor · Antigravity</strong>：仓库里已附 <code>.codex-plugin</code>、<code>.cursor-plugin</code>、<code>.antigravity-plugin</code> 三份清单</li>
+      <li><strong>脚本</strong>：<code>./install.sh</code>，从 Release 取包并按白名单复制</li>
+    </ul>
+  </details>
 
   <div class="mini">
     <a href="https://github.com/flashfrogluo">关注作者</a>
