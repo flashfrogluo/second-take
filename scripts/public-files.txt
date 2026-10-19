@@ -1,3 +1,4 @@
+.claude-plugin/marketplace.json
 # Reviewed public files; unknown files are never packaged.
 # Add a file only after checking it contains no private material.
 .github/CONTRIBUTING.md
