@@ -14,3 +14,8 @@ DEVLOG.md
 # 发布构建产物（release.sh 生成，分发走 Release 附件）
 second-take-latest.zip
 dist/
+
+# 本地备份目录（不进仓库、不进发布包）
+.sync-backup-*
+.write-backup-*
+.apply-backup-*
