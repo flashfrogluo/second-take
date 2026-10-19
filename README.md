@@ -164,6 +164,8 @@ npx skills add flashfrogluo/second-take
 /plugin install second-take@second-take
 ```
 
+> 两点说明：用 **HTTPS URL** 而不是 `owner/repo` 简写（简写在部分机器上走 SSH，没配 key 会失败）；若你已用 `npx skills add` 装过同名 skill，**那一份优先于插件版本**，想用插件版请先移除旧副本（指向别处的符号链接，删链接即可）。
+
 
 > **搜索时写连字符 `second-take`。** skills.sh 的检索分两种：写 `second-take` 走精确匹配；写成带空格的 `second take` 会切到语义检索，返回按安装量排序的热门 skill，本工具排在几十名开外。
 
