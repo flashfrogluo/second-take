@@ -1,0 +1,19 @@
+{
+  "name": "second-take",
+  "displayName": "Second Take",
+  "version": "1.7.3",
+  "description": "Review weak AI reasoning and hand back a retake note",
+  "suggestedPrompts": [
+    "帮我看看这段深度思考对不对",
+    "这个回答很难用，帮我生成重拍单"
+  ],
+  "category": "Productivity",
+  "keywords": ["ai-reasoning", "prompt-qa", "retake-note", "review"],
+  "author": {
+    "name": "flashfrogluo",
+    "url": "https://github.com/flashfrogluo"
+  },
+  "homepage": "https://github.com/flashfrogluo/second-take",
+  "repository": "https://github.com/flashfrogluo/second-take",
+  "license": "MIT"
+}
