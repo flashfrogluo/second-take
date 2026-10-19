@@ -156,6 +156,13 @@ Ask for the **full version** any time by saying "this is important / go deeper /
 
 ## Installation
 
+**Claude Code users can also install from the plugin marketplace**:
+
+```bash
+/plugin marketplace add flashfrogluo/second-take
+/plugin install second-take@second-take
+```
+
 ```bash
 npx skills add flashfrogluo/second-take
 ```
