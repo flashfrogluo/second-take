@@ -156,6 +156,12 @@ Ask for the **full version** any time by saying "this is important / go deeper /
 
 ## Installation
 
+```bash
+npx skills add flashfrogluo/second-take
+```
+
+One line installs it into your agent — the installer asks you to pick a target. **What is supported depends on your version of the `skills` CLI** (the list changes between releases; the install prompt shows yours).
+
 **Claude Code users can also install from the plugin marketplace**:
 
 ```bash
@@ -163,11 +169,7 @@ Ask for the **full version** any time by saying "this is important / go deeper /
 /plugin install second-take@second-take
 ```
 
-```bash
-npx skills add flashfrogluo/second-take
-```
-
-One line installs it into your agent — the installer asks you to pick a target. **What is supported depends on your version of the `skills` CLI** (the list changes between releases; the install prompt shows yours).
+> Two notes: use the **HTTPS URL** rather than the `owner/repo` shorthand (the shorthand resolves over SSH on some machines and fails without a key); if you already installed the same skill with `npx skills add`, **that copy takes precedence** over the plugin version — remove the old copy first if you want the plugin one.
 
 > **Share the link, do not ask people to search.** Searching `second-take` collides with same-substring names (scrump / thumbnail) and loses on ranking; `second take` with a space drops into semantic search sorted by install count.
 
@@ -310,7 +312,6 @@ Why not fix it all in the tool: the items the tool supplies are **after-the-fact
 
 Why not hand it all to it: it will inflate its self-score, and will **infer the standard backward from the previous bad product** (treating "last version had six sections" as the standard), writing unjudgeable items like "is the content reasonable." So the meta-instruction must have guardrails — **every item must state "on what basis," and missing basis counts as "no"**; **standards may come only from the UP and common sense, never from the look of any previous answer**; bare adjectives are forbidden.
 
-
 > ⚠️ **Only [Judging criteria] and [Known defects] can be dropped. [Draft self-check] is mandatory under every template (A / B / C) and in every case** —
 > it guards against "writing without reviewing", which has nothing to do with output length.
 Enabled by default. Four cases fall back to giving only **[Self-Check]**: the target model is clearly weak / the UP is minimal / defects are fully enumerable / the user needs the shortest instruction.
@@ -398,8 +399,6 @@ The hard constraints of this skill were honed one real case at a time. **If you'
 The motive came from the intersection of two roles: making images made me sensitive to "why is this shot wrong", while using AI daily kept surfacing one pain — the quality of a model's "deep thinking" is unstable, skipping steps or dropping dimensions the user explicitly asked for.
 
 Suggestions, review feedback, real conversations usable as corpus, and collaboration ideas are all welcome — open an issue / PR, or email **flashfrogluo@gmail.com**.
-
-
 
 ## License
 
