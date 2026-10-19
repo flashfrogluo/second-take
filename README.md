@@ -160,7 +160,7 @@ npx skills add flashfrogluo/second-take
 **Claude Code 用户也可以走插件市场**：
 
 ```bash
-/plugin marketplace add flashfrogluo/second-take
+/plugin marketplace add https://github.com/flashfrogluo/second-take.git
 /plugin install second-take@second-take
 ```
 
