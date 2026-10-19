@@ -17,6 +17,21 @@ Second Take 是一个**纯本地 Markdown skill**，不收集数据、不主动�
 
 我们会在一个工作日内确认，并在确认后尽快修复与发布。
 
+## 脚本行为（供自动扫描与评审参考）
+
+仓库里的三个脚本只做**下载 → 校验 → 复制**，不上传、不回传任何数据：
+
+| 脚本 | 做什么 | 不做什么 |
+|---|---|---|
+| `install.sh` | 从 Release 取包，按 `scripts/public-files.txt` 白名单复制到本地 skills 目录 | 不读你的对话内容、不统计、不上报 |
+| `update.sh` | 转调 `install.sh`（同一套逻辑） | 同上 |
+| `scripts/release.sh` | **仅维护者本机使用**：打包并上传到本仓库自己的 Release | 不在用户机器上运行 |
+
+补充两点，便于扫描器判读：
+
+- 打包边界是**白名单**（`scripts/public-files.txt`）而非黑名单：未登记的文件一律不进入发布包，内部语料（`corpus/`、`cases/`、`DEVLOG.md`）不会下发。
+- 包内不含可执行二进制，只有 Markdown、SVG 与上述脚本；脚本仅依赖 `bash`、`curl`、`unzip`、`python3`。
+
 ## 数据隐私提示
 
 - 你贴来的用户指令（UP）、深度思考（CoT）、产物**只在你本机 / 你自己的 AI 对话里**流动，本 skill 不替你上传任何东西。
