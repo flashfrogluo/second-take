@@ -1,0 +1,32 @@
+{
+  "name": "second-take",
+  "version": "1.7.3",
+  "description": "Diagnose where an AI answer's reasoning went wrong, then produce a self-contained retake note you paste back so the original AI answers better.",
+  "author": {
+    "name": "flashfrogluo",
+    "url": "https://github.com/flashfrogluo"
+  },
+  "homepage": "https://github.com/flashfrogluo/second-take",
+  "repository": "https://github.com/flashfrogluo/second-take",
+  "license": "MIT",
+  "keywords": ["ai-reasoning", "prompt-qa", "retake-note", "review", "quality-assurance"],
+  "skills": "./",
+  "hooks": {},
+  "interface": {
+    "displayName": "Second Take",
+    "shortDescription": "Review weak AI reasoning and hand back a retake note",
+    "longDescription": "When an AI answer disappoints, Second Take diagnoses the reasoning behind it — six check items, thirteen defect subclasses, four evaluation standards — and produces a retake note: a self-contained instruction packet you paste back into the original conversation so that AI answers better. It never rewrites the answer for you.",
+    "developerName": "flashfrogluo",
+    "category": "Productivity",
+    "capabilities": ["Read"],
+    "defaultPrompt": [
+      "帮我看看这段深度思考对不对",
+      "这个回答很难用，帮我生成重拍单"
+    ],
+    "websiteURL": "https://flashfrogluo.github.io/second-take/",
+    "privacyPolicyURL": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+    "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+    "brandColor": "#0D9F6E",
+    "screenshots": []
+  }
+}
