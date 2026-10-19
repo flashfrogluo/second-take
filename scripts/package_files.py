@@ -12,20 +12,35 @@ import shutil
 import sys
 
 MANIFEST = Path(__file__).with_name('public-files.txt')
-NEW_IN_172 = {'docs/assets/hero-dark.svg', 'docs/assets/hero-light.svg',
-              'docs/assets/social-card-en.png', 'scripts/package_files.py',
-              'scripts/public-files.txt', 'tests/test_packaging.py'}
+# 文件 → 首次出现的版本。给更老的源码树打包时，这些文件本就不存在，跳过即可。
+# 新增公开文件时，在这里登记它的引入版本。
+INTRODUCED = {
+    'docs/assets/hero-dark.svg': (1, 7, 2),
+    'docs/assets/hero-light.svg': (1, 7, 2),
+    'docs/assets/social-card-en.png': (1, 7, 2),
+    'scripts/package_files.py': (1, 7, 2),
+    'scripts/public-files.txt': (1, 7, 2),
+    'tests/test_packaging.py': (1, 7, 2),
+    '.claude-plugin/marketplace.json': (1, 7, 3),
+    '.codex-plugin/plugin.json': (1, 7, 3),
+    '.cursor-plugin/plugin.json': (1, 7, 3),
+    '.antigravity-plugin/plugin.json': (1, 7, 3),
+    'tests/test_trigger.py': (1, 7, 3),
+    'tests/trigger-cases.md': (1, 7, 3),
+    'docs/assets/workflow-zh.svg': (1, 7, 3),
+    'docs/assets/workflow-en.svg': (1, 7, 3),
+}
 DENIED = ('corpus', 'cases', 'metrics', 'DEVLOG.md', '.git', '.env', '.env.*',
           '*backup*', '__pycache__', 'node_modules', '*.pyc', '*.log', '.DS_Store')
 
 
 def public_paths(source, manifest=MANIFEST, allow_legacy=False):
     source = Path(source).resolve()
-    legacy = False
+    version = None
     if allow_legacy:
         match = re.search(r'^  version: "(\d+)\.(\d+)\.(\d+)"$',
                           (source / 'SKILL.md').read_text(encoding='utf-8'), re.M)
-        legacy = bool(match and tuple(map(int, match.groups())) < (1, 7, 2))
+        version = tuple(map(int, match.groups())) if match else None
     result = []
     seen = set()
     for line in Path(manifest).read_text(encoding='utf-8').splitlines():
@@ -45,8 +60,10 @@ def public_paths(source, manifest=MANIFEST, allow_legacy=False):
             path = path / part
             if path.is_symlink():
                 raise ValueError(f'Symbolic link in source: {name}')
-        if not path.exists() and legacy and name in NEW_IN_172:
-            continue
+        if not path.exists() and version is not None:
+            introduced = INTRODUCED.get(name)
+            if introduced and version < introduced:
+                continue
         if not path.is_file():
             raise ValueError(f'Missing public file: {name}')
         result.append(name)
