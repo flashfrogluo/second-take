@@ -35,8 +35,11 @@ jobs:
         env:
           INSTALL_DEST: ${{ runner.temp }}/second-take-release-check
         run: |
-          bash install.sh --version 1.7.1 "$INSTALL_DEST"
-          grep -Eq 'version: "?1[.]7[.]1"?' "$INSTALL_DEST/SKILL.md"
+          VERSION="$(sed -n -E 's/^[[:space:]]*version:[[:space:]]*"?([^"[:space:]]+)"?.*$/\1/p' SKILL.md | head -n 1)"
+          test -n "$VERSION"
+          echo "verifying published release for v$VERSION"
+          bash install.sh --version "$VERSION" "$INSTALL_DEST"
+          grep -Eq "version: \"?$VERSION\"?" "$INSTALL_DEST/SKILL.md"
 
   publish:
     # Publishing requires a deliberate versioned commit on main and passing tests.
