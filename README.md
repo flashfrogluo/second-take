@@ -169,6 +169,8 @@ npx skills add flashfrogluo/second-take
 
 > **搜索时写连字符 `second-take`。** skills.sh 的检索分两种：写 `second-take` 走精确匹配；写成带空格的 `second take` 会切到语义检索，返回按安装量排序的热门 skill，本工具排在几十名开外。
 
+> 第三方目录也收录了本 skill：**[usethisskill.com/skills/second-take](https://usethisskill.com/skills/second-take)**。
+
 **手动装：各平台把 skill 放在哪**
 
 > 下表只是**常见 agent 的目录约定示例**，各家路径会随版本调整；以你安装的版本实际行为为准。
