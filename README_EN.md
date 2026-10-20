@@ -173,6 +173,8 @@ One line installs it into your agent — the installer asks you to pick a target
 
 > **Share the link, do not ask people to search.** Searching `second-take` collides with same-substring names (scrump / thumbnail) and loses on ranking; `second take` with a space drops into semantic search sorted by install count.
 
+> Also listed on **[usethisskill.com/skills/second-take](https://usethisskill.com/skills/second-take)**.
+
 **Manual install: where each platform looks**
 
 > The table below is only a **sample of common agents**; paths change between versions. Trust what your installed version actually does.
