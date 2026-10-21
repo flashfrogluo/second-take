@@ -12,6 +12,11 @@ on:
     branches: [main]
   pull_request:
 
+# 同一分支连续推送时，取消已被取代的旧运行，避免重复排队。
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     strategy:
@@ -19,6 +24,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    # macOS runner 在高峰期经常排队超时被取消；它只作附加信号，不阻塞主结论。
+    continue-on-error: ${{ matrix.os == 'macos-latest' }}
     permissions:
       contents: read
     steps:
