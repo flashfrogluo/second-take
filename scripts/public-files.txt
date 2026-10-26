@@ -55,7 +55,7 @@ tests/samples/03-unsupported-claim.json
 tests/samples/04-vague-logic.json
 tests/samples/05-prompt-qa.json
 tests/samples/06-b-class-summary.json
-tests/samples/07-video-caption.json
+tests/samples/07-video-visual-elements.json
 tests/test_packaging.py
 tests/test_trigger.py
 tests/trigger-cases.md

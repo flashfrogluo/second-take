@@ -30,7 +30,7 @@ The table below is your **control panel**: the film term on the left, what it ac
 
 | Our step | Film term (name) | What we have the AI optimize | Purpose |
 |---|---|---|---|
-| Material under review (CoT + answer) | Dailies / 样片 | Hand over the original AI's reasoning chain and final answer for diagnosis | Locate "right or wrong" issues; decide what stays |
+| Material under review (reasoning + answer) | Dailies / 样片 | Hand over the original AI's reasoning chain and final answer for diagnosis | Locate "right or wrong" issues; decide what stays |
 | First full rewrite | Reshoot / 重拍 | When the subject doesn't hold, rewrite the entire reasoning chain | Rebuild the correct structure and judgment |
 | Targeted fix in later rounds | Pick-up / 补拍 | Subject already holds; change only the named spots | Keep qualified passages; fix precisely, avoid regression |
 | Self-consistency check | Continuity / 穿帮 | Check whether each step internally, steps among themselves, and against the conclusion stay self-consistent | Eliminate logic clashes |
@@ -51,8 +51,8 @@ The table below is your **control panel**: the film term on the left, what it ac
 | Intent | Trigger words |
 |---|---|
 | Unhappy result (QA) | the result is wrong / not usable / misses points / wrong length / sounds robotic / too much AI flavor / wrong format / off-topic / logic is flawed / self-contradictory |
-| Hand me material to diagnose | check this reasoning / diagnose this CoT / where did this thinking go wrong / here's a share link / my prompt produces a bad image |
-| Optimize / rewrite | improve the prompt / have the original AI redo it / spot errors / review / re-examine / rewrite the CoT / QA it with this rubric |
+| Hand me material to diagnose | check this reasoning / diagnose this reasoning / where did this thinking go wrong / here's a share link / my prompt produces a bad image |
+| Optimize / rewrite | improve the prompt / have the original AI redo it / spot errors / review / re-examine / rewrite the reasoning / QA it with this rubric |
 | Generative platforms | JiMeng / Kling / Midjourney image is wrong / not the frame I wanted / prompt retake note |
 
 ### Mode triggers (name the step)
@@ -74,9 +74,9 @@ The table below is your **control panel**: the film term on the left, what it ac
 
 This skill **does not** write the answer for you. Your context lives in that AI's conversation, so you must get the result there. If you want it to write directly, just say "write it directly."
 
-The retake note is self-contained: the full UP is embedded, so copying the whole block works without any surrounding context. It **does not embed the original CoT** — the guesses and "thinking voice" inside the CoT are exactly the source of the problem; paste them in and the model will replay the same thought process. We give only: UP + a list of valid conclusions (the sound judgments distilled from the CoT) + revision points + an output-structure skeleton (how many sections, what each says, how long, conclusions first, key points bolded) + output requirements (including a ban on the thinking voice).
+The retake note is self-contained: the full user instruction is embedded, so copying the whole block works without any surrounding context. It **does not embed the original reasoning** — the guesses and "thinking voice" inside the reasoning are exactly the source of the problem; paste them in and the model will replay the same thought process. We give only: user instruction + a list of valid conclusions (the sound judgments distilled from the reasoning) + revision points + an output-structure skeleton (how many sections, what each says, how long, conclusions first, key points bolded) + output requirements (including a ban on the thinking voice).
 
-What to produce is decided by the UP, not guessed: if the UP is a question or asks for content, produce the **final answer**; if the UP's deliverable *is* the reasoning itself (in prompt engineering, the CoT is the product), produce the **revised CoT**. Both templates are in `references/标注范例.md` (Annotation Examples).
+What to produce is decided by the user instruction, not guessed: if the user instruction is a question or asks for content, produce the **final answer**; if the user instruction's deliverable *is* the reasoning itself (in prompt engineering, the reasoning is the product), produce the **revised reasoning**. Both templates are in `references/标注范例.md` (Annotation Examples).
 
 Just paste it at the **end of the original conversation** — no new chat needed. The retake note begins with a **targeted-ignore declaration**: it only cuts that one failing stretch of deep thinking and the single answer it directly produced; your earlier instructions, added requirements, expression habits, and ways of thinking all remain in effect.
 
@@ -86,7 +86,7 @@ This method is domain-agnostic. Its review logic has nothing to do with "what th
 
 ## When to use it
 
-- Check whether a model's chain of thought stays faithful to the user's instructions
+- Check whether a model's deep thinking stays faithful to the user's instructions
 - Find unsupported citations, forced reasoning, and common-sense errors in the logic
 - QA the prompt / reasoning before batch generation
 - Turn "finding faults" experience into a reusable process
@@ -110,7 +110,7 @@ The only criterion: **does that AI expose its reasoning process?**
 | **B Reasoning summary only** | ChatGPT (thinking summary), some Doubao / Qwen share snapshots | Summary + infer backward from the product (source noted) | Retake note | Text / Other |
 | **C No reasoning (generative)** | Jimeng, Kling, Midjourney, Sora, Runway | **The prompt itself** | Prompt retake note (directly pasteable) | Image / Video |
 
-> Class C is a deliberate adaptation: generative models don't show you their reasoning, but **the prompt is the complete instruction they received** — treat it as the CoT and the root cause of a bad image / clip is equally findable (missing elements, internal conflict, adjectives not operationalized, words the platform doesn't recognize). Three rules: don't fabricate platform parameters, keep the seed and reference images, change only the elements that are actually wrong, and don't throw out the whole image.
+> Class C is a deliberate adaptation: generative models don't show you their reasoning, but **the prompt is the complete instruction they received** — treat it as the reasoning and the root cause of a bad image / clip is equally findable (missing elements, internal conflict, adjectives not operationalized, words the platform doesn't recognize). Three rules: don't fabricate platform parameters, keep the seed and reference images, change only the elements that are actually wrong, and don't throw out the whole image.
 
 ---
 
@@ -120,11 +120,11 @@ The more precise your information, the more precise the diagnosis. Provide the f
 
 | Output you're reviewing | Provide if possible (more = better) | Purpose |
 |---|---|---|
-| **Text / code / plan** | ① Original user instruction (UP) ② That stretch of deep thinking (CoT) ③ The final answer it gave | CoT is the main evidence; UP checks "which requirement was dropped"; the answer confirms "did the error reach the result" |
-| **Summary only (ChatGPT, etc.)** | ① UP ② Thinking summary ③ Final product | Main evidence becomes the product; conclusions note "inferred from product" and state "full reasoning not seen, coverage may be low" |
-| **Image / video (generative)** | ① The effect you expected (UP) ② The prompt used (params / seed / reference) ③ This version's output | The prompt is the reasoning; seed / reference decide whether we can "change only the broken element" |
+| **Text / code / plan** | ① Original user instruction ② That stretch of deep thinking (reasoning) ③ The final answer it gave | reasoning is the main evidence; user instruction checks "which requirement was dropped"; the answer confirms "did the error reach the result" |
+| **Summary only (ChatGPT, etc.)** | ① user instruction ② Thinking summary ③ Final product | Main evidence becomes the product; conclusions note "inferred from product" and state "full reasoning not seen, coverage may be low" |
+| **Image / video (generative)** | ① The effect you expected (user instruction) ② The prompt used (params / seed / reference) ③ This version's output | The prompt is the reasoning; seed / reference decide whether we can "change only the broken element" |
 | **With reference / target material** | ① Target (the look you expected) ② Reference (take the one dimension it was named for) ③ The AI artifact to fix | Keep the three distinct to avoid the "loop": if you treat the AI artifact as the standard, every fix makes it more like the original error |
-| **Any type** | One line "what you're unhappy about" | Helps us finish the judgment first and take fewer detours; if unstated we infer from UP and product |
+| **Any type** | One line "what you're unhappy about" | Helps us finish the judgment first and take fewer detours; if unstated we infer from user instruction and product |
 
 ---
 
@@ -226,33 +226,33 @@ Both of the following work:
 Generate an retake note for me: https://chat.deepseek.com/share/xxxxx
 
 # Paste content directly
-Check whether this CoT is correct; if not or if it can be improved, generate an retake note for me.
-UP (user instruction): ……
-CoT (deep thinking): ……
+Check whether this reasoning is correct; if not or if it can be improved, generate an retake note for me.
+user instruction: ……
+reasoning: ……
 ```
 
 After a link, it calls the API to fetch the original instruction, deep thinking, and that version's product, so you don't type them manually. Once fetched, it confirms with you which is the main instruction, which is the added instruction, and which is the product.
 
-Optional inputs include: material description (Caption), target product, reference material, and instructions you add in later rounds (e.g. "no bullet points, output one long block"). Whichever is missing, the check that depends on it is simply marked "none."
+Optional inputs include: material description (visual element description), target product, reference material, and instructions you add in later rounds (e.g. "no bullet points, output one long block"). Whichever is missing, the check that depends on it is simply marked "none."
 
-Pure text Q&A with only UP and CoT and no product or material also works; the focus then falls on instruction conflict, incomplete coverage, and reasoning defects.
+Pure text Q&A with only user instruction and reasoning and no product or material also works; the focus then falls on instruction conflict, incomplete coverage, and reasoning defects.
 
 ---
 
-## Evaluation standard: the Four Standards for an effective chain of thought
+## Evaluation standard: the Four Standards for an effective deep thinking
 
-Whether a chain of thought is effective is judged by four standards. **The Four Standards are the evaluation standard; the check items are the symptom list** — the former answers "is it good," the latter answers "where is it broken."
+Whether a deep thinking is effective is judged by four standards. **The Four Standards are the evaluation standard; the check items are the symptom list** — the former answers "is it good," the latter answers "where is it broken."
 
 | Standard | Definition | One-line test |
 |---|---|---|
 | **Logic** | Each thinking step has a logical relation to the others, connected into a complete process | Can the next step be inferred from the previous one? |
-| **Completeness** | Considers the problem as fully and carefully as possible, ignoring no relevant factor or impact | Are the important dimensions mentioned in the UP and material all accounted for? |
+| **Completeness** | Considers the problem as fully and carefully as possible, ignoring no relevant factor or impact | Are the important dimensions mentioned in the user instruction and material all accounted for? |
 | **Feasibility** | Every thinking step can actually be carried out | After reading, do you know the specific next action? |
 | **Verifiability** | Every thinking step can be validated by real data and facts | Can each conclusion point to "why do you say so"? |
 
 Process: first find the concrete errors via the check items → map them to the Four Standards → give an overall score → write the retake note from that. The revision points must cover all four; fill whichever is missing.
 
-For per-standard judgment methods and the mapping to check items, see `references/思维链四标准.md` (The Four Standards for Chain of Thought).
+For per-standard judgment methods and the mapping to check items, see `references/思维链四标准.md` (The Four Standards for deep thinking).
 
 ---
 
@@ -283,7 +283,7 @@ second-take/
 │   ├── 自生成rubric元指令.md   # Hybrid mode: meta-instruction letting the target AI write its own domain standard
 │   ├── 优化与检查指令自查rubric.md   # Our pre-delivery five-field self-check (Must-have 18 items)
 │   ├── 经验提炼与思维习惯.md   # How cases are abstracted into rules, anti-pollution discipline, fixed mental actions
-│   ├── 画面描述规范.md         # Caption writing principles and eight judgments (sanitized from a general spec)
+│   ├── 画面描述规范.md         # visual element description writing principles and eight judgments (sanitized from a general spec)
 │   └── 术语表.md               # Evaluation-side terms: Rubric's five fields, four hard-injury types, reward hacking
 ├── docs/
 │   ├── 迭代工作流.md           # Maintainer guide: change hard constraints / add reference / add corpus / release checklist
@@ -324,11 +324,11 @@ The retake note doesn't end after the requirements; three segments follow, in fi
 | **[Known Defects]** | Us (seed entries) | Anchor the actual mistakes the previous version made — it doesn't know which line it deleted |
 | **[Self-Check]** | Us (10–12 Yes/No items) | A unified pass after writing; answer "no" and fix on the spot; the self-check process doesn't enter the body |
 
-Why not just write it all ourselves: our items are **after-the-fact** (written after seeing the bad product), so they only guard against seen errors; its self-written items are **before-the-fact** (define the standard right after receiving the UP), guarding against unseen errors. **The two cover different error sets.**
+Why not just write it all ourselves: our items are **after-the-fact** (written after seeing the bad product), so they only guard against seen errors; its self-written items are **before-the-fact** (define the standard right after receiving the user instruction), guarding against unseen errors. **The two cover different error sets.**
 
-Why not hand it all to it: it will inflate its self-score, and will **infer the standard backward from the previous bad product** (treating "last version had six sections" as the standard), writing unjudgeable items like "is the content reasonable." So the meta-instruction must have guardrails — **every item must state "on what basis," and missing basis counts as "no"**; **standards may come only from the UP and common sense, never from the look of any previous answer**; bare adjectives are forbidden.
+Why not hand it all to it: it will inflate its self-score, and will **infer the standard backward from the previous bad product** (treating "last version had six sections" as the standard), writing unjudgeable items like "is the content reasonable." So the meta-instruction must have guardrails — **every item must state "on what basis," and missing basis counts as "no"**; **standards may come only from the user instruction and common sense, never from the look of any previous answer**; bare adjectives are forbidden.
 
-Enabled by default. Four cases fall back to giving only **[Self-Check]**: the target model is clearly weak / the UP is minimal / defects are fully enumerable / the user needs the shortest instruction.
+Enabled by default. Four cases fall back to giving only **[Self-Check]**: the target model is clearly weak / the user instruction is minimal / defects are fully enumerable / the user needs the shortest instruction.
 
 ---
 
@@ -336,7 +336,7 @@ Enabled by default. Four cases fall back to giving only **[Self-Check]**: the ta
 
 | Lesson | Symptom |
 |---|---|
-| Embedding full CoT | Output becomes a "hmm, the user is asking…" thinking process instead of an answer |
+| Embedding full reasoning | Output becomes a "hmm, the user is asking…" thinking process instead of an answer |
 | Skeleton says only "can be sectioned" | Output is flat text with no hierarchy and no emphasis |
 | Meta-requirements enter the body | Body shows "the working definition of this answer," "the judging standard is…"; reader can't tell who's being addressed |
 | Fabricating numbers for "verifiability" | Invented precise polling intervals, acceptance-role names — obviously fake, collapsing the whole piece's credibility |
@@ -379,7 +379,7 @@ The community already has many "make AI better" skills, but we're not doing the 
 | Generation side: make AI think more | `adhd` (tree-of-thought + pruning), `Reasoning-Skill-Claude`, `auto-reasoning` | Help AI think wider and deeper **at generation time** | Review the stretch it already finished thinking **after generation** |
 | Self-reflection side | `self-refine-skill` (GENERATE→CRITIQUE→REFINE→CHECK), `claude-sanity-check` | Have AI **fix its own** current output | Third-party review of **another AI's** reasoning, with a product you can paste back |
 | Style side | `avoid-ai-writing` (21 AI-writing patterns), `humanizer` | Remove AI smell, tweak wording | Judge where the reasoning is wrong (missing items, contradiction, unsupported citation, constraint conflict); style is only one dimension |
-| Prompt side | `prompt-architect`, `prompt-engineering-expert` | Improve **the prompt itself** | Improve the instruction to "re-answer with the original UP," while preserving the original conversation context |
+| Prompt side | `prompt-architect`, `prompt-engineering-expert` | Improve **the prompt itself** | Improve the instruction to "re-answer with the original user instruction," while preserving the original conversation context |
 
 One line: **what others do is make AI think one more layer, or fix its own style; Second Take does third-party QA — read another AI's already-finished reasoning, judge where it's wrong, and produce a retake note you can paste back so the original AI gives a better final answer.**
 
@@ -391,7 +391,7 @@ One line: **what others do is make AI think one more layer, or fix its own style
 No. By default it only gives the retake note. Your context lives in that AI's conversation, so you must get the result there. If you want it to write directly, just say "write it directly."
 
 **Why isn't the original thinking in the retake note?**
-Because the CoT itself is the root cause. Once pasted in, the target model replays the same thought process and the output becomes "hmm, the user is asking…". We give only the full UP + the **list of valid conclusions** distilled from the CoT.
+Because the reasoning itself is the root cause. Once pasted in, the target model replays the same thought process and the output becomes "hmm, the user is asking…". We give only the full user instruction + the **list of valid conclusions** distilled from the reasoning.
 
 **Will pasting back into the original conversation pollute the context?**
 The retake note carries a **targeted-ignore declaration**: it ignores only that previous round's stretch of deep thinking and the single answer it directly produced; your earlier instructions, added requirements, and expression habits all stay in effect.
@@ -408,7 +408,7 @@ Yes — that's exactly **Color grading** mode. Once the subject is perfect and a
 **It meets the standard, but I need to present or send it to others — can you give me a glance-readable version?**
 Yes — that's exactly **Packaging** mode. Once the whole thing meets the output standard, it does visualization analysis: a one-page summary, a mind map, and visual charts (flow / comparison / relation / timeline). It only presents the existing conclusion, faithful to the original judgment, never distorting relations for looks.
 
-**I only have a CoT, no link — can I use it?**
+**I only have a reasoning, no link — can I use it?**
 Yes. Just paste the user instruction and the deep thinking together.
 
 ---
@@ -417,7 +417,7 @@ Yes. Just paste the user instruction and the deep thinking together.
 
 **flashfrogluo** — came up in film creation (cinematography / directing / screenwriting), now pivoting to AI creation, testing, and development, moving back and forth between "film language" and "AI engineering" for the long term.
 
-The direct motive for this skill comes from the intersection of two identities: on one side, making image work made me keenly sensitive to "why this shot is wrong"; on the other, daily use of various AIs kept hitting the same pain point — the quality of a model's "deep thinking / CoT" is unstable, sometimes with logic jumps, sometimes dropping dimensions the user explicitly asked for, sometimes quietly changing the instruction to match the tone; and pasting that thinking back to re-answer often carries the error along. Second Take wants to turn that "shot-by-shot fault-finding" intuition from the first identity into an operable process for the second: do a **third-party QA**, read another already-finished stretch of reasoning, judge where it's wrong, and produce a "retake note" you can paste straight back so the original AI gives a better final answer.
+The direct motive for this skill comes from the intersection of two identities: on one side, making image work made me keenly sensitive to "why this shot is wrong"; on the other, daily use of various AIs kept hitting the same pain point — the quality of a model's "deep thinking / reasoning" is unstable, sometimes with logic jumps, sometimes dropping dimensions the user explicitly asked for, sometimes quietly changing the instruction to match the tone; and pasting that thinking back to re-answer often carries the error along. Second Take wants to turn that "shot-by-shot fault-finding" intuition from the first identity into an operable process for the second: do a **third-party QA**, read another already-finished stretch of reasoning, judge where it's wrong, and produce a "retake note" you can paste straight back so the original AI gives a better final answer.
 
 **All exchange is welcome**: usage suggestions, testing feedback, real conversations usable as corpus, and collaboration ideas — open an issue / PR, or email **flashfrogluo@gmail.com**.
 
@@ -429,9 +429,9 @@ Finally, thank you for using this skill. It's maintained by one person, which is
 
 | Abbreviation | Meaning |
 |---|---|
-| UP (User Prompt) | The requirement and constraints the user gave |
-| CoT (Chain of Thought) | The reasoning process under review |
-| Caption | A text description of the target product or reference material |
+| user instruction (User Prompt) | The requirement and constraints the user gave |
+| reasoning | The reasoning process under review |
+| visual element description | A text description of the target product or reference material |
 
 ---
 

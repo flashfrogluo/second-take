@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 # A/B 组：每组至少命中一个线索即可
 SHOULD_TRIGGER = {
-    'A1 深度思考对不对': ['深度思考', 'chain-of-thought', 'reasoning'],
+    'A1 深度思考对不对': ['深度思考', 'deep thinking', 'reasoning'],
     'A2 答案很难用': ['很难用', 'bad', 'unusable'],
     'A3 分享链接': ['分享链接', 'share link', 'share'],
     'A4 优化提示语': ['优化提示', 'prompt qa', '提示词'],

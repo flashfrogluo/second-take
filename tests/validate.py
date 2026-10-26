@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Validation suite for the second-take skill.
 
-Structural smoke checks only: nonempty instructions, constraints, sample UP
+Structural smoke checks only: nonempty instructions, constraints, sample 用户指令
 preservation, frontmatter and links. Passing does not establish semantic quality.
 
 Subcommands:
@@ -113,10 +113,10 @@ def run_self_tests():
             data = json.load(f)
         note = data.get("expected_retake_note", "")
         res = check_retake_note(note)
-        up = data.get("input", {}).get("up", "")
+        up = data.get("input", {}).get("用户指令", "")
         blocks = re.findall(r"(?m)^```[^\n]*\n(.*?)^```[ \t]*$", note, re.S)
         if not up or not any(up in block for block in blocks):
-            res["problems"].append("原始 UP 未完整保留在可复制指令中")
+            res["problems"].append("原始用户指令未完整保留在可复制指令中")
         if res["problems"]:
             problems.append(f"{os.path.basename(sp)} 的 expected_retake_note 未通过：{res['problems']}")
     return problems

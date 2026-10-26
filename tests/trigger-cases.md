@@ -10,7 +10,7 @@
 | A1 | 帮我看看这段深度思考对不对 | 深度思考 / chain-of-thought / reasoning |
 | A2 | 这个答案很难用，帮我优化一下 | 很难用 / bad / unusable |
 | A3 | https://chat.deepseek.com/share/xxxxx | 分享链接 / share link |
-| A4 | 生成新的 cot 优化提示语 | CoT / 优化提示 / prompt QA |
+| A4 | 生成新的 cot 优化提示语 | 深度思考 / 优化提示 / prompt QA |
 | A5 | 让原来的 AI 重写一遍 | 让原 AI 重写 / retake note / paste back |
 | A6 | 这个回答漏了好几个要点 | 漏了要点 / missing |
 | A7 | 这篇超字数了，帮我压一压 | 字数不达标 / word count |

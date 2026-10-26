@@ -223,7 +223,7 @@ npx skills add flashfrogluo/second-take
 
 ## 用法
 
-> **EN** — Usage: paste a share link, or paste the user instruction + thinking process directly. Optional inputs: caption, target, reference, follow-up instructions.
+> **EN** — Usage: paste a share link, or paste the user instruction + thinking process directly. Optional inputs: 画面元素描述, target, reference, follow-up instructions.
 
 以下两种方式均可：
 
@@ -239,7 +239,7 @@ npx skills add flashfrogluo/second-take
 
 给链接后，它会自动调接口拿原始指令、深度思考和那版产物，不用您手动输入。拿到后会先跟您确认主指令、追加指令、产出物分别是哪条。
 
-可选输入包括：素材描述（Caption）、目标产物、参考素材，以及您在后续轮次追加的指令（比如“不要分点，输出一长条”）。缺哪一项，依赖它的检查项就直接判“无”。
+可选输入包括：素材描述（画面元素描述）、目标产物、参考素材，以及您在后续轮次追加的指令（比如“不要分点，输出一长条”）。缺哪一项，依赖它的检查项就直接判“无”。
 
 只有用户指令和深度思考、没有产物和素材的纯文本问答场景也适用，这时检查重点落在指令冲突、覆盖不全、推理缺陷三项。
 
@@ -261,7 +261,7 @@ npx skills add flashfrogluo/second-take
 
 ## 评价标准：有效思维链的四条标准
 
-> **EN** — The Four Standards for an effective chain of thought: Logic, Completeness, Feasibility, Verifiability. Standards judge quality; check items list symptoms.
+> **EN** — The Four Standards for an effective deep thinking: Logic, Completeness, Feasibility, Verifiability. Standards judge quality; check items list symptoms.
 
 一段思维链是否有效，按四条标准评价。**四条标准是评价标准，检查项是症状清单**——前者回答“它好不好”，后者回答“哪儿坏了”。
 

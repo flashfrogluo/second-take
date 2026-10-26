@@ -24,30 +24,30 @@ Different AIs expose different things. Classify first, and never apply Type A's 
 | **C · No reasoning** | Only a prompt and an artifact | Jimeng, Kling, Midjourney, Sora, Runway | **The prompt itself** | Template C (prompt retake note) |
 
 - Type B: do not treat a summary as full reasoning and hunt for "omissions" — they may simply have been cut from the summary. State in the diagnosis: "this round is based on the summary and the artifact; the full reasoning was not available."
-- Type C: this is **prompt review**. UP becomes "the effect you want", the object under review becomes the prompt, and the artifact becomes the image/video. Three hard rules: (1) **never invent platform parameters** (each platform's syntax differs; if unsure, write "fill this in the way your platform currently expects"); (2) **preserve the seed and reference images** (you are editing the prompt, not overturning the image); (3) **change only the faulty elements** (if the character does not look right, touch only the character description and its reference weight — do not rewrite composition, lighting or style).
+- Type C: this is **prompt review**. user instruction becomes "the effect you want", the object under review becomes the prompt, and the artifact becomes the image/video. Three hard rules: (1) **never invent platform parameters** (each platform's syntax differs; if unsure, write "fill this in the way your platform currently expects"); (2) **preserve the seed and reference images** (you are editing the prompt, not overturning the image); (3) **change only the faulty elements** (if the character does not look right, touch only the character description and its reference weight — do not rewrite composition, lighting or style).
 
 ## Inputs
-- **UP (the user's instruction / the effect they want)**: required, and it must be **embedded in full** in the optimization & checking instruction (the target sees no context).
+- **user instruction (the user's instruction / the effect they want)**: required, and it must be **embedded in full** in the optimization & checking instruction (the target sees no context).
 - **The object under review**: A = thinking process / B = summary / C = prompt — required, and it is the primary evidence.
-- Optional: target artifact, reference material, caption, follow-up instructions (these also count as UP).
+- Optional: target artifact, reference material, visual element description, follow-up instructions (these also count as user instruction).
 - For any missing item, the check items that depend on it are simply marked "none" — do not substitute other material.
 
 ## Check items (output every one, in order; write "none" when there is no problem; never skip)
 | Check item | Precondition |
 |---|---|
-| Artifact / reference conflict (caption agrees) | A target artifact or reference material exists |
-| Instruction conflict | The object under review directly overturns an explicit UP constraint (required) |
-| Incomplete coverage | Important UP content is dropped or weakened (required) |
+| Artifact / reference conflict (visual element description agrees) | A target artifact or reference material exists |
+| Instruction conflict | The object under review directly overturns an explicit user instruction constraint (required) |
+| Incomplete coverage | Important user instruction content is dropped or weakened (required) |
 | Reasoning defects | Problems within the reasoning / prompt itself (required) |
 
 **Reasoning-defect subclasses**: internal contradiction / factual or domain error / vague wording / forced reasoning (skipping a necessary condition, or writing a possibility as a certainty) / unsupported citation / inverted known (treating unconfirmed information as fact) / self-exemption (noticing a shortfall and talking itself past it) / version regression (deleting qualified content from the previous version while iterating) / wrong genre / vicious circle (treating the artifact under review as the standard: "the artifact does it this way, so it should be this way").
 
 ## The Four Standards (use them to close the diagnosis, one sentence each)
-Logic (can each step be derived from the previous one) / Completeness (are all important dimensions in UP and the material considered) / Feasibility (can the reader act after reading — this is not a check item; review it separately once the text is written) / Verifiability (can each conclusion be checked against facts).
+Logic (can each step be derived from the previous one) / Completeness (are all important dimensions in user instruction and the material considered) / Feasibility (can the reader act after reading — this is not a check item; review it separately once the text is written) / Verifiability (can each conclusion be checked against facts).
 
 ## Optimization instruction · Template A (produces the final answer / text · code · plan)
 ```
-[Original user instruction (full UP)]
+[Original user instruction (full user instruction)]
 ……
 
 [Targeted ignore clause]
@@ -63,7 +63,7 @@ the thinking process from the previous turn and the answer it directly produced 
 [Output structure] (give the skeleton: how many sections, each section's topic and coverage, its length; headings as noun phrases)
 1. Section one: ……  2. Section two: ……
 
-[Judging criteria] (have the target AI define what "good" means in this domain; every item must state "on what basis"; no bare adjectives; criteria may come only from UP and common sense, never from the shape of the previous answer)
+[Judging criteria] (have the target AI define what "good" means in this domain; every item must state "on what basis"; no bare adjectives; criteria may come only from user instruction and common sense, never from the shape of the previous answer)
 - ……
 
 [Draft self-check] (10–12 Yes/No items; anything answered "no" gets fixed on the spot)
@@ -75,7 +75,7 @@ Output the final body text only. Ban thinking-aloud phrasing such as "hmm / the 
 
 ## Optimization instruction · Template C (generative: images / film / video)
 ```
-[The effect you want (UP)]
+[The effect you want (user instruction)]
 ……
 
 [Original prompt (with parameters, seed, reference-image notes)]
@@ -103,7 +103,7 @@ seed: …  reference images: … (carried over, not regenerated)
 
 ## Hard constraints (hold these when writing the instruction)
 1. **For Types A/B, never embed the full reasoning**: extract a conclusions list instead; embedding it makes the model rewrite in its tone (fatal). Only Type C embeds the original prompt.
-2. **The full UP must be embedded.**
+2. **The full user instruction must be embedded.**
 3. **The output requirements must say "output the body text only"**, explicitly banning analysis, comparison tables and suggestion lists.
 4. **Explicitly ban thinking-aloud tone** (name the forbidden words).
 5. **[Output structure] gives a skeleton, not phrasing**: how many sections, each section's topic and coverage, its length; four red lines — headings as noun phrases, specify effects not sentence patterns, no meta-narration, no run of three or more parallel "bold noun + identical pattern" items.
@@ -120,7 +120,7 @@ seed: …  reference images: … (carried over, not regenerated)
 
 ## Basis statement (one line at the start of the diagnosis; required when material exists)
 > Basis: target = ×× | reference = ×× (using its ×× dimension) | artifact under revision = ××; ×× is an inference — tell me if it is wrong.
-> (With no material, write: basis = UP, including follow-up instructions; no target or reference material.)
+> (With no material, write: basis = user instruction, including follow-up instructions; no target or reference material.)
 
 ## How to use
 After the user pastes content, first confirm which is the main instruction, which are follow-up instructions, and what the artifact is (ask one question if unsure); decide A/B/C first, then run the flow to produce the diagnosis plus the retake note. Put the optimization & checking instruction in a code block labelled "copy the whole block and paste it at the end of the original chat" — the user pastes it back and the original AI answers again directly.
@@ -132,4 +132,4 @@ Want the **full version** with all template examples, counter-examples for every
 
 Copying this prompt suits "using it once, in a browser or a chat"; for regular use, installing saves you from carrying it around.
 
-**Approved content**: Content explicitly approved for retention by the user becomes part of UP. Its authority comes from that approval, not from having appeared in an AI output. Approval of wording does not verify factual claims.
+**Approved content**: Content explicitly approved for retention by the user becomes part of user instruction. Its authority comes from that approval, not from having appeared in an AI output. Approval of wording does not verify factual claims.
