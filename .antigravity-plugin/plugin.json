@@ -1,7 +1,7 @@
 {
   "name": "second-take",
   "displayName": "Second Take",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Review weak AI reasoning and hand back a retake note",
   "suggestedPrompts": [
     "帮我看看这段深度思考对不对",

@@ -8,8 +8,11 @@ import unittest
 import zipfile
 import uuid
 import os
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
+VERSION = re.search(r'^  version: "([^\"]+)"', (ROOT / 'SKILL.md').read_text(), re.M)[1]
+FUTURE_VERSION = '.'.join([*VERSION.split('.')[:2], str(int(VERSION.split('.')[2]) + 1)])
 spec = importlib.util.spec_from_file_location('package_files', ROOT / 'scripts/package_files.py')
 pkg = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(pkg)
@@ -47,7 +50,7 @@ class PackagingTests(unittest.TestCase):
         self.poison()
         subprocess.run(['bash', str(self.src / 'install.sh'), '--from-local', str(self.dst)], check=True, capture_output=True)
         self.assertFalse((self.dst / 'DEVLOG.md').exists())
-        subprocess.run(['bash', str(self.src / 'scripts/release.sh'), '1.7.3', '--dry-run', '--repo', 'example/second-take'], check=True, capture_output=True)
+        subprocess.run(['bash', str(self.src / 'scripts/release.sh'), VERSION, '--dry-run', '--repo', 'example/second-take'], check=True, capture_output=True)
         with zipfile.ZipFile(self.src / 'second-take-latest.zip') as z:
             files = {n.removeprefix('second-take/') for n in z.namelist() if not n.endswith('/')}
             self.assertEqual(files, set(pkg.public_paths(ROOT)) | {'MANIFEST.txt'})
@@ -56,7 +59,7 @@ class PackagingTests(unittest.TestCase):
 
     def test_remote_install_and_update_from_release(self):
         self.poison()
-        subprocess.run(['bash', str(self.src / 'scripts/release.sh'), '1.7.3', '--dry-run', '--repo', 'example/second-take'], check=True, capture_output=True)
+        subprocess.run(['bash', str(self.src / 'scripts/release.sh'), VERSION, '--dry-run', '--repo', 'example/second-take'], check=True, capture_output=True)
         # A fake downloader serves a local release, exercising extraction + copying
         # without internet or real credentials.
         bindir = self.base / 'bin'; bindir.mkdir()
@@ -68,7 +71,7 @@ for arg in "$@"; do
 done
 while [ "$#" -gt 0 ]; do
   if [ "$1" = "-o" ]; then
-    if [ "$api" -eq 1 ]; then printf '{"tag_name":"v1.7.3"}' > "$2"
+    if [ "$api" -eq 1 ]; then printf '{"tag_name":"v%s"}' "$TEST_VERSION" > "$2"
     else cp "$TEST_ARCHIVE" "$2"; fi
     exit 0
   fi
@@ -78,7 +81,7 @@ exit 1
 """)
 
         curl.chmod(0o755)
-        env = dict(os.environ, PATH=str(bindir) + os.pathsep + os.environ['PATH'], TEST_ARCHIVE=str(self.src / 'second-take-latest.zip'))
+        env = dict(os.environ, PATH=str(bindir) + os.pathsep + os.environ['PATH'], TEST_ARCHIVE=str(self.src / 'second-take-latest.zip'), TEST_VERSION=VERSION)
         for script in ['install.sh', 'update.sh']:
             with self.subTest(script=script):
                 dest = self.base / script.replace('.sh', '-remote')
@@ -105,8 +108,8 @@ exit 22
         self.assertNotIn('refs/heads/main', log.read_text())
 
     def test_explicit_version_rejects_wrong_archive(self):
-        # A valid ZIP from 1.7.3 must not be installed as 1.7.2.
-        subprocess.run(['bash', str(self.src / 'scripts/release.sh'), '1.7.3',
+        # A current ZIP must not be installed under a different version.
+        subprocess.run(['bash', str(self.src / 'scripts/release.sh'), VERSION,
                         '--dry-run', '--repo', 'example/second-take'],
                        check=True, capture_output=True)
         bindir = self.base / 'version-bin'; bindir.mkdir()
@@ -123,7 +126,7 @@ exit 22
 """)
         curl.chmod(0o755)
         env = dict(os.environ, PATH=str(bindir) + os.pathsep + os.environ['PATH'],
-                   TEST_ARCHIVE=str(self.src / 'second-take-latest.zip'))
+                   TEST_ARCHIVE=str(self.src / 'second-take-latest.zip'), TEST_VERSION=VERSION)
         result = subprocess.run(['bash', str(self.src / 'install.sh'),
                                  '--version', '1.7.2', str(self.dst)],
                                 env=env, capture_output=True, text=True, errors='replace')
@@ -133,13 +136,28 @@ exit 22
 
     def test_unpublished_version_installs_locally_without_network(self):
         skill = self.src / 'SKILL.md'
-        skill.write_text(skill.read_text().replace('version: "1.7.3"', 'version: "1.7.4"'))
+        skill.write_text(skill.read_text().replace(f'version: "{VERSION}"', f'version: "{FUTURE_VERSION}"'))
         bindir = self.base / 'offline-bin'; bindir.mkdir()
         curl = bindir / 'curl'; curl.write_text('#!/bin/sh\nexit 99\n'); curl.chmod(0o755)
         env = dict(os.environ, PATH=str(bindir)+os.pathsep+os.environ['PATH'])
         subprocess.run(['bash', str(self.src / 'install.sh'), '--from-local', str(self.dst)],
                        env=env, check=True, capture_output=True)
-        self.assertIn('version: "1.7.4"', (self.dst / 'SKILL.md').read_text())
+        self.assertIn(f'version: "{FUTURE_VERSION}"', (self.dst / 'SKILL.md').read_text())
+
+    def test_plugin_version_mismatch_is_rejected(self):
+        import json
+        command = ['python3', str(self.src / 'tests/validate.py'), 'skill']
+        subprocess.run(command, check=True, capture_output=True)
+        for name in ['.claude-plugin/marketplace.json', '.codex-plugin/plugin.json',
+                     '.cursor-plugin/plugin.json', '.antigravity-plugin/plugin.json']:
+            with self.subTest(name=name):
+                path = self.src / name
+                original = path.read_text()
+                path.write_text(original.replace(VERSION, '0.0.0'))
+                result = subprocess.run(command, capture_output=True, text=True)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(name, result.stdout + result.stderr)
+                path.write_text(original)
 
     def test_missing_file_aborts_before_write(self):
         (self.src / 'README.md').unlink()
@@ -270,7 +288,7 @@ exit 22
 
     def test_legacy_skips_files_introduced_after_source_version(self):
         p = self.src / 'SKILL.md'
-        p.write_text(p.read_text().replace('version: "1.7.3"', 'version: "1.7.1"'))
+        p.write_text(p.read_text().replace(f'version: "{VERSION}"', 'version: "1.7.1"'))
         for name, introduced in pkg.INTRODUCED.items():
             if introduced > (1, 7, 1) and (self.src / name).exists():
                 (self.src / name).unlink()
@@ -310,19 +328,19 @@ exit 22
         fake = r"""#!/usr/bin/env python3
 import sys,os,json
 from pathlib import Path
-a=sys.argv[1:]; scenario=os.environ['RELEASE_CASE']
+a=sys.argv[1:]; scenario=os.environ['RELEASE_CASE']; tag='v'+os.environ['TEST_VERSION']
 if Path(sys.argv[0]).name == 'git':
     if a[:2]==['rev-parse','--is-inside-work-tree']: print('true')
     elif a==['rev-parse','HEAD']: print('a'*40)
     elif a[:2]==['ls-remote','origin']: print('a'*40+'\tHEAD')
-    elif a[:2]==['ls-remote','--tags'] and scenario=='existing-tag': print('a'*40+'\trefs/tags/v1.7.3')
+    elif a[:2]==['ls-remote','--tags'] and scenario=='existing-tag': print('a'*40+'\trefs/tags/'+tag)
     sys.exit(0)
 method=a[a.index('-X')+1]
 with open(os.environ['RELEASE_LOG'],'a') as f:f.write(method+'\n')
 if method=='DELETE': sys.exit(0)
 if method=='PATCH':
     if scenario=='publish-timeout': sys.exit(28)
-    print(json.dumps({'draft':False,'tag_name':'v1.7.3','html_url':'https://github.com/example/second-take/releases/tag/v1.7.3'}));sys.exit(0)
+    print(json.dumps({'draft':False,'tag_name':tag,'html_url':'https://github.com/example/second-take/releases/tag/'+tag}));sys.exit(0)
 if '--data-binary' in a:
     if scenario=='upload-failure': sys.exit(22)
     size=Path(a[a.index('--data-binary')+1][1:]).stat().st_size
@@ -343,8 +361,8 @@ else:
         for case, (failure, expected) in cases.items():
             with self.subTest(case=case):
                 log = self.base / (case + '.txt')
-                env = dict(os.environ, PATH=str(bindir)+os.pathsep+os.environ['PATH'], GITHUB_TOKEN='synthetic-test-token', RELEASE_CASE=case, RELEASE_LOG=str(log))
-                result = subprocess.run(['bash', str(self.src/'scripts/release.sh'), '1.7.3', '--repo', 'example/second-take'], env=env, capture_output=True, text=True)
+                env = dict(os.environ, PATH=str(bindir)+os.pathsep+os.environ['PATH'], GITHUB_TOKEN='synthetic-test-token', RELEASE_CASE=case, RELEASE_LOG=str(log), TEST_VERSION=VERSION)
+                result = subprocess.run(['bash', str(self.src/'scripts/release.sh'), VERSION, '--repo', 'example/second-take'], env=env, capture_output=True, text=True)
                 self.assertEqual(int(result.returncode != 0), failure, result.stderr)
                 self.assertEqual(log.read_text().splitlines() if log.exists() else [], expected)
                 self.assertNotIn('synthetic-test-token', result.stdout+result.stderr)

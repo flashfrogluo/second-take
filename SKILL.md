@@ -4,7 +4,7 @@ description: Use when an AI answer is **bad / wrong / unusable** and you want to
 license: MIT
 compatibility: "核心质检流程纯 Markdown、无系统依赖；仅可选抓取分享链接需 curl，工程脚本（校验/安装）不参与质检运行。适用于所有支持 agentskills.io SKILL.md 开放标准的 agent：Claude Code、Codex CLI、Cursor、Gemini CLI、GitHub Copilot、OpenCode、WorkBuddy、Goose、Roo Code 等。"
 metadata:
-  version: "1.7.3"
+  version: "1.7.4"
   author: flashfrogluo
   spec: agentskills.io
 ---

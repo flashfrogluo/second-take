@@ -81,6 +81,25 @@ def validate_skill_frontmatter():
     for key in ("name", "version", "description"):
         if not re.search(rf'^\s*{key}\s*:', fm, re.M):
             problems.append(f"frontmatter 缺少必填字段：{key}")
+    version = re.search(r'^\s*version:\s*"?([0-9]+\.[0-9]+\.[0-9]+)"?\s*$', fm, re.M)
+    if not version:
+        problems.append("SKILL.md version must be a semantic release version")
+        return problems
+    expected = version[1]
+    for relative in ['.claude-plugin/marketplace.json', '.codex-plugin/plugin.json',
+                     '.cursor-plugin/plugin.json', '.antigravity-plugin/plugin.json']:
+        try:
+            with open(os.path.join(ROOT, relative), encoding='utf-8') as f:
+                data = json.load(f)
+            if relative.startswith('.claude-plugin/'):
+                versions = [data['metadata']['version'],
+                            next(p['version'] for p in data['plugins'] if p['name'] == 'second-take')]
+            else:
+                versions = [data['version']]
+            if any(v != expected for v in versions):
+                problems.append(f"{relative}: version must match SKILL.md ({expected})")
+        except (OSError, ValueError, KeyError, TypeError, StopIteration) as exc:
+            problems.append(f"{relative}: invalid version metadata ({exc})")
     return problems
 
 

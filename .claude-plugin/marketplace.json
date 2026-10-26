@@ -6,14 +6,14 @@
     "url": "https://github.com/flashfrogluo"
   },
   "metadata": {
-    "version": "1.7.3"
+    "version": "1.7.4"
   },
   "plugins": [
     {
       "name": "second-take",
       "source": ".",
       "description": "诊断 AI 输出背后的推理错在哪，产出一段可粘回原对话的重拍单（retake note），让原来的 AI 直接给出更好的答案。",
-      "version": "1.7.3",
+      "version": "1.7.4",
       "category": "productivity",
       "tags": ["ai-reasoning", "prompt-qa", "retake-note", "review", "quality-assurance"],
       "strict": false,

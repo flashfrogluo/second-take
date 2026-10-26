@@ -1,6 +1,6 @@
 {
   "name": "second-take",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Diagnose where an AI answer's reasoning went wrong, then produce a self-contained retake note you paste back so the original AI answers better.",
   "author": {
     "name": "flashfrogluo",
