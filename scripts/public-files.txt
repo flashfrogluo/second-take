@@ -2,12 +2,13 @@
 .codex-plugin/plugin.json
 .cursor-plugin/plugin.json
 .antigravity-plugin/plugin.json
+# 只收录运行 skill 所需的文件。作者运维工具（stats / schedule / patch_* /
+# push-to-github / sync-local）、CI 配置与 .gitignore 留在仓库，不进发布包：
+# 用户不需要它们，且定时任务类脚本会被安全扫描标为 review。
 # Reviewed public files; unknown files are never packaged.
 # Add a file only after checking it contains no private material.
 .github/CONTRIBUTING.md
 .github/SECURITY.md
-.github/workflows/ci.yml
-.gitignore
 CHANGELOG.md
 LICENSE
 README.md
@@ -46,17 +47,8 @@ references/经验提炼与思维习惯.md
 references/自生成rubric元指令.md
 scripts/README.md
 scripts/package_files.py
-scripts/patch_description.py
-scripts/patch_intro.py
-scripts/patch_readme.py
 scripts/public-files.txt
-scripts/push-to-github.sh
 scripts/release.sh
-scripts/schedule/com.flashfrogluo.second-take-stats.plist
-scripts/schedule/install-schedule.sh
-scripts/schedule/uninstall-schedule.sh
-scripts/stats.sh
-scripts/sync-local.sh
 tests/samples/01-missing-coverage.json
 tests/samples/02-contradiction.json
 tests/samples/03-unsupported-claim.json

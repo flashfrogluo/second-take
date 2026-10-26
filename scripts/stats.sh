@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# 仅供作者本地使用：不在发布白名单里，不会装到用户机器上。
 # second-take 影响力统计：GitHub + skills.sh + release 下载量
 #
 # 为什么要本地存历史：GitHub Traffic 只有 14 天窗口，过期即永久丢失；
@@ -17,7 +18,8 @@ set -euo pipefail
 REPO="${REPO:-flashfrogluo/second-take}"
 SKILL_ID="${SKILL_ID:-flashfrogluo/second-take}"
 SKILL_NAME="${SKILL_NAME:-second-take}"
-OUT_DIR="${OUT_DIR:-$(cd "$(dirname "$0")" && pwd)/../metrics}"
+# 输出目录：默认写到用户数据目录，不写进仓库（仓库里的 metrics/ 曾造成"数据停更"的误读）。
+OUT_DIR="${OUT_DIR:-$HOME/.local/share/second-take-metrics}"
 
 NO_WRITE=0
 ONLY_HISTORY=0

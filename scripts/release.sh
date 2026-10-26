@@ -44,6 +44,11 @@ while (($#)); do
   esac
 done
 [[ "$ASSET" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*\.zip$ ]] || fail 'Asset must be a safe .zip basename'
+# install.sh only looks for these two names; anything else publishes an asset nobody can install.
+case "$ASSET" in
+  second-take-latest.zip|"second-take-${VERSION#v}.zip") ;;
+  *) fail "Asset name must be second-take-latest.zip or second-take-${VERSION#v}.zip (install.sh only tries those)" ;;
+esac
 command -v python3 >/dev/null || fail 'python3 is required'
 command -v curl >/dev/null || [[ "$DRY_RUN" -eq 1 ]] || fail 'curl is required'
 
@@ -128,7 +133,7 @@ with zipfile.ZipFile(sys.argv[1]) as f:
         raise SystemExit('Bad release ZIP')
 PYCHECK
 ASSET_BYTES="$(wc -c < "$TMP/$ASSET" | tr -d ' ')"
-printf '==> Verified package: %s bytes, %s files\n' "$ASSET_BYTES" "$(wc -l < "$STAGE/MANIFEST.txt" | tr -d ' ')"
+printf '==> Verified package: %s bytes, %s files\n' "$ASSET_BYTES" "$(( $(wc -l < "$STAGE/MANIFEST.txt") - 1 ))"  # MANIFEST.txt 不计入文件数
 if [[ "$DRY_RUN" -eq 1 ]]; then
   cp "$TMP/$ASSET" "$ROOT/$ASSET"
   printf '==> Dry run complete, not published: %s\n' "$ROOT/$ASSET"

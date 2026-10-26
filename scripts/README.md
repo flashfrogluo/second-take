@@ -14,6 +14,11 @@
 | `patch_readme.py` | 维护 README 的 Star/Watch 引导与最近提交徽章，不增加下载次数展示 |
 | `patch_description.py` | 改写 SKILL.md 的 `description`：检索词前置，保留原触发集 |
 
+
+> **哪些会装到用户机器上**：只有 `package_files.py`、`public-files.txt`、`release.sh` 和这份 README 随包发布。
+> `stats.sh`、`schedule/`（launchd 定时任务）、`patch_*.py`、`push-to-github.sh`、`sync-local.sh`
+> 是**作者运维工具，留在仓库，不进发布包**——用户不需要它们，且"会自启动的东西"会被安全扫描标为 review。
+
 ## 为什么需要这些
 
 三个平台限制决定了它们的形态：

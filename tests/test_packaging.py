@@ -166,6 +166,28 @@ exit 22
                 manifest.write_text('SKILL.md\n' + entry + '\n')
                 with self.assertRaises(ValueError): pkg.public_paths(self.src, manifest)
 
+    def test_reinstall_prunes_files_dropped_from_manifest(self):
+        pkg.copy_public(self.src, self.dst)
+        stale = self.dst / 'references' / 'old-removed-file.md'
+        stale.write_text('old rule', encoding='utf-8')
+        manifest = self.dst / 'MANIFEST.txt'
+        manifest.write_text(manifest.read_text(encoding='utf-8') + 'references/old-removed-file.md\n', encoding='utf-8')
+        pkg.copy_public(self.src, self.dst)
+        self.assertFalse(stale.exists(), 'stale file from a previous install must be removed')
+        self.assertTrue((self.dst / 'SKILL.md').exists())
+
+    def test_optional_files_missing_are_tolerated_not_aborted(self):
+        p = self.src / 'SKILL.md'
+        for name in pkg.OPTIONAL:
+            if (self.src / name).exists():
+                (self.src / name).unlink()
+        names = pkg.public_paths(self.src, allow_legacy=True)
+        self.assertIn('SKILL.md', names)
+        self.assertNotIn('.claude-plugin/marketplace.json', names)
+        (self.src / 'README.md').unlink()
+        with self.assertRaises(ValueError):
+            pkg.public_paths(self.src, allow_legacy=True)
+
     def test_legacy_skips_files_introduced_after_source_version(self):
         p = self.src / 'SKILL.md'
         p.write_text(p.read_text().replace('version: "1.7.3"', 'version: "1.7.1"'))

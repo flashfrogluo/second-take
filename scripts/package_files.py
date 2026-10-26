@@ -30,6 +30,9 @@ INTRODUCED = {
     'docs/assets/workflow-zh.svg': (1, 7, 3),
     'docs/assets/workflow-en.svg': (1, 7, 3),
 }
+# 后加的文件：装更老的源码树（或 tag 回退包）时本就不存在，缺失只提示、不中断。
+# 核心文件（SKILL.md / README / references / prompts）缺失仍然直接报错。
+OPTIONAL = set(INTRODUCED)
 DENIED = ('corpus', 'cases', 'metrics', 'DEVLOG.md', '.git', '.env', '.env.*',
           '*backup*', '__pycache__', 'node_modules', '*.pyc', '*.log', '.DS_Store')
 
@@ -60,9 +63,9 @@ def public_paths(source, manifest=MANIFEST, allow_legacy=False):
             path = path / part
             if path.is_symlink():
                 raise ValueError(f'Symbolic link in source: {name}')
-        if not path.exists() and version is not None:
-            introduced = INTRODUCED.get(name)
-            if introduced and version < introduced:
+        if not path.exists():
+            if version is not None and name in OPTIONAL:
+                print(f'  — 跳过（该源码树里没有）: {name}', file=sys.stderr)
                 continue
         if not path.is_file():
             raise ValueError(f'Missing public file: {name}')
@@ -70,6 +73,29 @@ def public_paths(source, manifest=MANIFEST, allow_legacy=False):
     if 'SKILL.md' not in seen:
         raise ValueError('Public manifest must contain SKILL.md')
     return result
+
+
+def _prune_stale(destination, keep):
+    """Delete files a previous install wrote that are no longer in the manifest."""
+    manifest = destination / 'MANIFEST.txt'
+    if not manifest.is_file():
+        return []
+    previous = {line.strip() for line in manifest.read_text(encoding='utf-8').splitlines() if line.strip()}
+    removed = []
+    for name in sorted(previous - set(keep) - {'MANIFEST.txt'}):
+        rel = PurePosixPath(name)
+        if rel.is_absolute() or '..' in rel.parts:
+            continue
+        path = destination / name
+        if path.is_symlink() or not path.is_file():
+            continue
+        path.unlink()
+        removed.append(name)
+        parent = path.parent
+        while parent != destination and parent.is_dir() and not any(parent.iterdir()):
+            parent.rmdir()
+            parent = parent.parent
+    return removed
 
 
 def copy_public(source, destination, manifest=MANIFEST, allow_legacy=False):
@@ -97,7 +123,10 @@ def copy_public(source, destination, manifest=MANIFEST, allow_legacy=False):
         target = destination / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source / name, target)
+    removed = _prune_stale(destination, names)
     (destination / 'MANIFEST.txt').write_text('\n'.join(sorted(names + ['MANIFEST.txt'])) + '\n', encoding='utf-8')
+    for name in removed:
+        print(f'  — 删除旧版残留: {name}', file=sys.stderr)
     return names
 
 
@@ -105,7 +134,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
     parser.add_argument('destination', type=Path, nargs='?')
-    parser.add_argument('--allow-legacy', action='store_true', help='Allow only the three new tooling files to be absent in pre-1.7.2 installs')
+    parser.add_argument('--allow-legacy', action='store_true', help='Tolerate files introduced after the source version (see INTRODUCED); core files must still exist')
     args = parser.parse_args()
     try:
         names = copy_public(args.source, args.destination, allow_legacy=args.allow_legacy) if args.destination else public_paths(args.source, allow_legacy=args.allow_legacy)
