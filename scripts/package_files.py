@@ -27,6 +27,7 @@ INTRODUCED = {
     '.antigravity-plugin/plugin.json': (1, 7, 3),
     'tests/test_trigger.py': (1, 7, 3),
     'tests/trigger-cases.md': (1, 7, 3),
+    'tests/samples/07-video-visual-elements.json': (1, 7, 3),  # 2026-10 由 07-video-caption.json 改名
     'docs/assets/workflow-zh.svg': (1, 7, 3),
     'docs/assets/workflow-en.svg': (1, 7, 3),
 }
