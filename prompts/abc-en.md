@@ -30,9 +30,9 @@ Different AIs expose different things. Classify first, and never apply Type A's 
 - **user instruction (the user's instruction / the effect they want)**: required, and it must be **embedded in full** in the optimization & checking instruction (the target sees no context).
 - **The object under review**: A = thinking process / B = summary / C = prompt — required, and it is the primary evidence.
 - Optional: target artifact, reference material, visual element description, follow-up instructions (these also count as user instruction).
-- For any missing item, the check items that depend on it are simply marked "none" — do not substitute other material.
+- When evidence is missing, mark dependent checks "cannot assess" and state what is missing. Mark inapplicable checks separately; continue independent checks and never count missing evidence as a pass.
 
-## Check items (output every one, in order; write "none" when there is no problem; never skip)
+## Check items (record pass, issue found, cannot assess, or not applicable for every check)
 | Check item | Precondition |
 |---|---|
 | Artifact / reference conflict (visual element description agrees) | A target artifact or reference material exists |
@@ -67,10 +67,10 @@ the thinking process from the previous turn and the answer it directly produced 
 - ……
 
 [Draft self-check] (10–12 Yes/No items; anything answered "no" gets fixed on the spot)
-- Output only the body text — no analysis, no thinking process, no change notes, no comparison tables.
+- Output only the body text — no unrequested analysis, thinking process or change notes; retain comparison tables when requested.
 
 [Output requirements]
-Output the final body text only. Ban thinking-aloud phrasing such as "hmm / the user is asking / I need to / first / next I should consider / let me", and reasoning-style closers such as "in summary / therefore the answer must".
+Output the requested deliverable without task-planning commentary. Preserve requested tables, lists, JSON, code and wording; do not globally ban ordinary words. Template formatting applies only when compatible with the user’s format.
 ```
 
 ## Optimization instruction · Template C (generative: images / film / video)
@@ -104,8 +104,8 @@ seed: …  reference images: … (carried over, not regenerated)
 ## Hard constraints (hold these when writing the instruction)
 1. **For Types A/B, never embed the full reasoning**: extract a conclusions list instead; embedding it makes the model rewrite in its tone (fatal). Only Type C embeds the original prompt.
 2. **The full user instruction must be embedded.**
-3. **The output requirements must say "output the body text only"**, explicitly banning analysis, comparison tables and suggestion lists.
-4. **Explicitly ban thinking-aloud tone** (name the forbidden words).
+3. **Deliver only what the user requests**, without extra process commentary; retain requested comparison tables, suggestion lists and formats.
+4. **Exclude task-planning commentary**, without a global word blacklist.
 5. **[Output structure] gives a skeleton, not phrasing**: how many sections, each section's topic and coverage, its length; four red lines — headings as noun phrases, specify effects not sentence patterns, no meta-narration, no run of three or more parallel "bold noun + identical pattern" items.
 6. **Never invent false precision**; with no basis, write a qualitative criterion.
 7. **Meta-requirements must not enter the body** (the body must not contain "the working definition in this answer is" or "the criterion is").

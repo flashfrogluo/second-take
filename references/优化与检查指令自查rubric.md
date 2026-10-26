@@ -25,7 +25,7 @@ Dimension 沿用通用维度：指令遵循 / 过程合理性 / 结果正确性 
 
 | # | Criterion | Type | Necessity | Priority | Dimension |
 |---|---|---|---|---|---|
-| B1 | 检查项是否逐项输出（无问题也写"无"），而非只挑几处错？ | Objective | Explicit | Must have | 过程合理性 |
+| B1 | 检查项是否区分通过、发现问题、无法判断与不适用，而非将缺失证据当作通过？ | Objective | Explicit | Must have | 过程合理性 |
 | B2 | 每条错误是否按「错误性质 → 引用原文 → 对照依据 → 定性 → 应改为」写全？ | Objective | Explicit | Must have | 写作质量 |
 | B3 | 引用深度思考原文是否加双引号、未转述或概括？ | Objective | Explicit | Nice to have | 写作质量 |
 | B4 | 是否用四条标准（逻辑性 / 全面性 / 可行性 / 可验证性）收口，每条一句结论？ | Objective | Explicit | Must have | 结果正确性 |
@@ -63,8 +63,8 @@ Dimension 沿用通用维度：指令遵循 / 过程合理性 / 结果正确性 
 
 | # | Criterion | Type | Necessity | Priority | Dimension |
 |---|---|---|---|---|---|
-| F1 | 是否写明"只输出正文"，并禁用分析过程、修改说明、前后对比、建议清单？ | Objective | Explicit | Must have | 指令遵循 |
-| F2 | 是否点名禁用思考腔措辞（嗯 / 用户问的是 / 我需要 / 首先 / 接下来考虑 / 总结起来）？ | Objective | Explicit | Must have | 语气 |
+| F1 | 是否只交付用户要求的内容、排除未要求的过程说明，并保留用户要求的表格、清单等格式？ | Objective | Explicit | Must have | 指令遵循 |
+| F2 | 是否排除答题规划旁白，同时不误删正常正文用词和用户确认的表达？ | Objective | Explicit | Must have | 语气 |
 | F3 | 是否点名禁用元要求措辞，并给出总规则"本指令中的要求与规则不得进入正文"？ | Objective | Explicit | Must have | 写作质量 |
 | F4 | 是否禁止编造精确数字与岗位名，并给出定性替代写法？ | Objective | Explicit | Must have | 结果正确性 |
 | F5 | 是否未要求用户强制开新对话（默认支持粘回原对话）？ | Objective | Implicit | Must have | 指令遵循 |
@@ -103,7 +103,7 @@ Dimension 沿用通用维度：指令遵循 / 过程合理性 / 结果正确性 
 2. 原始用户指令是否全文内嵌、未用指代词？ Must / 指令遵循
 3. 是否未内嵌深度思考全文，只给了有效结论清单？ Must / 指令遵循
 4. 是否点名禁用思考腔与元要求两类措辞？ Must / 语气
-5. 是否写明"只输出正文"并禁用分析、对比、建议？ Must / 指令遵循
+5. 是否只交付用户要求的内容，保留其指定格式并排除额外过程说明？ Must / 指令遵循
 6. 骨架标题是否全部为名词短语？ Must / 格式
 7. 是否点名哪几节必须附可照抄样例，且样例用占位符？ Must / 格式
 8. 修改要点是否覆盖四条标准，且每条写明"改成什么"？ Must / 结果正确性

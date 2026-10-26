@@ -16,6 +16,7 @@ REPO="${REPO:-flashfrogluo/second-take}"
 DEST="${DEST:-$HOME/.agents/skills/second-take}"
 REF="${REF:-main}"
 
+PACKAGER="$(cd "$(dirname "$0")" && pwd)/package_files.py"
 DIFF_ONLY=0
 [ "${1:-}" = "--diff" ] && DIFF_ONLY=1
 
@@ -35,7 +36,7 @@ echo "  已解压到临时目录"
 
 if [ ! -d "$DEST" ]; then
   echo "✗ 目标不存在: $DEST" >&2
-  echo "  如果是首次安装，改用: bash $(dirname "$0")/scripts/install.sh $DEST" >&2
+  echo "  如果是首次安装，改用: bash $(dirname "$0")/../install.sh $DEST" >&2
   exit 1
 fi
 
@@ -49,7 +50,9 @@ if [ "$DIFF_ONLY" -eq 1 ]; then
   exit 0
 fi
 
-STAMP="$(date +%Y%m%d-%H%M%S)"
+python3 "$PACKAGER" "$TMP/src"
+[ ! -L "$DEST" ] || { echo "目标不能是符号链接" >&2; exit 1; }
+STAMP="$(date +%Y%m%d-%H%M%S)-$$"
 BACKUP="$DEST/.sync-backup-$STAMP"
 echo
 echo "==> 备份现有文件到 $BACKUP"
@@ -58,16 +61,11 @@ for item in "$DEST"/* "$DEST"/.[!.]*; do
   [ -e "$item" ] || continue
   base="$(basename "$item")"
   case "$base" in .sync-backup-*|.git) continue ;; esac
-  cp -R "$item" "$BACKUP/" 2>/dev/null || true
+  cp -RP "$item" "$BACKUP/" || { echo "备份失败，未执行同步" >&2; exit 1; }
 done
 
-echo "==> 覆盖为最新版"
-for item in "$TMP/src"/* "$TMP/src"/.[!.]*; do
-  [ -e "$item" ] || continue
-  base="$(basename "$item")"
-  rm -rf "$DEST/$base"
-  cp -R "$item" "$DEST/"
-done
+echo "==> 更新公开文件（保留本地额外文件）"
+python3 "$PACKAGER" "$TMP/src" "$DEST"
 echo "  ✓ 完成"
 
 echo

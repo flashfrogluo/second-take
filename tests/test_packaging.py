@@ -131,6 +131,16 @@ exit 22
         self.assertFalse(self.dst.exists())
         self.assertIn('版本', result.stderr)
 
+    def test_unpublished_version_installs_locally_without_network(self):
+        skill = self.src / 'SKILL.md'
+        skill.write_text(skill.read_text().replace('version: "1.7.3"', 'version: "1.7.4"'))
+        bindir = self.base / 'offline-bin'; bindir.mkdir()
+        curl = bindir / 'curl'; curl.write_text('#!/bin/sh\nexit 99\n'); curl.chmod(0o755)
+        env = dict(os.environ, PATH=str(bindir)+os.pathsep+os.environ['PATH'])
+        subprocess.run(['bash', str(self.src / 'install.sh'), '--from-local', str(self.dst)],
+                       env=env, check=True, capture_output=True)
+        self.assertIn('version: "1.7.4"', (self.dst / 'SKILL.md').read_text())
+
     def test_missing_file_aborts_before_write(self):
         (self.src / 'README.md').unlink()
         with self.assertRaises(ValueError): pkg.copy_public(self.src, self.dst)
@@ -185,17 +195,78 @@ exit 22
         self.assertFalse(old.exists(), 'renamed source must not leave the old name behind')
         self.assertTrue((self.dst / 'tests/samples/07-video-visual-elements.json').exists())
 
-    def test_optional_files_missing_are_tolerated_not_aborted(self):
-        p = self.src / 'SKILL.md'
-        for name in pkg.OPTIONAL:
-            if (self.src / name).exists():
-                (self.src / name).unlink()
-        names = pkg.public_paths(self.src, allow_legacy=True)
-        self.assertIn('SKILL.md', names)
-        self.assertNotIn('.claude-plugin/marketplace.json', names)
-        (self.src / 'README.md').unlink()
-        with self.assertRaises(ValueError):
-            pkg.public_paths(self.src, allow_legacy=True)
+    def test_current_version_missing_optional_files_is_rejected(self):
+        for name in pkg.INTRODUCED:
+            with self.subTest(name=name):
+                path = self.src / name
+                data = path.read_bytes()
+                path.unlink()
+                with self.assertRaises(ValueError):
+                    pkg.public_paths(self.src, allow_legacy=True)
+                path.write_bytes(data)
+
+    def test_stale_symlink_rejected_before_any_write(self):
+        self.dst.mkdir()
+        outside = self.base / 'outside'; outside.mkdir()
+        victim = outside / 'victim.txt'; victim.write_text('keep')
+        (self.dst / 'old-folder').symlink_to(outside, target_is_directory=True)
+        (self.dst / 'MANIFEST.txt').write_text('old-folder/victim.txt\n')
+        (self.dst / 'SKILL.md').write_text('original')
+        with self.assertRaisesRegex(ValueError, 'Symbolic link'):
+            pkg.copy_public(self.src, self.dst)
+        self.assertEqual(victim.read_text(), 'keep')
+        self.assertEqual((self.dst / 'SKILL.md').read_text(), 'original')
+
+    def test_previous_manifest_symlink_and_traversal_rejected(self):
+        self.dst.mkdir()
+        outside = self.base / 'outside.txt'; outside.write_text('../victim.txt\n')
+        manifest = self.dst / 'MANIFEST.txt'
+        manifest.symlink_to(outside)
+        with self.assertRaises(ValueError): pkg.copy_public(self.src, self.dst)
+        manifest.unlink(); manifest.write_text('../victim.txt\n')
+        with self.assertRaises(ValueError): pkg.copy_public(self.src, self.dst)
+        self.assertFalse((self.dst / 'SKILL.md').exists())
+
+    def test_repository_check_rejects_unchanged_private_file(self):
+        checkout = self.base / 'checkout'
+        shutil.copytree(ROOT, checkout, ignore=shutil.ignore_patterns('.git', '__pycache__', 'DEVLOG.md', '*.zip'))
+        subprocess.run(['git', 'init', str(checkout)], check=True, capture_output=True)
+        subprocess.run(['git', '-C', str(checkout), 'add', '.'], check=True, capture_output=True)
+        command = ['python3', str(checkout / 'scripts/check_repository.py')]
+        subprocess.run(command, check=True, capture_output=True)
+        (checkout / 'DEVLOG.md').write_text('synthetic private fixture')
+        subprocess.run(['git', '-C', str(checkout), 'add', '-f', 'DEVLOG.md'], check=True, capture_output=True)
+        result = subprocess.run(command, capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('DEVLOG.md', result.stderr)
+
+    def test_sync_preserves_private_files_and_stops_on_backup_failure(self):
+        import tarfile
+        archive = self.base / 'source.tar.gz'
+        self.poison()
+        with tarfile.open(archive, 'w:gz') as tar:
+            tar.add(self.src, arcname='second-take')
+        bindir = self.base / 'sync-bin'; bindir.mkdir()
+        curl = bindir / 'curl'
+        curl.write_text('#!/bin/sh\nwhile [ "$#" -gt 0 ]; do\nif [ "$1" = "-o" ]; then /bin/cp "$TEST_ARCHIVE" "$2"; exit; fi\nshift\ndone\nexit 1\n')
+        curl.chmod(0o755)
+        env = dict(os.environ, PATH=str(bindir)+os.pathsep+os.environ['PATH'], TEST_ARCHIVE=str(archive), DEST=str(self.dst))
+        self.dst.mkdir(); (self.dst / 'references').mkdir()
+        note = self.dst / 'references/local-note.md'; note.write_text('local note')
+        log = self.dst / 'DEVLOG.md'; log.write_text('local log')
+        skill = self.dst / 'SKILL.md'; skill.write_text('original')
+        command = ['bash', str(ROOT / 'scripts/sync-local.sh')]
+        # Failed backup must leave the installation unchanged.
+        cp = bindir / 'cp'; cp.write_text('#!/bin/sh\nexit 1\n'); cp.chmod(0o755)
+        result = subprocess.run(command, env=env, capture_output=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(skill.read_text(), 'original')
+        cp.unlink()
+        subprocess.run(command, env=env, check=True, capture_output=True)
+        self.assertEqual(note.read_text(), 'local note')
+        self.assertEqual(log.read_text(), 'local log')
+        self.assertEqual(skill.read_bytes(), (self.src / 'SKILL.md').read_bytes())
+        self.assertFalse((self.dst / 'corpus').exists())
 
     def test_legacy_skips_files_introduced_after_source_version(self):
         p = self.src / 'SKILL.md'

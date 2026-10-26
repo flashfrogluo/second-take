@@ -31,9 +31,6 @@ INTRODUCED = {
     'docs/assets/workflow-zh.svg': (1, 7, 3),
     'docs/assets/workflow-en.svg': (1, 7, 3),
 }
-# 后加的文件：装更老的源码树（或 tag 回退包）时本就不存在，缺失只提示、不中断。
-# 核心文件（SKILL.md / README / references / prompts）缺失仍然直接报错。
-OPTIONAL = set(INTRODUCED)
 # 历史上改过名的文件：装新版时顺手删掉旧名，避免同一份东西两个名字并存。
 RENAMED = {
     'references/优化指令自查rubric.md': 'references/优化与检查指令自查rubric.md',
@@ -45,7 +42,7 @@ DENIED = ('corpus', 'cases', 'metrics', 'DEVLOG.md', '.git', '.env', '.env.*',
           '*backup*', '__pycache__', 'node_modules', '*.pyc', '*.log', '.DS_Store')
 
 
-def public_paths(source, manifest=MANIFEST, allow_legacy=False):
+def public_paths(source, manifest=MANIFEST, allow_legacy=False, require_skill=True):
     source = Path(source).resolve()
     version = None
     if allow_legacy:
@@ -72,38 +69,30 @@ def public_paths(source, manifest=MANIFEST, allow_legacy=False):
             if path.is_symlink():
                 raise ValueError(f'Symbolic link in source: {name}')
         if not path.exists():
-            if version is not None and name in OPTIONAL:
+            if version is not None and name in INTRODUCED and version < INTRODUCED[name]:
                 print(f'  — 跳过（该源码树里没有）: {name}', file=sys.stderr)
                 continue
         if not path.is_file():
             raise ValueError(f'Missing public file: {name}')
         result.append(name)
-    if 'SKILL.md' not in seen:
+    if require_skill and 'SKILL.md' not in seen:
         raise ValueError('Public manifest must contain SKILL.md')
     return result
 
 
-def _prune_stale(destination, keep):
-    """Delete files a previous install wrote that are no longer in the manifest."""
+def _stale_paths(destination, keep):
     manifest = destination / 'MANIFEST.txt'
-    if not manifest.is_file():
-        return []
-    previous = {line.strip() for line in manifest.read_text(encoding='utf-8').splitlines() if line.strip()}
-    removed = []
+    if manifest.is_symlink():
+        raise ValueError('Symbolic link in destination: MANIFEST.txt')
+    previous = set(manifest.read_text(encoding='utf-8').splitlines()) if manifest.is_file() else set()
+    previous.update(old for old, new in RENAMED.items() if new in keep)
+    stale = []
     for name in sorted(previous - set(keep) - {'MANIFEST.txt'}):
         rel = PurePosixPath(name)
-        if rel.is_absolute() or '..' in rel.parts:
-            continue
-        path = destination / name
-        if path.is_symlink() or not path.is_file():
-            continue
-        path.unlink()
-        removed.append(name)
-        parent = path.parent
-        while parent != destination and parent.is_dir() and not any(parent.iterdir()):
-            parent.rmdir()
-            parent = parent.parent
-    return removed
+        if not name or rel.is_absolute() or '..' in rel.parts or str(rel) != name:
+            raise ValueError(f'Invalid previous public path: {name}')
+        stale.append(name)
+    return stale
 
 
 def copy_public(source, destination, manifest=MANIFEST, allow_legacy=False):
@@ -118,7 +107,8 @@ def copy_public(source, destination, manifest=MANIFEST, allow_legacy=False):
     if destination.exists() and not destination.is_dir():
         raise ValueError('Destination must be a directory')
     # Preflight every destination so a symlink cannot redirect an overwrite.
-    for name in names + ['MANIFEST.txt']:
+    stale_names = _stale_paths(destination, names)
+    for name in names + ['MANIFEST.txt'] + stale_names:
         path = destination
         parts = PurePosixPath(name).parts
         for i, part in enumerate(parts):
@@ -131,13 +121,12 @@ def copy_public(source, destination, manifest=MANIFEST, allow_legacy=False):
         target = destination / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source / name, target)
-    removed = _prune_stale(destination, names)
-    for old_name, new_name in RENAMED.items():
-        if new_name in names:
-            stale = destination / old_name
-            if stale.is_file() and not stale.is_symlink():
-                stale.unlink()
-                removed.append(old_name)
+    removed = []
+    for name in stale_names:
+        path = destination / name
+        if path.is_file():
+            path.unlink()
+            removed.append(name)
     (destination / 'MANIFEST.txt').write_text('\n'.join(sorted(names + ['MANIFEST.txt'])) + '\n', encoding='utf-8')
     for name in removed:
         print(f'  — 删除旧版残留: {name}', file=sys.stderr)

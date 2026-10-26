@@ -1,0 +1,15 @@
+# Reviewed repository-only files; never included in the install package.
+.github/workflows/ci.yml
+.gitignore
+scripts/check_repository.py
+scripts/patch_description.py
+scripts/patch_readme.py
+scripts/push-to-github.sh
+scripts/readme-snippets/intro-cn.md
+scripts/readme-snippets/intro-en.md
+scripts/repository-files.txt
+scripts/schedule/com.flashfrogluo.second-take-stats.plist
+scripts/schedule/install-schedule.sh
+scripts/schedule/uninstall-schedule.sh
+scripts/stats.sh
+scripts/sync-local.sh

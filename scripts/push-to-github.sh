@@ -16,10 +16,10 @@ python3 - <<'PY'
 from pathlib import Path
 import subprocess, sys
 sys.path.insert(0, 'scripts')
-from package_files import public_paths
-allowed = set(public_paths(Path.cwd()))
+from check_repository import check_repository
+allowed = check_repository()
 changed = set()
-for args in [('diff', '--name-only', '-z'), ('diff', '--cached', '--name-only', '-z')]:
+for args in [('diff', '--name-only', '-z'), ('diff', '--cached', '--name-only', '--diff-filter=ACMRT', '-z')]:
     changed.update(p.decode() for p in subprocess.check_output(['git', *args]).split(b'\0') if p)
 blocked = sorted(changed - allowed)
 if blocked:
@@ -41,7 +41,7 @@ python3 -m unittest discover -s tests -p 'test_*.py'
 while IFS= read -r path; do
   case "$path" in ''|'#'*) continue ;; esac
   git add -- "$path"
-done < scripts/public-files.txt
+done < <(cat scripts/public-files.txt scripts/repository-files.txt)
 if ! git diff --cached --quiet; then
   VERSION="$(python3 -c 'import re,pathlib;print(re.search(r"^  version: \"([^\"]+)\"",pathlib.Path("SKILL.md").read_text(),re.M)[1])')"
   git commit -m "fix: second-take $VERSION public update"

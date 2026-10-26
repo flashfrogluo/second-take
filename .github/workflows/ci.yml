@@ -39,27 +39,10 @@ jobs:
       - name: Test public file boundaries
         run: python -m unittest discover -s tests -p 'test_*.py'
 
-      - name: Verify current published Release install
-        env:
-          INSTALL_DEST: ${{ runner.temp }}/second-take-release-check
-        run: |
-          VERSION="$(sed -n -E 's/^[[:space:]]*version:[[:space:]]*"?([^"[:space:]]+)"?.*$/\1/p' SKILL.md | head -n 1)"
-          test -n "$VERSION"
-          echo "verifying published release for v$VERSION"
-          bash install.sh --version "$VERSION" "$INSTALL_DEST"
-          grep -Eq "version: \"?$VERSION\"?" "$INSTALL_DEST/SKILL.md"
-
-      - name: Verify tag tarball still packages (install fallback)
-        run: |
-          VERSION="$(sed -n -E 's/^[[:space:]]*version:[[:space:]]*"?([^"[:space:]]+)"?.*$/\1/p' SKILL.md | head -n 1)"
-          test -n "$VERSION"
-          if ! curl -fsSL -m 120 "https://codeload.github.com/${GITHUB_REPOSITORY}/tar.gz/refs/tags/v$VERSION" -o "$RUNNER_TEMP/tag.tar.gz"; then
-            echo "::notice::tag v$VERSION not found; skipping fallback check"
-            exit 0
-          fi
-          mkdir -p "$RUNNER_TEMP/tag" "$RUNNER_TEMP/tag-install"
-          tar -xzf "$RUNNER_TEMP/tag.tar.gz" -C "$RUNNER_TEMP/tag" --strip-components=1
-          python3 scripts/package_files.py "$RUNNER_TEMP/tag" "$RUNNER_TEMP/tag-install" --allow-legacy
+      - name: Check complete repository public boundary
+        run: python scripts/check_repository.py
+      - name: Verify local installation before publication
+        run: bash install.sh --from-local "$RUNNER_TEMP/second-take-local"
 
   publish:
     # Publishing requires a deliberate versioned commit on main and passing tests.
