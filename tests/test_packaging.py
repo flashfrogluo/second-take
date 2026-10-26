@@ -176,6 +176,15 @@ exit 22
         self.assertFalse(stale.exists(), 'stale file from a previous install must be removed')
         self.assertTrue((self.dst / 'SKILL.md').exists())
 
+    def test_renamed_file_leaves_no_old_copy(self):
+        self.dst.mkdir(parents=True, exist_ok=True)
+        old = self.dst / 'tests/samples/07-video-caption.json'
+        old.parent.mkdir(parents=True, exist_ok=True)
+        old.write_text('{}', encoding='utf-8')
+        pkg.copy_public(self.src, self.dst)
+        self.assertFalse(old.exists(), 'renamed source must not leave the old name behind')
+        self.assertTrue((self.dst / 'tests/samples/07-video-visual-elements.json').exists())
+
     def test_optional_files_missing_are_tolerated_not_aborted(self):
         p = self.src / 'SKILL.md'
         for name in pkg.OPTIONAL:

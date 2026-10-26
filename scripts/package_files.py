@@ -34,6 +34,13 @@ INTRODUCED = {
 # 后加的文件：装更老的源码树（或 tag 回退包）时本就不存在，缺失只提示、不中断。
 # 核心文件（SKILL.md / README / references / prompts）缺失仍然直接报错。
 OPTIONAL = set(INTRODUCED)
+# 历史上改过名的文件：装新版时顺手删掉旧名，避免同一份东西两个名字并存。
+RENAMED = {
+    'references/优化指令自查rubric.md': 'references/优化与检查指令自查rubric.md',
+    'tests/samples/07-video-caption.json': 'tests/samples/07-video-visual-elements.json',
+}
+
+
 DENIED = ('corpus', 'cases', 'metrics', 'DEVLOG.md', '.git', '.env', '.env.*',
           '*backup*', '__pycache__', 'node_modules', '*.pyc', '*.log', '.DS_Store')
 
@@ -125,6 +132,12 @@ def copy_public(source, destination, manifest=MANIFEST, allow_legacy=False):
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source / name, target)
     removed = _prune_stale(destination, names)
+    for old_name, new_name in RENAMED.items():
+        if new_name in names:
+            stale = destination / old_name
+            if stale.is_file() and not stale.is_symlink():
+                stale.unlink()
+                removed.append(old_name)
     (destination / 'MANIFEST.txt').write_text('\n'.join(sorted(names + ['MANIFEST.txt'])) + '\n', encoding='utf-8')
     for name in removed:
         print(f'  — 删除旧版残留: {name}', file=sys.stderr)
