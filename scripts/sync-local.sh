@@ -25,7 +25,7 @@ command -v tar  >/dev/null || { echo "需要 tar" >&2; exit 1; }
 
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 
-echo "==> 下载 $REPO@$REF（走 codeload，避开 git clone）"
+echo "==> 下载 $REPO@${REF}（走 codeload，避开 git clone）"
 URL="https://codeload.github.com/$REPO/tar.gz/refs/heads/$REF"
 curl -fsSL -m 180 --retry 5 --retry-all-errors "$URL" -o "$TMP/src.tar.gz" \
   || { echo "下载失败：$URL" >&2; exit 1; }

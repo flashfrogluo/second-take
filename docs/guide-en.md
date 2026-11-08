@@ -222,8 +222,8 @@ Paste the body of `SKILL.md` directly into a chat. The files under `references/`
 Both of the following work:
 
 ```
-# Provide a link (most common)
-Generate an retake note for me: https://chat.deepseek.com/share/xxxxx
+# Provide a link (most common; expand "deep thinking" and paste the page text)
+Generate a retake note for me: https://chat.deepseek.com/share/xxxxx
 
 # Paste content directly
 Check whether this reasoning is correct; if not or if it can be improved, generate an retake note for me.

@@ -14,6 +14,7 @@ LICENSE
 README.md
 README_EN.md
 SKILL.md
+SKILL.en.md
 docs/.nojekyll
 docs/ROADMAP.md
 docs/assets/favicon.svg

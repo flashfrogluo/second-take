@@ -22,3 +22,5 @@ dist/
 
 # 内部统计快照（不发布）
 metrics/
+MANIFEST.txt
+second-take-latest.zip

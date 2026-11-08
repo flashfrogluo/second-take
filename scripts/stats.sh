@@ -52,7 +52,7 @@ if [ "$ONLY_HISTORY" -eq 1 ]; then
     do
       if [ -f "$cand" ]; then
         HIST_JSONL="$cand"
-        echo "（历史文件: $cand）"
+        echo "（历史文件: ${cand}）"
         break
       fi
     done

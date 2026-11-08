@@ -228,7 +228,7 @@ npx skills add flashfrogluo/second-take
 以下两种方式均可：
 
 ```
-# 提供链接（最常见）
+# 提供链接（最常见；我打开链接把「深度思考」展开后全选粘过来）
 帮我生成重拍单：https://chat.deepseek.com/share/xxxxx
 
 # 直接粘贴内容
@@ -237,7 +237,7 @@ npx skills add flashfrogluo/second-take
 深度思考：……
 ```
 
-给链接后，它会自动调接口拿原始指令、深度思考和那版产物，不用您手动输入。拿到后会先跟您确认主指令、追加指令、产出物分别是哪条。
+给的如果是链接，它会让你把页面内容粘过来（**skill 运行时不联网**，不发任何请求）。拿到后会先跟您确认主指令、追加指令、产出物分别是哪条。
 
 可选输入包括：素材描述（画面元素描述）、目标产物、参考素材，以及您在后续轮次追加的指令（比如“不要分点，输出一长条”）。缺哪一项，依赖它的检查项就直接判“无”。
 
@@ -400,3 +400,17 @@ MIT。见 `LICENSE`。
 
 This README is in Chinese. For the **full English manual**, see [`docs/guide-en.md`](docs/guide-en.md) —
 or [`README_EN.md`](README_EN.md) for the English version of this page. Every section above also carries a one-line `EN` note.
+
+---
+
+> 🌐 **English version**: [`SKILL.en.md`](SKILL.en.md) — self-contained English skill for non-Chinese agents and reviewers.
+
+---
+
+## 姊妹 skill：编码场景版
+
+如果你要审的是**编码 agent 的实施计划**（改哪些文件、跑哪些命令、会不会把能用的代码删掉），
+用姊妹 skill **`implementation-plan-review`**：同一套方法，专治「动手前先审计划」。
+
+> 该版本正在 awesome-copilot 收录审核中：https://github.com/github/awesome-copilot/pull/6293
+

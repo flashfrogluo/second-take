@@ -1,6 +1,8 @@
 # Second Take · English Usage Manual
 
-> **QA for AI reasoning · retake notes** — turn a disappointing deep thinking into a better answer.
+> **QA for AI reasoning · retake notes**
+>
+> **English SKILL** (self-contained, no Chinese needed): [`SKILL.en.md`](SKILL.en.md) — turn a disappointing deep thinking into a better answer.
 
 🇬🇧 **English (this page)** ｜ 🇨🇳 [中文](README.md)
 
@@ -230,8 +232,8 @@ The only criterion: **does that AI expose its reasoning process?**
 Both of the following work:
 
 ```
-# Provide a link (most common)
-Generate an retake note for me: https://chat.deepseek.com/share/xxxxx
+# Provide a link (most common; expand "deep thinking" and paste the page text)
+Generate a retake note for me: https://chat.deepseek.com/share/xxxxx
 
 # Paste content directly
 Check whether this reasoning is correct; if not or if it can be improved, generate an retake note for me.
@@ -411,3 +413,14 @@ MIT. See `LICENSE`.
 ## 中文
 
 本页的完整中文说明见 [`README.md`](README.md)。
+
+---
+
+## Sibling skill: for coding agents
+
+If the thing under review is a **coding agent's implementation plan** — which files it will
+touch, which commands it will run, whether it deletes working code — use the sibling skill
+**`implementation-plan-review`**. Same method, aimed at plans instead of answers.
+
+> Under review for the awesome-copilot catalogue: https://github.com/github/awesome-copilot/pull/6293
+
